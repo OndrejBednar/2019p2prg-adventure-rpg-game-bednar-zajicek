@@ -11,5 +11,6 @@ namespace Rpg.Model
         public int RoomID { get; set; }
         public string Description { get; set; }
         public List<Crossroad> Crossroad { get; set; }
+
     }
 }
