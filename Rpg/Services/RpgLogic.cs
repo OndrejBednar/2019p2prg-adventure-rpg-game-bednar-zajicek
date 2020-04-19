@@ -22,7 +22,9 @@ namespace Rpg.Services
             int? id = _session.GetInt32(KEY);
             if (id == null)
             {
-                return new Room(0);
+                Room room = new Room(0);
+                room.AddCrossroad(new Crossroad(0, 0, 1));
+                return room;
             }
             else
             {

@@ -28,10 +28,8 @@ namespace Rpg
             services.AddDistributedMemoryCache();
             services.AddSession();
 
-            services.AddTransient<RpgLogic>();
-
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddScoped<Services.SessionStorage>();
+            services.AddScoped<RpgLogic>();
 
             services.AddRazorPages();
         }

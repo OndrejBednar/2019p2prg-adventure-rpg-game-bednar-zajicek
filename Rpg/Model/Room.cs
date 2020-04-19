@@ -9,21 +9,19 @@ namespace Rpg.Model
 {
     public class Room
     {
-        public Room(int id, int[] crossroads)
+        public Room(int id)
         {
             RoomID = id;
             SetDescription();
-            for (int i = 0; i < crossroads.Length; i++)
-            {
-                if(crossroads[i] != -1)
-                {
-                    Crossroads.Add(new Crossroad(i, RoomID, crossroads[i]));
-                }
-            }
         }
         public int RoomID { get; set; }
         public string Description { get; set; }
         public List<Crossroad> Crossroads { get; set; }
+
+        public void AddCrossroad(Crossroad crossroad)
+        {
+            Crossroads.Add(crossroad);
+        }
             
         private void SetDescription()
         {
