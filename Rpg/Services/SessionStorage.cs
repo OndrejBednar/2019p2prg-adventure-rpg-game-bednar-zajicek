@@ -9,7 +9,7 @@ namespace Rpg.Services
     public class SessionStorage
     {
         readonly ISession _session;
-        const string key = "key";
+        const string KEY = "key";
 
         public SessionStorage(IHttpContextAccessor hce)
         {
