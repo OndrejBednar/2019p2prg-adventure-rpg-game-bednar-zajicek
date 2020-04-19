@@ -18,7 +18,7 @@ namespace Rpg.Services
 
         private void Save(int data)
         {
-            _session.SetInt32(key, data);
+            _session.SetInt32(KEY, data);
         }
     }
 }
