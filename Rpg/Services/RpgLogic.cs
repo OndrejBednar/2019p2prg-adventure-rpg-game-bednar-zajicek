@@ -17,6 +17,11 @@ namespace Rpg.Services
             _session = hce.HttpContext.Session;
         }
 
+        public void SetRoomId(int number)
+        {
+            _session.SetInt32(KEY, number);
+        }
+
         public Room Play()
         {
             int? id = _session.GetInt32(KEY);
