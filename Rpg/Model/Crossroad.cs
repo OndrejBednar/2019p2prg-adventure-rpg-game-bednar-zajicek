@@ -7,5 +7,8 @@ namespace Rpg.Model
 {
     public class Crossroad
     {
+        public int CrossroadID { get; set; }
+        public int RoomID { get; set; }
+        public int NextRoomID { get; set; }
     }
 }
