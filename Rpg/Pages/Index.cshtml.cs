@@ -5,16 +5,17 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using Rpg.Services;
 
 namespace Rpg.Pages
 {
     public class IndexModel : PageModel
     {
-        private readonly ILogger<IndexModel> _logger;
+        private readonly RpgLogic _ss;
 
-        public IndexModel(ILogger<IndexModel> logger)
+        public IndexModel(RpgLogic ss)
         {
-            _logger = logger;
+            _ss = ss;
         }
 
         public void OnGet()

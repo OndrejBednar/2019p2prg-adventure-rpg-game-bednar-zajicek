@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Rpg.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,12 @@ namespace Rpg.Services
         private void Save(int data)
         {
             _session.SetInt32(KEY, data);
+
+            int? id = _session.GetInt32(KEY);
+            if (id == null)
+            {
+                new Room(0);
+            }
         }
     }
 }
