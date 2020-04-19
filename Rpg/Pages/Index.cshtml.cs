@@ -12,7 +12,7 @@ namespace Rpg.Pages
     public class IndexModel : PageModel
     {
         private readonly RpgLogic _ss;
-
+        public string Description { get; set; }
         public IndexModel(RpgLogic ss)
         {
             _ss = ss;
@@ -20,6 +20,7 @@ namespace Rpg.Pages
 
         public void OnGet()
         {
+            Description = _ss.Play().Description;
 
         }
     }

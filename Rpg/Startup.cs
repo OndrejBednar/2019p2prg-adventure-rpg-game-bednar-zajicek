@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Rpg.Services;
 
 namespace Rpg
 {
@@ -26,6 +27,8 @@ namespace Rpg
         {
             services.AddDistributedMemoryCache();
             services.AddSession();
+
+            services.AddTransient<RpgLogic>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<Services.SessionStorage>();

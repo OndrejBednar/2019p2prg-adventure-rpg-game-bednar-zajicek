@@ -17,16 +17,16 @@ namespace Rpg.Services
             _session = hce.HttpContext.Session;
         }
 
-        public void Play()
+        public Room Play()
         {
             int? id = _session.GetInt32(KEY);
             if (id == null)
             {
-                new Room(0);
+                return new Room(0);
             }
             else
             {
-                new Room((int)id);
+                return new Room((int)id);
             }
         }
     }
