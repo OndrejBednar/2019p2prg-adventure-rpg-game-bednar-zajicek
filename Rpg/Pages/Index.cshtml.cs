@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using Rpg.Model;
 using Rpg.Services;
 
 namespace Rpg.Pages
@@ -13,6 +14,8 @@ namespace Rpg.Pages
     {
         private readonly RpgLogic _ss;
         public string Description { get; set; }
+
+        public Room Room { get; set; }
         public IndexModel(RpgLogic ss)
         {
             _ss = ss;
@@ -20,8 +23,8 @@ namespace Rpg.Pages
 
         public void OnGet()
         {
-            Description = _ss.Play().Description;
-
+            Room = _ss.Play();
+            Description = Room.Description;
         }
     }
 }

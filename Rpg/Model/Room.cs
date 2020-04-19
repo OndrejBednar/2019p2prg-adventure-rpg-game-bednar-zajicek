@@ -16,7 +16,7 @@ namespace Rpg.Model
         }
         public int RoomID { get; set; }
         public string Description { get; set; }
-        public List<Crossroad> Crossroads { get; set; }
+        public List<Crossroad> Crossroads { get; } = new List<Crossroad>();
 
         public void AddCrossroad(Crossroad crossroad)
         {

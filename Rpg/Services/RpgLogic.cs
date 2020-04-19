@@ -28,7 +28,9 @@ namespace Rpg.Services
             }
             else
             {
-                return new Room((int)id);
+                Room room = new Room((int)id);
+
+                return room;
             }
         }
     }

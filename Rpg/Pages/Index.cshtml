@@ -6,6 +6,15 @@
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <p>@Model.Description</p>
 </div>
-<p>@Model.Description</p>
+
+<div>
+    @foreach (var item in Model.Room.Crossroads)
+    {
+        <button>
+            @item.Description
+        </button>
+    }
+</div>
+
