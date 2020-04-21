@@ -27,9 +27,12 @@ namespace Rpg.Model
         {
             Description = RoomID switch
             {
-                0 => "Toto je tutoriálová místnost",
-                1 => "Toto je louka",
-                2 => "Toto je město"
+                0 => "Právě se nacházíš v tutoriálové místnosti",
+                1 => "Právě se nacházíš na louce",
+                2 => "Právě se nacházíš v městě",
+                3 => "Právě se nacházíš v lese",
+                4 => "Právě se nacházíš v jeskyni",
+                5 => "Právě se nacházíš na pobřeží",
             };
         }
     }

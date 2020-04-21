@@ -28,13 +28,28 @@ namespace Rpg.Services
             if (id == null)
             {
                 Room room = new Room(0);
-                room.AddCrossroad(new Crossroad(0, 0, 1));
+                room.AddCrossroad(new Crossroad(0, 0));
                 return room;
             }
             else
             {
+                int ways;
+                int C_ID;
                 Room room = new Room((int)id);
 
+                ways = id switch
+                {
+                    1 => 1,
+                    2 => 3,
+                    3 => 2,
+                    4 => 2,
+                    5 => 2,
+                };
+                for (int i = 0; i < ways; i++)
+                {
+                    C_ID = (int)id*100 + i;
+                    room.AddCrossroad(new Crossroad((int)id, C_ID));
+                }
                 return room;
             }
         }
