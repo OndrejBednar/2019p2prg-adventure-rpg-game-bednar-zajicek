@@ -28,10 +28,10 @@ namespace Rpg.Model
                 100 => "Vydám se do města",
                 //--------Město(začáteční lokace)--------//
                 200 => "Vydám se do jeskyně za městem",
-                201 => "Vydám se na pobřeží",
-                202 => "Vydám se do lesa",
+                201 => "Vydám se do lesa",
+                202 => "Vydám se na pobřeží",
                 //--------Les--------//
-                300 => "Půjdu dál houštím",
+                300 => "Půjdu dál houštím WORK IN PROGRESS",
                 301 => "Vrátím se zpět do města",
                 //--------Jeskyně--------//
                 400 => "Půjdu hlouběji do jeskyně WORK IN PROGRESS",
@@ -44,7 +44,7 @@ namespace Rpg.Model
             {
                 //0,1 -> Tutorial
                 //2 -> Město
-                //3 -> Lesů
+                //3 -> Les
                 //4 -> Jeskyně
                 //5 -> Pobřeží
                 //--------Tutorial--------//
@@ -52,16 +52,16 @@ namespace Rpg.Model
                 100 => 2,
                 //--------Město(začáteční lokace)--------//
                 200 => 4,
-                201 => 5,
-                202 => 3,
+                201 => 3,
+                202 => 5,
                 //--------Les--------//
-                300 => 5,
+                300 => 7,
                 301 => 2,
                 //--------Jeskyně--------//
                 400 => 6,
                 401 => 2,
                 //--------Pobřeží--------//
-                500 => 7,
+                500 => 8,
                 501 => 2,
             };
         }

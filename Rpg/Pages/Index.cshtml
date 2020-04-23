@@ -6,7 +6,7 @@
 
     <div class="text-center">
 
-        <p>@Model.Description</p>
+        <h2>@Model.Description</h2>
         @foreach (var item in Model.Room.Crossroads)
         {
             <a asp-page="/Room" asp-route-to="@item.NextRoomID" class="btn btn-primary">@item.Description</a>
