@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Rpg.Model;
 using Rpg.Services;
 
 namespace Rpg
@@ -28,8 +29,10 @@ namespace Rpg
             services.AddDistributedMemoryCache();
             services.AddSession();
 
+            services.AddSingleton<GameStory>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<RpgLogic>();
+            services.AddTransient<SessionStorage>();
 
             services.AddRazorPages();
         }

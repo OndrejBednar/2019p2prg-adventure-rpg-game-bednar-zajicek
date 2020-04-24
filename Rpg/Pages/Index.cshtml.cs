@@ -12,19 +12,20 @@ namespace Rpg.Pages
 {
     public class IndexModel : PageModel
     {
-        private readonly RpgLogic _ss;
-        public IndexModel(RpgLogic ss)
+        private readonly SessionStorage _ss;
+        private readonly RpgLogic _rgl;
+
+        public IndexModel(SessionStorage ss,RpgLogic rgl)
         {
             _ss = ss;
+            _rgl = rgl;
         }
-        public string Description { get; set; }
 
         public Room Room { get; set; }
 
         public void OnGet()
         {
-            Room = _ss.Play();
-            Description = Room.Description;
+            Room = _rgl.Play();
         }
 
     }

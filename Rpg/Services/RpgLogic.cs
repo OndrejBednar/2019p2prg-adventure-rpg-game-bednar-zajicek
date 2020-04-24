@@ -9,48 +9,25 @@ namespace Rpg.Services
 {
     public class RpgLogic
     {
-        readonly ISession _session;
-        const string KEY = "ROOMID";
+        readonly SessionStorage _session;
+        readonly GameStory _gs;
 
-        public RpgLogic(IHttpContextAccessor hce)
+        public RpgLogic(SessionStorage ss, GameStory gs)
         {
-            _session = hce.HttpContext.Session;
-        }
-
-        public void SetRoomId(int number)
-        {
-            _session.SetInt32(KEY, number);
+            _session = ss;
+            _gs = gs;
         }
 
         public Room Play()
         {
-            int? id = _session.GetInt32(KEY);
+            int? id = _session.GetRoomId();
             if (id == null)
             {
-                Room room = new Room(0);
-                room.AddCrossroad(new Crossroad(0, 0));
-                return room;
+                return _gs.Rooms[0];
             }
             else
             {
-                int ways;
-                int C_ID;
-                Room room = new Room((int)id);
-
-                ways = id switch
-                {
-                    1 => 1,
-                    2 => 3,
-                    3 => 2,
-                    4 => 2,
-                    5 => 2,
-                };
-                for (int i = 0; i < ways; i++)
-                {
-                    C_ID = (int)id*100 + i;
-                    room.AddCrossroad(new Crossroad((int)id, C_ID));
-                }
-                return room;
+                return _gs.Rooms[id.Value];
             }
         }
     }

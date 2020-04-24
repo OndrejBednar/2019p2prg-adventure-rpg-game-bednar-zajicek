@@ -11,20 +11,21 @@ namespace Rpg.Pages
 {
     public class RoomModel : PageModel
     {
-        private readonly RpgLogic _ss;
-        public RoomModel(RpgLogic ss)
+        private readonly SessionStorage _ss;
+        private readonly RpgLogic _rgl;
+
+        public RoomModel(SessionStorage ss, RpgLogic rgl)
         {
             _ss = ss;
+            _rgl = rgl;
         }
-        public string Description { get; set; }
 
         public Room Room { get; set; }
 
         public void OnGet(int to)
         {
             _ss.SetRoomId(to);
-            Room = _ss.Play();
-            Description = Room.Description;
+            Room = _rgl.Play();
         }
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Rpg.Model
+namespace Rpg.Models
 {
     public class Crossroad
     {

@@ -10,22 +10,20 @@ namespace Rpg.Services
     public class SessionStorage
     {
         readonly ISession _session;
-        const string KEY = "key";
+        const string KEY = "ROOMID";
 
         public SessionStorage(IHttpContextAccessor hce)
         {
             _session = hce.HttpContext.Session;
         }
 
-        private void Save(int data)
+        public void SetRoomId(int number)
         {
-            _session.SetInt32(KEY, data);
-
-            int? id = _session.GetInt32(KEY);
-            if (id == null)
-            {
-                new Room(0);
-            }
+            _session.SetInt32(KEY, number);
+        }
+        public int? GetRoomId()
+        {
+            return _session.GetInt32(KEY);
         }
     }
 }

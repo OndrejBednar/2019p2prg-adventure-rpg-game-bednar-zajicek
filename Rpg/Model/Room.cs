@@ -5,7 +5,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace Rpg.Model
+namespace Rpg.Models
 {
     public class Room
     {
