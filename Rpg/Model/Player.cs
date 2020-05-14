@@ -7,10 +7,10 @@ namespace Rpg.Model
 {
     public class Player : Stats
     {
-        public int HealthPoints { get; set; }
-        public int ManaPoints { get; set; }
-        public int Attack { get; set; }
-        public int Defense { get; set; }
-        public int SpellPower { get; set; }
+        public int HealthPoints { get; set; } = 100;
+        public int ManaPoints { get; set; } = 50;
+        public int Attack { get; set; } = 5;
+        public int Defense { get; set; } = 5;
+        public int SpellPower { get; set; } = 5;
     }
 }

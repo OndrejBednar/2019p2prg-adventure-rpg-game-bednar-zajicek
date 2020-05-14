@@ -18,14 +18,17 @@ namespace Rpg.Pages
         {
             _ss = ss;
             _rgl = rgl;
+            PlayerStats = _ss.PlayerStats;
         }
 
         public Room Room { get; set; }
+        public Player PlayerStats { get; set; }
 
         public void OnGet(int to)
         {
             _ss.SetRoomId(to);
             Room = _rgl.Play();
+            _ss.SaveStats(PlayerStats);
         }
     }
 }
