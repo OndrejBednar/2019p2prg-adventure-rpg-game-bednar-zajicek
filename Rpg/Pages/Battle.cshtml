@@ -7,7 +7,7 @@
 @if (Model.NpcStats.HealthPoints < 1)
 {
     <div class="text-center">
-        <h2>Dobrá práce, porazil jsi nepřítele nyní můžeš pokračovat dál</h2>
+        <h2>Dobrá práce, porazil jsi nepřítele, nyní můžeš pokračovat dál</h2>
         <div><a asp-page="/Room" asp-route-to="@Model.Room.NextRoomID" class="btn btn-primary">Pokračovat</a></div>
     </div>
 }
@@ -15,24 +15,24 @@ else
 {
     <div class="text-center">
         <h2>@Model.Room.Description @Model.Result</h2>
-        <div><a asp-page-handler="Attack" class="btn btn-primary">Attack</a></div>
-        <div><a asp-page-handler="Defense" class="btn btn-primary">Defend</a></div>
-        <div><a asp-page-handler="Bag" class="btn btn-primary">Bag (not implemented)</a></div>
+        <div><a asp-page-handler="Attack" class="btn btn-primary">Zaútočit</a></div>
+        <div><a asp-page-handler="Defense" class="btn btn-primary">Bránit se</a></div>
+        <div><a asp-page-handler="Bag" class="btn btn-primary">Inventář (not implemented)</a></div>
     </div>
     <div>
         <ul>
             Tvoje statistiky
             <li>
-                HP: @Model.PlayerStats.HealthPoints
+                Vitalita: @Model.PlayerStats.HealthPoints
             </li>
             <li>
                 MP: @Model.PlayerStats.ManaPoints
             </li>
             <li>
-                Damage: @Model.PlayerStats.Attack
+                Poškození: @Model.PlayerStats.Attack
             </li>
             <li>
-                Armor: @Model.PlayerStats.Defense
+                Brnění: @Model.PlayerStats.Defense
             </li>
         </ul>
     </div>
@@ -40,16 +40,16 @@ else
         <ul>
             Nepřítelovi statistiky
             <li>
-                HP: @Model.NpcStats.HealthPoints
+                Vitalita: @Model.NpcStats.HealthPoints
             </li>
             <li>
                 MP: @Model.NpcStats.ManaPoints
             </li>
             <li>
-                Damage: @Model.NpcStats.Attack
+                Poškození: @Model.NpcStats.Attack
             </li>
             <li>
-                Armor: @Model.NpcStats.Defense
+                Brnění: @Model.NpcStats.Defense
             </li>
         </ul>
     </div>

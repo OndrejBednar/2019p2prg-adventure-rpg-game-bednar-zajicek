@@ -28,7 +28,7 @@ namespace Rpg.Pages
         public void OnGet()
         {
             PlayerStats = new Player();
-            Room = _rgl.Play();
+            Room = _rgl.Play(0);
             _ss.SavePlayerStats(PlayerStats);
         }
     }

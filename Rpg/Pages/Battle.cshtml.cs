@@ -11,15 +11,11 @@ namespace Rpg.Pages
 {
     public class BattleModel : PageModel
     {
-        private readonly SessionStorage _ss;
         private readonly RpgLogic _rgl;
 
-        public BattleModel(SessionStorage ss, RpgLogic rgl)
+        public BattleModel(RpgLogic rgl)
         {
-            _ss = ss;
             _rgl = rgl;
-            PlayerStats = _ss.PlayerStats;
-            NpcStats = _ss.NpcStats;
         }
 
         public Battle Room { get; set; }
@@ -29,29 +25,25 @@ namespace Rpg.Pages
 
         public void OnGet(int to)
         {
-            _ss.SetRoomId(to);
-            Room = _rgl.Battle();
-            NpcStats = Room.BossStats;
-            _ss.SavePlayerStats(PlayerStats);
-            _ss.SaveNpcStats(NpcStats);
+            Room = _rgl.Battle(to);
+            NpcStats = _rgl.NpcStats;
+            PlayerStats = _rgl.PlayerStats;
         }
         public void OnGetAttack()
         {
-            Room = _rgl.Battle();
+            Room = _rgl.Battle(BattleChoice.Attack);
             Room.Description = "Útočíš na protivníka ... ";
+            NpcStats = _rgl.NpcStats;
+            PlayerStats = _rgl.PlayerStats;
             Result = $"Dáváš {PlayerStats.Attack} poškození";
-            NpcStats.HealthPoints = NpcStats.HealthPoints - PlayerStats.Attack;
-            _ss.SavePlayerStats(PlayerStats);
-            _ss.SaveNpcStats(NpcStats);
         }
         public void OnGetDefense()
         {
-            Room = _rgl.Battle();
+            Room = _rgl.Battle(BattleChoice.Defend);
             Room.Description = "Snažíš se ubránit protivníkovi ...";
+            NpcStats = _rgl.NpcStats;
+            PlayerStats = _rgl.PlayerStats;
             Result = $"Dostáváš {NpcStats.Attack} poškození";
-            PlayerStats.HealthPoints = PlayerStats.HealthPoints - NpcStats.Attack;
-            _ss.SavePlayerStats(PlayerStats);
-            _ss.SaveNpcStats(NpcStats);
         }
     }
 }

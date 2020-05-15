@@ -12,26 +12,53 @@ namespace Rpg.Services
         readonly SessionStorage _session;
         readonly GameStory _gs;
 
+        public Npc NpcStats { get; set; }
+        public Player PlayerStats { get; set; }
+
         public RpgLogic(SessionStorage ss, GameStory gs)
         {
             _session = ss;
             _gs = gs;
+            PlayerStats = _session.PlayerStats;
+            NpcStats = _session.NpcStats;
         }
 
-        public Room Play()
+        public Room Play(int id)
         {
-            int? id = _session.GetRoomId();
-            if (id == null)
-            {
-                return _gs.Rooms[0];
-            }
-            else
-            {
-                return _gs.Rooms[id.Value];
-            }
+            _session.SetRoomId(id);
+            _session.SavePlayerStats(PlayerStats);
+            return _gs.Rooms[id];
         }
-        public Battle Battle()
+        public Battle Battle(int to)
         {
+            Battle room = _gs.Battles[to];
+            NpcStats = room.BossStats;
+            _session.SavePlayerStats(PlayerStats);
+            _session.SaveNpcStats(NpcStats);
+            _session.SetRoomId(to);
+            return room;
+        }
+        public Battle Battle(BattleChoice choice)
+        {
+            switch (choice)
+            {
+                case BattleChoice.None:
+                    break;
+                case BattleChoice.Attack:
+                    NpcStats.HealthPoints = NpcStats.HealthPoints - PlayerStats.Attack;
+                    _session.SavePlayerStats(PlayerStats);
+                    _session.SaveNpcStats(NpcStats);
+                    break;
+                case BattleChoice.Defend:
+                    PlayerStats.HealthPoints = PlayerStats.HealthPoints - NpcStats.Attack;
+                    _session.SavePlayerStats(PlayerStats);
+                    _session.SaveNpcStats(NpcStats);
+                    break;
+                case BattleChoice.Bag:
+                    break;
+                default:
+                    break;
+            }
             return _gs.Battles[_session.GetRoomId().Value];
         }
     }

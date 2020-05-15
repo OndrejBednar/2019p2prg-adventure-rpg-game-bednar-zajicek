@@ -97,27 +97,4 @@ namespace Rpg.Model
                 Description = "Pokusil ses utéct, ale nevyšlo ti to ... Krab útočí" });
         }
     }
-
-    public class Room
-    {
-        public int RoomID { get; set; }
-        public string Description { get; set; }
-        public List<Crossroad> Crossroads { get; set; }
-        public bool Fight { get; set; } = false;
-    }
-
-    public class Crossroad
-    {
-        public int CrossroadID { get; set; }
-        public int NextRoomID { get; set; }
-        public string Description { get; set; }
-    }
-
-    public class Battle
-    {
-        public int BattleID { get; set; }
-        public int NextRoomID { get; set; }
-        public Npc BossStats { get; set; }
-        public string Description { get; set; }
-    }
 }
