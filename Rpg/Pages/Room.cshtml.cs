@@ -28,7 +28,7 @@ namespace Rpg.Pages
         {
             _ss.SetRoomId(to);
             Room = _rgl.Play();
-            _ss.SaveStats(PlayerStats);
+            _ss.SavePlayerStats(PlayerStats);
         }
     }
 }

@@ -7,12 +7,10 @@
     <div class="text-center">
 
         <h2>@Model.Room.Description</h2>
-        <ul>
             @foreach (var item in Model.Room.Crossroads)
             {
-                <li><a asp-page="/Room" asp-route-to="@item.NextRoomID" class="btn btn-primary">@item.Description</a></li>
+                <div><a asp-page="/Room" asp-route-to="@item.NextRoomID" class="btn btn-primary">@item.Description</a></div>
             }
-        </ul>
     </div>
 
 

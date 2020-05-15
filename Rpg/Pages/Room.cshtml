@@ -8,12 +8,21 @@
 <div class="text-center">
 
     <h2>@Model.Room.Description</h2>
-    <ul>
-        @foreach (var item in Model.Room.Crossroads)
-        {
-            <li><a asp-page="/Room" asp-route-to="@item.NextRoomID" class="btn btn-primary">@item.Description</a></li>
-        }
-    </ul>
+            @if (Model.Room.Fight == true)
+            {
+                @foreach (var item in Model.Room.Crossroads)
+                {
+                    <div><a asp-page="/Battle" asp-route-to="@item.NextRoomID" class="btn btn-primary">@item.Description</a></div>
+                }
+            }
+            @{else
+            {
+                @foreach (var item in Model.Room.Crossroads)
+                {
+                    <div><a asp-page="/Room" asp-route-to="@item.NextRoomID" class="btn btn-primary">@item.Description</a></div>
+                }
+            }
+            }
 </div>
 
 <div>

@@ -30,5 +30,9 @@ namespace Rpg.Services
                 return _gs.Rooms[id.Value];
             }
         }
+        public Battle Battle()
+        {
+            return _gs.Battles[_session.GetRoomId().Value];
+        }
     }
 }

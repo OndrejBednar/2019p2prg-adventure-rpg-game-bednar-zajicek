@@ -29,7 +29,7 @@ namespace Rpg.Pages
         {
             PlayerStats = new Player();
             Room = _rgl.Play();
-            _ss.SaveStats(PlayerStats);
+            _ss.SavePlayerStats(PlayerStats);
         }
     }
 }
