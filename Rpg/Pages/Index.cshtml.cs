@@ -13,22 +13,25 @@ namespace Rpg.Pages
     public class IndexModel : PageModel
     {
         private readonly SessionStorage _ss;
-        private readonly RpgLogic _rgl;
 
-        public IndexModel(SessionStorage ss,RpgLogic rgl)
+        public IndexModel(SessionStorage ss)
         {
             _ss = ss;
-            _rgl = rgl;
-            PlayerStats = _ss.PlayerStats;
         }
 
-        public Room Room { get; set; }
+        [BindProperty]
         public Player PlayerStats { get; set; }
+
+        [BindProperty]
+        public string Name { get; set; }
 
         public void OnGet()
         {
             PlayerStats = new Player();
-            Room = _rgl.Play(0);
+        }
+        public void OnPost()
+        {
+            PlayerStats.Name = Name;
             _ss.SavePlayerStats(PlayerStats);
         }
     }

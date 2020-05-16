@@ -32,6 +32,7 @@ namespace Rpg
             services.AddSingleton<GameStory>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<Player>();
+            services.AddSingleton<Random>();
             services.AddScoped<RpgLogic>();
             services.AddTransient<SessionStorage>();
 

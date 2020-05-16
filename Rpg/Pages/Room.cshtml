@@ -8,7 +8,7 @@
     <div class="PlayingArea">
         <!--Zde jsou statistiky hráče-->
         <div class="player">
-            <h4>Ty</h4>
+            <h4>@Model.PlayerStats.Name</h4>
             <ul class="stats">
                 <li>Vitalita: @Model.PlayerStats.HealthPoints</li>
                 <li>MP: @Model.PlayerStats.ManaPoints</li>
@@ -20,6 +20,10 @@
         <div class="text-center choices">
             <h2>@Model.Room.Description</h2>
             <ul>
+                @if (Model.Room.RoomID == 666)
+                {
+                    <li><a asp-page="/Index" class="btn btn-primary">Hrát znovu</a></li>
+                }
                 @if (Model.Room.Fight == true)
                 {
                     @foreach (var item in Model.Room.Crossroads)

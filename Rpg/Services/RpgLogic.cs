@@ -9,14 +9,18 @@ namespace Rpg.Services
 {
     public class RpgLogic
     {
+        readonly Random _rand;
         readonly SessionStorage _session;
         readonly GameStory _gs;
 
         public Npc NpcStats { get; set; }
         public Player PlayerStats { get; set; }
+        public int Dmg { get; set; }
+        public bool IsCritical { get; set; }
 
-        public RpgLogic(SessionStorage ss, GameStory gs)
+        public RpgLogic(SessionStorage ss, GameStory gs, Random rand)
         {
+            _rand = rand;
             _session = ss;
             _gs = gs;
             PlayerStats = _session.PlayerStats;
@@ -38,41 +42,49 @@ namespace Rpg.Services
             _session.SetRoomId(to);
             return room;
         }
-        public Battle Battle(BattleChoice choice)
+        public int Battle(BattleChoice choice)
         {
+            int rand;
             switch (choice)
             {
                 case BattleChoice.None:
                     break;
                 case BattleChoice.Attack:
-                    if (PlayerStats.Attack - NpcStats.Defense < 1)
+                    rand = _rand.Next(100);
+                    IsCritical = PlayerStats.CritChance >= rand ? true : false;
+                    Dmg = PlayerStats.CritChance >= rand ? (PlayerStats.Attack * 2) - NpcStats.Defense: PlayerStats.Attack - NpcStats.Defense;
+                    if (Dmg < 1)
                     {
                         _session.SavePlayerStats(PlayerStats);
                         _session.SaveNpcStats(NpcStats);
                     }
                     else
                     {
-                        NpcStats.HealthPoints = NpcStats.HealthPoints - (PlayerStats.Attack - NpcStats.Defense);
+                        NpcStats.HealthPoints = NpcStats.HealthPoints - Dmg;
                         _session.SavePlayerStats(PlayerStats);
                         _session.SaveNpcStats(NpcStats);
                     }
                     break;
                 case BattleChoice.Defend:
-                    if (NpcStats.Attack - PlayerStats.Defense < 1)
+                    rand = _rand.Next(100);
+                    IsCritical = NpcStats.CritChance >= rand ? true : false;
+                    Dmg = NpcStats.CritChance >= rand ? (NpcStats.Attack * 2) - PlayerStats.Defense: NpcStats.Attack - PlayerStats.Defense;
+                    if (Dmg < 1)
                     {
                         _session.SavePlayerStats(PlayerStats);
                         _session.SaveNpcStats(NpcStats);
                     }
-                    PlayerStats.HealthPoints = PlayerStats.HealthPoints - NpcStats.Attack;
-                    _session.SavePlayerStats(PlayerStats);
-                    _session.SaveNpcStats(NpcStats);
-                    break;
-                case BattleChoice.Bag:
+                    else
+                    {
+                        PlayerStats.HealthPoints = PlayerStats.HealthPoints - Dmg;
+                        _session.SavePlayerStats(PlayerStats);
+                        _session.SaveNpcStats(NpcStats);
+                    }
                     break;
                 default:
                     break;
             }
-            return _gs.Battles[_session.GetRoomId().Value];
+            return Dmg;
         }
     }
 }

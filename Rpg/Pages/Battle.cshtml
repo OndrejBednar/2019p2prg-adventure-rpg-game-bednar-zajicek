@@ -6,62 +6,69 @@
 
 
 
-    <div class="container">
-        <div class="PlayingArea">
-            <!--Zde jsou statistiky hráče-->
-            <div class="player">
-                <h4>Ty</h4>
-                <ul class="stats">
-                    <li>Vitalita: @Model.PlayerStats.HealthPoints</li>
-                    <li>MP: @Model.PlayerStats.ManaPoints</li>
-                    <li>Poškození: @Model.PlayerStats.Attack</li>
-                    <li>Brnění: @Model.PlayerStats.Defense</li>
-                </ul>
-            </div>
-            <!--Zde jsou všechny možné volby boje-->
-            <div class="text-center choices">
-                @if (Model.Result == null)
-                {
-                    <h2>@Model.Room.Description</h2>
-                }
-                else
-                {
-                    <h2>@Model.Result</h2>
-                }
-                <div><a asp-page-handler="Attack" class="btn btn-primary">Zaútočit</a></div>
-                <div><a asp-page-handler="Defense" class="btn btn-primary">Bránit se</a></div>
-                <div><a asp-page-handler="Bag" class="btn btn-primary">Inventář (not implemented)</a></div>
-            </div>
-            <!--Zde jsou statistiky počítače-->
-            <div class="npc">
-                <h4>@Model.NpcStats.Name</h4>
-                <ul class="stats">
-                    <li>Vitalita: @Model.NpcStats.HealthPoints</li>
-                    <li>MP: @Model.NpcStats.ManaPoints</li>
-                    <li>Poškození: @Model.NpcStats.Attack</li>
-                    <li>Brnění: @Model.NpcStats.Defense</li>
-                </ul>
+<div class="container">
+    <div class="PlayingArea">
+        <!--Zde jsou statistiky hráče-->
+        <div class="player">
+            <h4>@Model.PlayerStats.Name</h4>
+            <ul class="stats">
+                <li>Vitalita: @Model.PlayerStats.HealthPoints</li>
+                <li>MP: @Model.PlayerStats.ManaPoints</li>
+                <li>Poškození: @Model.PlayerStats.Attack</li>
+                <li>Brnění: @Model.PlayerStats.Defense</li>
+            </ul>
+        </div>
+        <!--Zde jsou všechny možné volby boje-->
+        <div class="text-center choices">
+            @if (Model.Result == null)
+            {
+                <h2>@Model.Room.Description</h2>
+            }
+            else
+            {
+                <h2>@Model.Result</h2>
+            }
+            <div><a asp-page-handler="Attack" class="btn btn-primary">Zaútočit</a></div>
+            <div><a asp-page-handler="Defense" class="btn btn-primary">Bránit se</a></div>
+            <button class="btn btn-primary" id="Inventory">Inventář (not implemented)</button>
+        </div>
+        <!--Zde jsou statistiky počítače-->
+        <div class="npc">
+            <h4>@Model.NpcStats.Name</h4>
+            <ul class="stats">
+                <li>Vitalita: @Model.NpcStats.HealthPoints</li>
+                <li>MP: @Model.NpcStats.ManaPoints</li>
+                <li>Poškození: @Model.NpcStats.Attack</li>
+                <li>Brnění: @Model.NpcStats.Defense</li>
+            </ul>
+        </div>
+    </div>
+    <!--Zde resime vitezstvi-->
+    @if (Model.NpcStats.HealthPoints < 1)
+    {
+        <div class="lightbox">
+            <div class="text-center win">
+                <h2>Dobrá práce, porazil jsi <strong>@($"{Model.NpcStats.Name}a")</strong>, nyní můžeš pokračovat dál</h2>
+                <a asp-page="/Room" asp-route-to="@Model.Room.NextRoomID" class="btn btn-primary">Pokračovat</a>
             </div>
         </div>
-        <!--Zde resime vitezstvi-->
-        @if (Model.NpcStats.HealthPoints < 1)
-        {
-            <div class="resultbg">
-                <div class="text-center win">
-                    <h2>Dobrá práce, porazil jsi <strong>@($"{Model.NpcStats.Name}a")</strong>, nyní můžeš pokračovat dál</h2>
-                    <a asp-page="/Room" asp-route-to="@Model.Room.NextRoomID" class="btn btn-primary">Pokračovat</a>
-                </div>
+    }
+    <!--Zde resime smrt-->
+    @if (Model.PlayerStats.HealthPoints < 1)
+    {
+        <div class="lightbox">
+            <div class="text-center lose">
+                <h2>Právě jsi byl zdecimován <strong>@($"{Model.NpcStats.Name}em")</strong></h2>
+                <a asp-page="/Room" asp-route-to="666" class="btn btn-primary">Pokračovat</a>
             </div>
-        }
-        <!--Zde resime smrt-->
-        @if (Model.PlayerStats.HealthPoints < 1)
-        {
-            <div class="resultbg">
-                <div class="text-center lose">
-                    <h2>Právě jsi byl zdecimován <strong>@($"{Model.NpcStats.Name}em")</strong></h2>
-                    <a asp-page="/Room" asp-route-to="666" class="btn btn-primary">Pokračovat</a>
-                </div>
-            </div>
-        }
+        </div>
+    }
+    <!--inventar (WORK IN PROGRESS)-->
+    <div class="inventory lightbox">
+        <div class="inventory-content">
+
+        </div>
+        <span class="close">&times;</span>
     </div>
+</div>
 

@@ -4,4 +4,22 @@
     ViewData["Title"] = "Home page";
 }
 
+    <div class="text-center">
+        @if (Model.PlayerStats.Name == "" || Model.PlayerStats.Name == null)
+        {
 
+            <h1>Vítej u naší Gamebook/Rpg hry</h1>
+
+            <form method="post">
+                <p>Zde vlož jméno své postavy: <input type="text" asp-for="Name" value="@Model.PlayerStats.Name" /></p>
+                <button class="btn btn-primary" type="submit">Začít hrát !</button>
+            </form>
+
+        }
+        else
+        {
+            <h4>Opravdu se chceš jmenovat: @Model.PlayerStats.Name ?</h4>
+            <a asp-page="/Tutorial" class="btn btn-primary">Ano</a>
+            <a asp-page="/Index" class="btn btn-primary">Ne</a>
+        }
+    </div>

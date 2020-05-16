@@ -14,7 +14,5 @@ namespace Rpg.Model
         Attack = 1,
         [Display(Name = "Obrana")]
         Defend = 2,
-        [Display(Name = "Batoh")]
-        Bag = 3
     }
 }

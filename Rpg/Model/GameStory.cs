@@ -90,7 +90,7 @@ namespace Rpg.Model
                 Fight = true
             });
             Battles.Add(60, new Battle() { BattleID = 1, NextRoomID = 2,
-                BossStats = new Npc() { Name = "Krab", HealthPoints = 20, ManaPoints = 0, Attack = 2, Defense = 20, SpellPower = 0},
+                BossStats = new Npc() { Name = "Krab", HealthPoints = 20, ManaPoints = 0, Attack = 4, CritChance = 20, Defense = 7, SpellPower = 0},
                 Description = $"Tasíš svůj meč a připravuješ se k boji proti Krabovi" });
             Battles.Add(61, new Battle() { BattleID = 2, NextRoomID = 2,
                 BossStats = new Npc() { Name = "Krab", HealthPoints = 20, ManaPoints = 0, Attack = 20, Defense = 2, SpellPower = 0 },
@@ -100,9 +100,7 @@ namespace Rpg.Model
             {
                 RoomID = 666,
                 Description = "Zemřel jsi a nyní mužeš:",
-                Crossroads = new List<Crossroad>() {
-                    new Crossroad() { CrossroadID = 6661, Description = "Začít znova", NextRoomID = 1 }
-                }
+                Crossroads = new List<Crossroad>() { }
             });
         }
     }

@@ -10,6 +10,7 @@ namespace Rpg.Model
         public int HealthPoints { get; set; }
         public int ManaPoints { get; set; }
         public int Attack { get; set; }
+        public int CritChance { get; set; }
         public int Defense { get; set; }
         public int SpellPower { get; set; }
     }

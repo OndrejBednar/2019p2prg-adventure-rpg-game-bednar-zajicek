@@ -17,6 +17,8 @@
                 <li>Poškození: 5</li>
                 <li>Brnění: 5</li>
             </ul>
+            <p><strong>Zde jsou tvé statistiky</strong></p>
+            <p>(Ukaž na ně myší pro detailní infomace)</p>
         </div>
         <!--Zde jsou všechny možné volby-->
         <div class="choices">
@@ -25,17 +27,27 @@
             {
                 <div><a asp-page="/Room" asp-route-to="@item.NextRoomID" class="btn btn-primary">@item.Description</a></div>
             }
+            <p>V inventáří budeš mít použitelné předměty, které najdeš na cestě nebo si je koupíš u obchodníka</p>
+            <button class="btn btn-primary" id="Inventory">Inventář (not implemented)</button>
         </div>
         <!--Zde jsou statistiky počítače-->
         <div class="npc">
-            <h4>Nepřítelovi statistiky</h4>
+            <h4>Nepřítel</h4>
             <ul class="stats">
                 <li>Vitalita: 100</li>
                 <li>MP: 50</li>
                 <li>Poškození: 2</li>
                 <li>Brnění: 0</li>
             </ul>
+            <p><strong>Zde jsou statistiky tvého nepřítele</strong></p>
+            <p>(Ukaž na ně myší pro detailní infomace)</p>
         </div>
+    </div>
+    <div class="inventory lightbox">
+        <div class="inventory-content">
+
+        </div>
+        <span class="close">&times;</span>
     </div>
 </div>
 
