@@ -7,6 +7,7 @@ namespace Rpg.Model
 {
     public class Npc : Stats
     {
+        public string Name { get; set; }
         public int HealthPoints { get; set; }
         public int ManaPoints { get; set; }
         public int Attack { get; set; }

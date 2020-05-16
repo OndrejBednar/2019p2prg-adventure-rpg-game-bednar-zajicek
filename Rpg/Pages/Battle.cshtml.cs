@@ -32,18 +32,19 @@ namespace Rpg.Pages
         public void OnGetAttack()
         {
             Room = _rgl.Battle(BattleChoice.Attack);
-            Room.Description = "Útočíš na protivníka ... ";
             NpcStats = _rgl.NpcStats;
             PlayerStats = _rgl.PlayerStats;
-            Result = $"Dáváš {PlayerStats.Attack} poškození";
+            if (PlayerStats.Attack - NpcStats.Defense < 1) { Result = $"Útočíš na {NpcStats.Name}a ... {NpcStats.Name} vykryl tvůj útok"; }
+            else { Result = $"Útočíš na {NpcStats.Name}a ... Působíš {NpcStats.Name}ovi {PlayerStats.Attack} bodů poškození"; }
         }
         public void OnGetDefense()
         {
             Room = _rgl.Battle(BattleChoice.Defend);
-            Room.Description = "Snažíš se ubránit protivníkovi ...";
             NpcStats = _rgl.NpcStats;
             PlayerStats = _rgl.PlayerStats;
-            Result = $"Dostáváš {NpcStats.Attack} poškození";
+            Room.Description = $"";
+            if (NpcStats.Attack - PlayerStats.Defense < 1) { Result = $"Snažíš se ubránit {NpcStats.Name}ovi ... {NpcStats.Name} neprorazil tvou obranu"; }
+            else { Result = $"Snažíš se ubránit {NpcStats.Name}ovi ... {NpcStats.Name} způsobuje {NpcStats.Attack} bodů poškození"; }
         }
     }
 }

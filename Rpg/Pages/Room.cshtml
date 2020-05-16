@@ -4,41 +4,37 @@
     ViewData["Title"] = "Room";
 }
 
-
-<div class="text-center">
-
-    <h2>@Model.Room.Description</h2>
-            @if (Model.Room.Fight == true)
-            {
-                @foreach (var item in Model.Room.Crossroads)
+<div class="container">
+    <div class="PlayingArea">
+        <!--Zde jsou statistiky hráče-->
+        <div class="player">
+            <h4>Ty</h4>
+            <ul class="stats">
+                <li>Vitalita: @Model.PlayerStats.HealthPoints</li>
+                <li>MP: @Model.PlayerStats.ManaPoints</li>
+                <li>Poškození: @Model.PlayerStats.Attack</li>
+                <li>Brnění: @Model.PlayerStats.Defense</li>
+            </ul>
+        </div>
+        <!--Zde jsou všechny možné volby v rozcestníku-->
+        <div class="text-center choices">
+            <h2>@Model.Room.Description</h2>
+            <ul>
+                @if (Model.Room.Fight == true)
                 {
-                    <div><a asp-page="/Battle" asp-route-to="@item.NextRoomID" class="btn btn-primary">@item.Description</a></div>
+                    @foreach (var item in Model.Room.Crossroads)
+                    {
+                        <li><a asp-page="/Battle" asp-route-to="@item.NextRoomID" class="btn btn-primary">@item.Description</a></li>
+                    }
                 }
-            }
-            @{else
-            {
-                @foreach (var item in Model.Room.Crossroads)
+                else
                 {
-                    <div><a asp-page="/Room" asp-route-to="@item.NextRoomID" class="btn btn-primary">@item.Description</a></div>
+                    @foreach (var item in Model.Room.Crossroads)
+                    {
+                        <li><a asp-page="/Room" asp-route-to="@item.NextRoomID" class="btn btn-primary">@item.Description</a></li>
+                    }
                 }
-            }
-            }
+            </ul>
+        </div>
+    </div>
 </div>
-
-<div>
-    <ul>
-        <li>
-            HP: @Model.PlayerStats.HealthPoints
-        </li>
-        <li>
-            MP: @Model.PlayerStats.ManaPoints
-        </li>
-        <li>
-            Damage: @Model.PlayerStats.Attack
-        </li>
-        <li>
-            Armor: @Model.PlayerStats.Defense
-        </li>
-    </ul>
-</div>
-

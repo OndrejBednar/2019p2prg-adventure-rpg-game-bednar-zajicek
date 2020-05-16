@@ -45,11 +45,24 @@ namespace Rpg.Services
                 case BattleChoice.None:
                     break;
                 case BattleChoice.Attack:
-                    NpcStats.HealthPoints = NpcStats.HealthPoints - PlayerStats.Attack;
-                    _session.SavePlayerStats(PlayerStats);
-                    _session.SaveNpcStats(NpcStats);
+                    if (PlayerStats.Attack - NpcStats.Defense < 1)
+                    {
+                        _session.SavePlayerStats(PlayerStats);
+                        _session.SaveNpcStats(NpcStats);
+                    }
+                    else
+                    {
+                        NpcStats.HealthPoints = NpcStats.HealthPoints - (PlayerStats.Attack - NpcStats.Defense);
+                        _session.SavePlayerStats(PlayerStats);
+                        _session.SaveNpcStats(NpcStats);
+                    }
                     break;
                 case BattleChoice.Defend:
+                    if (NpcStats.Attack - PlayerStats.Defense < 1)
+                    {
+                        _session.SavePlayerStats(PlayerStats);
+                        _session.SaveNpcStats(NpcStats);
+                    }
                     PlayerStats.HealthPoints = PlayerStats.HealthPoints - NpcStats.Attack;
                     _session.SavePlayerStats(PlayerStats);
                     _session.SaveNpcStats(NpcStats);

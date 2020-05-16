@@ -16,6 +16,7 @@ a {
   color: #fff;
   background-color: #1b6ec2;
   border-color: #1861ac;
+  margin: 1px;
 }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
@@ -27,7 +28,7 @@ a {
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
-  font-size: 14px;
+  font-size: 12px;
 }
 @media (min-width: 768px) {
   html {
@@ -68,4 +69,75 @@ body {
   width: 100%;
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
+}
+
+
+/* Player, Npc Stats + choices positioning
+---------------------------------------------------------*/
+.container {
+    max-width: 1300px;
+}
+
+.player {
+    grid-area: PlayerStats;
+}
+
+.npc {
+    grid-area: NpcStats;
+}
+
+.choices {
+    grid-area: choices;
+    text-align: center;
+}
+
+.PlayingArea {
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr;
+    grid-template-areas: "PlayerStats choices NpcStats";
+}
+
+.player h4, .npc h4 {
+    text-align: center;
+    border: 1px solid black;
+    margin-bottom: 0px;
+    background-color: black;
+    color: white;
+    padding-bottom: 5px;
+}
+
+.stats {
+    border: 1px solid black;
+}
+
+.choices ul li {
+    display: block;
+}
+
+.resultbg {
+    position: fixed;
+    z-index: 1;
+    padding: 15% 0px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.win, .lose {
+    position: relative;
+    margin: auto;
+    padding: 3% 0;
+    width: 90%;
+    max-width: 1200px;
+}
+
+.win {
+    background-color: #0e8b06
+}
+
+.lose {
+    background-color: #9a0c0c;
+    color: royalblue;
 }
