@@ -40,6 +40,10 @@ namespace Rpg.Services
         {
             _session.Set(PLAYERSTATS, stats);
         }
+        public void SavePlayerStats()
+        {
+            _session.Set(PLAYERSTATS, this.PlayerStats);
+        }
         public void SaveNpcStats(Npc stats)
         {
             _session.Set(NPCSTATS, stats);

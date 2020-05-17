@@ -1,0 +1,21 @@
+﻿@page
+@model Rpg.Pages.SessionTestModel
+@{
+    ViewData["Title"] = "SessionTest";
+}
+
+<h1>SessionTest</h1>
+
+<ul>
+    <li><a asp-page-handler="set" asp-route-item="Someone item">Someone item</a></li>
+    <li><a asp-page-handler="set" asp-route-item="The best item">The best item</a></li>
+    <li><a asp-page-handler="set" asp-route-item="Someone another item">Someone another item</a></li>
+</ul>
+
+<h2>@Model.Name</h2>
+<ul>
+    @foreach (var item in Model.Items)
+    {
+        <li>@item.Value.Name - @item.Value.Description</li>
+    }
+</ul>
