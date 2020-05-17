@@ -13,6 +13,7 @@ namespace Rpg.Services
         readonly SessionStorage _session;
         readonly GameStory _gs;
 
+        public Battle Room { get; set; }
         public Npc NpcStats { get; set; }
         public Player PlayerStats { get; set; }
         public int Dmg { get; set; }
@@ -23,6 +24,7 @@ namespace Rpg.Services
             _rand = rand;
             _session = ss;
             _gs = gs;
+            Room = _session.Room;
             PlayerStats = _session.PlayerStats;
             NpcStats = _session.NpcStats;
         }
@@ -33,14 +35,14 @@ namespace Rpg.Services
             _session.SavePlayerStats(PlayerStats);
             return _gs.Rooms[id];
         }
-        public Battle Battle(int to)
+        public void Battle(int to)
         {
-            Battle room = _gs.Battles[to];
-            NpcStats = room.BossStats;
+            Room = _gs.Battles[to];
+            NpcStats = Room.BossStats;
             _session.SavePlayerStats(PlayerStats);
             _session.SaveNpcStats(NpcStats);
             _session.SetRoomId(to);
-            return room;
+            _session.SaveBattle(Room);
         }
         public int Battle(BattleChoice choice)
         {

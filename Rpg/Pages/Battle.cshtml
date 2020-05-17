@@ -5,24 +5,23 @@
 }
 
 
-
 <div class="container">
     <div class="PlayingArea">
         <!--Zde jsou statistiky hráče-->
         <div class="player">
             <h4>@Model.PlayerStats.Name</h4>
             <ul class="stats">
-                <li>Vitalita: @Model.PlayerStats.HealthPoints</li>
-                <li>MP: @Model.PlayerStats.ManaPoints</li>
-                <li>Poškození: @Model.PlayerStats.Attack</li>
-                <li>Brnění: @Model.PlayerStats.Defense</li>
+                <li class="stat">Vitalita: @Model.PlayerStats.HealthPoints <span class="stat-desc">Tvé životy</span></li>
+                <li class="stat">MP: @Model.PlayerStats.ManaPoints <span class="stat-desc">Tvá mana</span></li>
+                <li class="stat">Poškození: @Model.PlayerStats.Attack <span class="stat-desc">Tvůj útok</span></li>
+                <li class="stat">Brnění: @Model.PlayerStats.Defense <span class="stat-desc">Tvoje obrana proti poškození</span></li>
             </ul>
         </div>
         <!--Zde jsou všechny možné volby boje-->
         <div class="text-center choices">
             @if (Model.Result == null)
             {
-                <h2>@Model.Room.Description</h2>
+                <h2>@Model.BattleRoom.Description</h2>
             }
             else
             {
@@ -36,10 +35,10 @@
         <div class="npc">
             <h4>@Model.NpcStats.Name</h4>
             <ul class="stats">
-                <li>Vitalita: @Model.NpcStats.HealthPoints</li>
-                <li>MP: @Model.NpcStats.ManaPoints</li>
-                <li>Poškození: @Model.NpcStats.Attack</li>
-                <li>Brnění: @Model.NpcStats.Defense</li>
+                <li class="stat">Vitalita: @Model.NpcStats.HealthPoints <span class="stat-desc">Životy nepřítele</span></li>
+                <li class="stat">MP: @Model.NpcStats.ManaPoints <span class="stat-desc">Mana nepřítele</span></li>
+                <li class="stat">Poškození: @Model.NpcStats.Attack <span class="stat-desc">Útok nepřítele</span></li>
+                <li class="stat">Brnění: @Model.NpcStats.Defense <span class="stat-desc">Obrana nepřítele proti tvému poškození</span></li>
             </ul>
         </div>
     </div>
@@ -49,7 +48,7 @@
         <div class="lightbox">
             <div class="text-center win">
                 <h2>Dobrá práce, porazil jsi <strong>@($"{Model.NpcStats.Name}a")</strong>, nyní můžeš pokračovat dál</h2>
-                <a asp-page="/Room" asp-route-to="@Model.Room.NextRoomID" class="btn btn-primary">Pokračovat</a>
+                <a asp-page="/Room" asp-route-to="@Model.BattleRoom.NextRoomID" class="btn btn-primary">Pokračovat</a>
             </div>
         </div>
     }

@@ -10,10 +10,10 @@
         <div class="player">
             <h4>@Model.PlayerStats.Name</h4>
             <ul class="stats">
-                <li>Vitalita: @Model.PlayerStats.HealthPoints</li>
-                <li>MP: @Model.PlayerStats.ManaPoints</li>
-                <li>Poškození: @Model.PlayerStats.Attack</li>
-                <li>Brnění: @Model.PlayerStats.Defense</li>
+                <li class="stat">Vitalita: @Model.PlayerStats.HealthPoints <span class="stat-desc">Tvé životy</span></li>
+                <li class="stat">MP: @Model.PlayerStats.ManaPoints <span class="stat-desc">Tvá mana</span></li>
+                <li class="stat">Poškození: @Model.PlayerStats.Attack <span class="stat-desc">Tvůj útok</span></li>
+                <li class="stat">Brnění: @Model.PlayerStats.Defense <span class="stat-desc">Tvoje obrana proti poškození</span></li>
             </ul>
         </div>
         <!--Zde jsou všechny možné volby v rozcestníku-->
