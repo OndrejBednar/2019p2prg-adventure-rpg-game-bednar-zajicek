@@ -22,6 +22,8 @@ namespace Rpg.Pages
 
         public void OnGet()
         {
+            _rgl.PlayerStats.Inventory.Add("ressurection", new Item() { Name = "Mysterious potion", Count = 1, Description = "Nemáš ani tušení co tento lektvar dělá" });
+            _rgl.PlayerStats.sss.Add("as", 10);
             Room = _rgl.Play(0);
         }
     }

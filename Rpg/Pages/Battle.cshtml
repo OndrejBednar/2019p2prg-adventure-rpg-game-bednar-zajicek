@@ -65,7 +65,12 @@
     <!--inventar (WORK IN PROGRESS)-->
     <div class="inventory lightbox">
         <div class="inventory-content">
-
+            @foreach (var item in Model.PlayerStats.Inventory)
+            {
+                <div class="item">
+                    <img src="./resources/@item.Key"/>
+                </div>
+            }
         </div>
         <span class="close">&times;</span>
     </div>

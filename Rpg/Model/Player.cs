@@ -14,5 +14,6 @@ namespace Rpg.Model
         public int CritChance { get; set; } = 20;
         public int Defense { get; set; } = 5;
         public int SpellPower { get; set; } = 5;
+        public Dictionary<string, Item> Inventory { get; } = new Dictionary<string, Item>();
     }
 }
