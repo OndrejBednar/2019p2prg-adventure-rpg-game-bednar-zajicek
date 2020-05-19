@@ -11,5 +11,6 @@ namespace Rpg.Model
         public int NextRoomID { get; set; }
         public string Description { get; set; }
         public Dictionary<string, Item> Inventory { get; set; }
+        public Rewards Reward { get; set; }
     }
 }

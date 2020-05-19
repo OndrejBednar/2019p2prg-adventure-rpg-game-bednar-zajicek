@@ -24,24 +24,6 @@
                     {
                         <li><a asp-page="/Index" class="btn btn-primary">Hrát znovu</a></li>
                     }
-                    @if (Model.Room.RoomID == 1)
-                    {
-                        @foreach (var item in Model.Room.Crossroads)
-                        {
-                            if (item.Type == Rpg.Model.RoomType.Normal)
-                            {
-                                <li><a asp-page="/Room" asp-route-to="@item.NextRoomID" class="btn btn-primary">@item.Description</a></li>
-                            }
-                            if (item.Type == Rpg.Model.RoomType.Battle)
-                            {
-                                <li><a asp-page="/Battle" asp-route-to="@item.NextRoomID" class="btn btn-primary">@item.Description</a></li>
-                            }
-                            if (item.Type == Rpg.Model.RoomType.Shop)
-                            {
-                                <li><a asp-page="/Shop" asp-route-to="@item.NextRoomID" class="btn btn-primary">@item.Description</a></li>
-                            }
-                        }
-                    }
                     else
                     {
                         @foreach (var item in Model.Room.Crossroads)
@@ -59,7 +41,11 @@
                                 <li><a asp-page="/Shop" asp-route-to="@item.NextRoomID" class="btn btn-primary">@item.Description</a></li>
                             }
                         }
-                        <li><button class="btn btn-primary" id="Inventory">Inventář (not implemented)</button></li>
+                        if (Model.Room.Inventory)
+                        {
+                            <li><button class="btn btn-primary" id="Inventory">Inventář (not implemented)</button></li>
+                        }
+                        else { }
                     }
                 </ul>
             </div>

@@ -13,8 +13,8 @@ namespace Rpg.Model
         public int Attack { get; set; } = 5;
         public int CritChance { get; set; } = 20;
         public int Defense { get; set; } = 5;
-        public int SpellPower { get; set; } = 5;
-        public int Gold { get; set; }
+        public int Knowledge { get; set; } = 5;
+        public int Gold { get; set; } = 0;
         public Dictionary<string, Item> Inventory { get; set; } = new Dictionary<string, Item>();
     }
 }

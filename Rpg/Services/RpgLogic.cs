@@ -14,6 +14,7 @@ namespace Rpg.Services
         readonly SessionStorage _session;
         readonly GameStory _gs;
 
+        public Room Rooms { get; set; }
         public Battle BattleRoom { get; set; }
         public Shop ShopRoom { get; set; }
         public Npc NpcStats { get; set; }
@@ -28,15 +29,18 @@ namespace Rpg.Services
             _gs = gs;
             BattleRoom = _session.BattleRoom;
             ShopRoom = _session.ShopRoom;
-            PlayerStats = new Player() { Attack = _session.PlayerStats.Attack, CritChance = _session.PlayerStats.CritChance, Defense = _session.PlayerStats.Defense, HealthPoints = _session.PlayerStats.HealthPoints, ManaPoints = _session.PlayerStats.ManaPoints, Name = _session.PlayerStats.Name, SpellPower = _session.PlayerStats.SpellPower, Inventory = _session.PlayerStats.Inventory, Gold = _session.PlayerStats.Gold };
+            PlayerStats = new Player() { Attack = _session.PlayerStats.Attack, CritChance = _session.PlayerStats.CritChance, Defense = _session.PlayerStats.Defense, HealthPoints = _session.PlayerStats.HealthPoints, ManaPoints = _session.PlayerStats.ManaPoints, Name = _session.PlayerStats.Name, Knowledge = _session.PlayerStats.Knowledge, Inventory = _session.PlayerStats.Inventory, Gold = _session.PlayerStats.Gold };
             NpcStats = _session.NpcStats;
         }
 
         public Room Play(int id)
         {
             _session.SetRoomId(id);
+            Rooms = _gs.Rooms[id];
+            if (Rooms.Reward.GoldReward != 0) { PlayerStats.Gold += Rooms.Reward.GoldReward; Rooms.Reward.GoldReward = 0; }
+            if (Rooms.Reward != null) { PlayerStats.Inventory.TryAdd(Rooms.Reward.ItemReward.Name, Rooms.Reward.ItemReward); Rooms.Reward.ItemReward = null; }
             _session.SavePlayerStats(PlayerStats);
-            return _gs.Rooms[id];
+            return Rooms;
         }
         public void Battle(int to)
         {
@@ -95,9 +99,11 @@ namespace Rpg.Services
         {
             ShopRoom = _gs.Shops[id];
             _session.SetRoomId(id);
+            if (ShopRoom.Reward.GoldReward != 0) { PlayerStats.Gold += ShopRoom.Reward.GoldReward; ShopRoom.Reward.GoldReward = 0; }
+            if (ShopRoom.Reward.ItemReward != null) { PlayerStats.Inventory.TryAdd(ShopRoom.Reward.ItemReward.Name, ShopRoom.Reward.ItemReward); ShopRoom.Reward.ItemReward = null; }
             _session.SavePlayerStats(PlayerStats);
             _session.SaveShop(ShopRoom);
-            return _gs.Shops[id];
+            return ShopRoom;
         }
         public string Buy(string item)
         {
@@ -121,7 +127,8 @@ namespace Rpg.Services
         {
             Item value = PlayerStats.Inventory.GetValueOrDefault(item);
             PlayerStats.Gold += value.Cost;
-            PlayerStats.Inventory.Remove(value.Name);
+            value.Count--;
+            if (value.Count < 1) { PlayerStats.Inventory.Remove(value.Name); }
             _session.SavePlayerStats(PlayerStats);
             _session.SaveShop(ShopRoom);
             return $"Uspěšně si prodal {value.Name} za {value.Cost} zlaťáků";

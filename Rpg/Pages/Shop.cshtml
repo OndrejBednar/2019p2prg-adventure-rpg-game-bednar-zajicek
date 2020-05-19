@@ -29,7 +29,7 @@
         </ul>
     </div>
     <div class="npc-inventory">
-        <h4>Obchodník</h4>
+        <h4><img src="~/resources/BagOfGold.png" /> Obchodník <img src="~/resources/BagOfGold.png" /></h4>
         <ul>
             @foreach (var item in Model.Room.Inventory)
             {
@@ -39,3 +39,6 @@
     </div>
 </div>
 
+<div class="text-center">
+    <a asp-page="/Room" asp-route-to="@Model.Room.NextRoomID" class="btn btn-primary">Pokračovat</a>
+</div>

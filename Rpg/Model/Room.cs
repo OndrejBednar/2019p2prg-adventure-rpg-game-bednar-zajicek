@@ -11,5 +11,6 @@ namespace Rpg.Model
         public string Description { get; set; }
         public List<Crossroad> Crossroads { get; set; }
         public bool Inventory { get; set; } = true;
+        public Rewards Reward { get; set; }
     }
 }
