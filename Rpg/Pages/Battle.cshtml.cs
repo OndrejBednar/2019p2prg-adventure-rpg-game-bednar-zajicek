@@ -27,13 +27,13 @@ namespace Rpg.Pages
         public void OnGet(int to)
         {
             _rgl.Battle(to);
-            BattleRoom = _rgl.Room;
+            BattleRoom = _rgl.BattleRoom;
             NpcStats = _rgl.NpcStats;
             PlayerStats = _rgl.PlayerStats;
         }
         public void OnGetAttack()
         {
-            BattleRoom = _rgl.Room;
+            BattleRoom = _rgl.BattleRoom;
             Dmg = _rgl.Battle(BattleChoice.Attack);
             NpcStats = _rgl.NpcStats;
             PlayerStats = _rgl.PlayerStats;
@@ -50,7 +50,7 @@ namespace Rpg.Pages
         }
         public void OnGetDefense()
         {
-            BattleRoom = _rgl.Room;
+            BattleRoom = _rgl.BattleRoom;
             Dmg = _rgl.Battle(BattleChoice.Defend);
             NpcStats = _rgl.NpcStats;
             PlayerStats = _rgl.PlayerStats;

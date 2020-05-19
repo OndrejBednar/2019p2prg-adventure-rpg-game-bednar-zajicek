@@ -67,9 +67,10 @@
         <div class="inventory-content">
             @foreach (var item in Model.PlayerStats.Inventory)
             {
-                <div class="item">
-                    <img src="./resources/@item.Key"/>
-                </div>
+            <div class="item">
+                <img src="./resources/@($"{item.Key}.png")"/>
+                <span class="stat-desc">@item.Value.Name</span>
+            </div>
             }
         </div>
         <span class="close">&times;</span>

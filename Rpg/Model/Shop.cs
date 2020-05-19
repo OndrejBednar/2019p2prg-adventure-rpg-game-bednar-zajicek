@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace Rpg.Model
 {
-    public class Crossroad
+    public class Shop
     {
-        public int CrossroadID { get; set; }
+        public int ShopID { get; set; }
         public int NextRoomID { get; set; }
         public string Description { get; set; }
-        public RoomType Type { get; set; } = RoomType.Normal;
+        public Dictionary<string, Item> Inventory { get; set; }
     }
 }

@@ -1,0 +1,28 @@
+﻿.player-inventory h4, .npc-inventory h4 {
+    text-align: center;
+    border: 1px solid black;
+    margin-bottom: 0px;
+    background-color: black;
+    color: white;
+    padding-bottom: 5px;
+}
+
+.player-inventory ul, .npc-inventory ul {
+    margin: 8px 0px;
+}
+
+.player-inventory {
+    grid-area: PInventory;
+    border: 2px solid black
+}
+
+.npc-inventory {
+    grid-area: NInventory;
+    border: 2px solid black
+}
+
+.shop {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "PInventory NInventory";
+}

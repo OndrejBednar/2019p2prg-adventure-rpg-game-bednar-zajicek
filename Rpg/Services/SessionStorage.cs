@@ -14,9 +14,11 @@ namespace Rpg.Services
         const string KEY = "ROOMID";
         const string PLAYERSTATS = "P.STATS";
         const string NPCSTATS = "N.STATS";
-        const string ROOM = "ROOM";
+        const string BATTLE = "BATTLE";
+        const string SHOP = "SHOP";
 
-        public Battle Room { get; set; }
+        public Battle BattleRoom { get; set; }
+        public Shop ShopRoom { get; set; }
         public Player PlayerStats { get; set; }
         public Npc NpcStats { get; set; }
 
@@ -25,7 +27,8 @@ namespace Rpg.Services
             _session = hce.HttpContext.Session;
             PlayerStats = _session.Get<Player>(PLAYERSTATS);
             NpcStats = _session.Get<Npc>(NPCSTATS);
-            Room = _session.Get<Battle>(ROOM);
+            BattleRoom = _session.Get<Battle>(BATTLE);
+            ShopRoom = _session.Get<Shop>(SHOP);
         }
 
         public void SetRoomId(int number)
@@ -36,13 +39,13 @@ namespace Rpg.Services
         {
             return _session.GetInt32(KEY);
         }
-        public void SavePlayerStats(Player stats)
-        {
-            _session.Set(PLAYERSTATS, stats);
-        }
         public void SavePlayerStats()
         {
             _session.Set(PLAYERSTATS, this.PlayerStats);
+        }
+        public void SavePlayerStats(Player stats)
+        {
+            _session.Set(PLAYERSTATS, stats);
         }
         public void SaveNpcStats(Npc stats)
         {
@@ -50,7 +53,11 @@ namespace Rpg.Services
         }
         public void SaveBattle(Battle room)
         {
-            _session.Set(ROOM, room);
+            _session.Set(BATTLE, room);
+        }
+        public void SaveShop(Shop room)
+        {
+            _session.Set(SHOP, room);
         }
     }
 }

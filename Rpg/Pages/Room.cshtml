@@ -18,35 +18,62 @@
             </div>
             <!--Zde jsou všechny možné volby v rozcestníku-->
             <div class="text-center choices">
-                <h2>@Model.Room.Description</h2>
+                <h5>@Model.Room.Description</h5>
                 <ul>
                     @if (Model.Room.RoomID == 666)
                     {
                         <li><a asp-page="/Index" class="btn btn-primary">Hrát znovu</a></li>
                     }
-                    @if (Model.Room.Fight == true)
+                    @if (Model.Room.RoomID == 1)
                     {
                         @foreach (var item in Model.Room.Crossroads)
                         {
-                            <li><a asp-page="/Battle" asp-route-to="@item.NextRoomID" class="btn btn-primary">@item.Description</a></li>
-
+                            if (item.Type == Rpg.Model.RoomType.Normal)
+                            {
+                                <li><a asp-page="/Room" asp-route-to="@item.NextRoomID" class="btn btn-primary">@item.Description</a></li>
+                            }
+                            if (item.Type == Rpg.Model.RoomType.Battle)
+                            {
+                                <li><a asp-page="/Battle" asp-route-to="@item.NextRoomID" class="btn btn-primary">@item.Description</a></li>
+                            }
+                            if (item.Type == Rpg.Model.RoomType.Shop)
+                            {
+                                <li><a asp-page="/Shop" asp-route-to="@item.NextRoomID" class="btn btn-primary">@item.Description</a></li>
+                            }
                         }
                     }
                     else
                     {
                         @foreach (var item in Model.Room.Crossroads)
                         {
-                            <li><a asp-page="/Room" asp-route-to="@item.NextRoomID" class="btn btn-primary">@item.Description</a></li>
+                            if (item.Type == Rpg.Model.RoomType.Normal)
+                            {
+                                <li><a asp-page="/Room" asp-route-to="@item.NextRoomID" class="btn btn-primary">@item.Description</a></li>
+                            }
+                            if (item.Type == Rpg.Model.RoomType.Battle)
+                            {
+                                <li><a asp-page="/Battle" asp-route-to="@item.NextRoomID" class="btn btn-primary">@item.Description</a></li>
+                            }
+                            if (item.Type == Rpg.Model.RoomType.Shop)
+                            {
+                                <li><a asp-page="/Shop" asp-route-to="@item.NextRoomID" class="btn btn-primary">@item.Description</a></li>
+                            }
                         }
+                        <li><button class="btn btn-primary" id="Inventory">Inventář (not implemented)</button></li>
                     }
-                <li><button class="btn btn-primary" id="Inventory">Inventář (not implemented)</button></li>
                 </ul>
             </div>
         </div>
         <!--inventar (WORK IN PROGRESS)-->
         <div class="inventory lightbox">
             <div class="inventory-content">
-
+                @foreach (var item in Model.PlayerStats.Inventory)
+                {
+                <div class="item">
+                    <img src="./resources/@($"{item.Key}.png")" />
+                    <span class="stat-desc">@item.Value.Name</span>
+                </div>
+                }
             </div>
             <span class="close">&times;</span>
         </div>

@@ -92,6 +92,7 @@ body {
 .choices {
     grid-area: choices;
     text-align: center;
+    margin: 0px 5px;
 }
 
 .PlayingArea {
@@ -141,8 +142,44 @@ body {
 }
 
 .lose {
-    background-color: #9a0c0c;
-    color: royalblue;
+    background-color: black;
+    color: darkred;
+}
+
+/* Stat tooltips
+---------------------------------------*/
+.stat, .item {
+    position: relative;
+}
+
+.stat .stat-desc, .item .stat-desc {
+    visibility: hidden;
+    width: 120px;
+    background-color: dimgray;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -60px;
+}
+
+.stat:hover .stat-desc, .item:hover .stat-desc {
+    visibility: visible;
+}
+
+.stat .stat-desc::after, .item .stat-desc::after {
+    content: " ";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: black transparent transparent transparent;
 }
 
 /* Inventory
@@ -150,6 +187,28 @@ body {
 
 .inventory {
     display: none;
+}
+
+.inventory-content {
+    position: relative;
+    margin: auto;
+    padding: 3% 0;
+    width: 90%;
+    max-width: 1200px;
+    background-color: dimgray;
+}
+
+.item {
+    max-width:68px;
+    max-height:68px;
+    background-color:black;
+    border: 2px solid yellow;
+    margin-left:32px;
+}
+
+.item .stat-desc {
+    background-color: black;
+    margin-bottom: 7px;
 }
 
 .close {
@@ -160,40 +219,4 @@ body {
     right: 25px;
     font-size: 35px;
     font-weight: bold;
-}
-
-/* Stat tooltips
----------------------------------------*/
-.stat {
-    position: relative;
-}
-
-.stat .stat-desc {
-    visibility: hidden;
-    width: 120px;
-    background-color: dimgray;
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    padding: 5px 0;
-    position: absolute;
-    z-index: 1;
-    bottom: 100%;
-    left: 50%;
-    margin-left: -60px;
-}
-
-.stat:hover .stat-desc {
-    visibility: visible;
-}
-
-.stat .stat-desc::after {
-    content: " ";
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: black transparent transparent transparent;
 }

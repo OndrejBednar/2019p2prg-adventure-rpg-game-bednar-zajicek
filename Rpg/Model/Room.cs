@@ -10,6 +10,6 @@ namespace Rpg.Model
         public int RoomID { get; set; }
         public string Description { get; set; }
         public List<Crossroad> Crossroads { get; set; }
-        public bool Fight { get; set; } = false;
+        public bool Inventory { get; set; } = true;
     }
 }

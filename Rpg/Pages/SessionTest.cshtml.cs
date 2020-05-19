@@ -40,7 +40,7 @@ namespace Rpg.Pages
         public void OnGetSet(string item)
         {
 
-            sessionStorage.PlayerStats.Inventory.TryAdd(item, new Model.Item() { Count = 1, Name = item, Description = "The Miracle" });
+            sessionStorage.PlayerStats.Inventory.TryAdd(item, new Model.Item() { Count = 1, Name = item, Description = "The Miracle", Cost = 10 });
             sessionStorage.SavePlayerStats();
         }
     }

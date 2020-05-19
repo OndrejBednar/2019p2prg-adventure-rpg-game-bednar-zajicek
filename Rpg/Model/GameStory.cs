@@ -9,6 +9,7 @@ namespace Rpg.Model
     {
         public Dictionary<int, Room> Rooms { get; } = new Dictionary<int, Room>();
         public Dictionary<int, Battle> Battles { get; } = new Dictionary<int, Battle>();
+        public Dictionary<int, Shop> Shops { get; } = new Dictionary<int, Shop>();
         public GameStory()
         {
             //--------Tutorial--------//
@@ -22,21 +23,71 @@ namespace Rpg.Model
             Rooms.Add(1, new Room()
             {
                 RoomID = 1,
-                Description = "Právě se nacházíš na louce",
+                Description = "Probudil ses na louce, nevíš kde ses tu vzal. Po chvíli na tebe začne křičet nějaký neznámý člověk, který vypadá, jako by před něčím utíkal. \"Ty tam, utíkej do města na konci louky !\"",
+                Inventory = false,
                 Crossroads = new List<Crossroad>() {
-                    new Crossroad() { CrossroadID = 1, Description = "Vydám se do města", NextRoomID = 2 },
+                    new Crossroad() { CrossroadID = 1, Description = "Poslechnout ho a utéct do města", NextRoomID = 2 },
                 }
             });
             //--------Město(začáteční lokace)--------//
             Rooms.Add(2, new Room()
             {
                 RoomID = 2,
-                Description = "Právě se nacházíš ve městě",
+                Description = "Doběhl si do města, ale vypadá to, že ten cizinec to nezvládl. Vůbec nevíš, kdo to byl. Nejspíš by ses měl porozhlédnout po městě a říct někomu, co se stalo",
+                Inventory = false,
                 Crossroads = new List<Crossroad>() {
-                    new Crossroad() { CrossroadID = 21, Description = "Vydám se do lesa", NextRoomID = 3 },
-                    new Crossroad() { CrossroadID = 20, Description = "Půjdu do jeskyně za městem", NextRoomID = 4 },
-                    new Crossroad() { CrossroadID = 22, Description = "Půjdu na pobřeží", NextRoomID = 5 },
-                    new Crossroad() { CrossroadID = 23, Description = "Walk straight (test boje)", NextRoomID = 6 },
+                    new Crossroad() { CrossroadID = 20, Description = "Porozhlédnout se po městě", NextRoomID = 21 },
+                    new Crossroad() { CrossroadID = 21, Description = "Walk straight (test boje)", NextRoomID = 6 },
+                }
+            });
+            Rooms.Add(21, new Room()
+            {
+                RoomID = 21,
+                Description = "Porozhlédnul ses po městě a slyšel jsi, že v hospodě jsou známí bojovníci, kteří by možná mohli pomoct onu cizinci. Také jsi nedaleko hospody našel obchod. Odemčeny nové lokace: Hospoda, Obchodník",
+                Inventory = false,
+                Crossroads = new List<Crossroad>() {
+                    new Crossroad() { CrossroadID = 212, Description = "Jít do hospody", NextRoomID = 212 },
+                    new Crossroad() { CrossroadID = 211, Description = "Jít k obchodníkovi", NextRoomID = 211 },
+                }
+            });
+            Rooms.Add(211, new Room()
+            {
+                RoomID = 211,
+                Description = "Právě se nacházíš u obchodníka, zde si mužeš za zlaťáky kupovat vylepšení nebo také prodávat věci, které již nepotřebuješ",
+                Inventory = false,
+                Crossroads = new List<Crossroad>() {
+                    new Crossroad() { CrossroadID = 2110, Description = "Podívat se co nabízí", NextRoomID = 1, Type = RoomType.Shop },
+                    new Crossroad() { CrossroadID = 2111, Description = "Vrátit se na náměstí", NextRoomID = 22},
+                }
+            }); //Obchodník
+            Shops.Add(1, new Shop()
+            {
+                ShopID = 1,
+                NextRoomID = 22,
+                Description = "Vlevo máš tvé itemy, které mužeš prodat kliknutím na ně (některé však nelze) a na pravé straně si mužeš koupit předměty od obchodníka také kliknutím",
+                Inventory = new Dictionary<string, Item>() {
+                    { "mec", new Item() { Name = "mec", Cost = 2 } }
+                }
+            });
+            Rooms.Add(212, new Room()
+            {
+                RoomID = 212,
+                Description = "Došel jsi do hospody a vidíš skupinku bojovníků sedících u stolu v rohu hospody.",
+                Inventory = false,
+                Crossroads = new List<Crossroad>() {
+                    new Crossroad() { CrossroadID = 2121, Description = "Jít za nimi a říct jim o tom, co se stalo", NextRoomID = 2121},
+                    new Crossroad() { CrossroadID = 2122, Description = "Jít ke stolu a objednat si pivo", NextRoomID = 2122},
+                    new Crossroad() { CrossroadID = 2111, Description = "Vrátit se na náměstí", NextRoomID = 22},
+                }
+            });
+            Rooms.Add(22, new Room()
+            {
+                RoomID = 22,
+                Description = "Vrátil jsi se na náměstí",
+                Inventory = false,
+                Crossroads = new List<Crossroad>() {
+                    new Crossroad() { CrossroadID = 212, Description = "Jít do hospody", NextRoomID = 212},
+                    new Crossroad() { CrossroadID = 211, Description = "Jít k obchodníkovi", NextRoomID = 211 },
                 }
             });
             //--------Les--------//
@@ -84,10 +135,9 @@ namespace Rpg.Model
                 RoomID = 6,
                 Description = "You feel like you're gonna have a bad time",
                 Crossroads = new List<Crossroad>() {
-                    new Crossroad() { CrossroadID = 60, Description = "FIGHT !", NextRoomID = 60 },
-                    new Crossroad() { CrossroadID = 61, Description = "Go back to town", NextRoomID = 61 },
+                    new Crossroad() { CrossroadID = 60, Description = "FIGHT !", NextRoomID = 60, Type = RoomType.Battle},
+                    new Crossroad() { CrossroadID = 61, Description = "Go back to town", NextRoomID = 61, Type = RoomType.Battle },
                 },
-                Fight = true
             });
             Battles.Add(60, new Battle() { BattleID = 1, NextRoomID = 2,
                 BossStats = new Npc() { Name = "Krab", HealthPoints = 20, ManaPoints = 0, Attack = 4, CritChance = 20, Defense = 7, SpellPower = 0},

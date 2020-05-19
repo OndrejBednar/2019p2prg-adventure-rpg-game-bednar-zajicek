@@ -1,0 +1,41 @@
+﻿@page
+@model Rpg.Pages.ShopModel
+@{
+    ViewData["Title"] = "Shop";
+}
+
+<link rel="stylesheet" href="~/css/Shop.css" />
+<div class="text-center">
+    <h1>Obchod</h1>
+    <p>@Model.Room.Description</p>
+    <h3>@Model.Result</h3>
+</div>
+
+<div class="shop">
+    <div class="player-inventory">
+        <h4>@Model.PlayerStats.Name - @Model.PlayerStats.Gold <img src="~/resources/gold.png" /></h4>
+        <ul>
+            @foreach (var item in Model.PlayerStats.Inventory)
+            {
+                if (item.Value.Sellable)
+                {
+                    <li><a asp-page-handler="Sell" asp-route-item="@item.Value.Name">@item.Value.Name</a></li>
+                }
+                else
+                {
+                    <li>@item.Value.Name - tento item nelze prodat</li>
+                }
+            }
+        </ul>
+    </div>
+    <div class="npc-inventory">
+        <h4>Obchodník</h4>
+        <ul>
+            @foreach (var item in Model.Room.Inventory)
+            {
+                <li><a asp-page-handler="Buy" asp-route-item="@item.Value.Name">@item.Value.Name</a></li>
+            }
+        </ul>
+    </div>
+</div>
+
