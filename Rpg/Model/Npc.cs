@@ -5,14 +5,10 @@ using System.Threading.Tasks;
 
 namespace Rpg.Model
 {
-    public class Npc : Stats
+    public class Npc
     {
         public string Name { get; set; }
-        public int HealthPoints { get; set; }
-        public int ManaPoints { get; set; }
-        public int Attack { get; set; }
-        public int CritChance { get; set; }
-        public int Defense { get; set; }
-        public int Knowledge { get; set; }
+        public Stats NpcStats { get; set; }
+        public BattleChoice Choice { get; set; }
     }
 }

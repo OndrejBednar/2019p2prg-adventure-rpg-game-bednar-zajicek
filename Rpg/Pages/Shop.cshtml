@@ -13,17 +13,17 @@
 
 <div class="shop">
     <div class="player-inventory">
-        <h4>@Model.PlayerStats.Name - @Model.PlayerStats.Gold <img src="~/resources/gold.png" /></h4>
+        <h4>@Model.Player.Name - @Model.Player.Gold <img src="~/resources/gold.png" /></h4>
         <ul>
-            @foreach (var item in Model.PlayerStats.Inventory)
+            @foreach (var item in Model.Player.Inventory)
             {
-                if (item.Value.Sellable)
+                if (item.Sellable)
                 {
-                    <li><a asp-page-handler="Sell" asp-route-item="@item.Value.Name">@item.Value.Name</a></li>
+                    <li><a asp-page-handler="Sell" asp-route-item="@item.Name">@item.Name</a></li>
                 }
                 else
                 {
-                    <li>@item.Value.Name - tento item nelze prodat</li>
+                    <li>@item.Name - tento item nelze prodat</li>
                 }
             }
         </ul>

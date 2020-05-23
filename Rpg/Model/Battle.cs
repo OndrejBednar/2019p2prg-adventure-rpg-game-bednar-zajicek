@@ -9,7 +9,7 @@ namespace Rpg.Model
     {
         public int BattleID { get; set; }
         public int NextRoomID { get; set; }
-        public Npc BossStats { get; set; }
+        public Npc Boss { get; set; }
         public string Description { get; set; }
         public Rewards Reward { get; set; }
     }

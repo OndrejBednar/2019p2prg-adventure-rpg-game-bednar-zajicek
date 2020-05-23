@@ -9,12 +9,12 @@
     <div class="PlayingArea">
         <!--Zde jsou statistiky hráče-->
         <div class="player">
-            <h4>@Model.PlayerStats.Name</h4>
+            <h4>@Model.Player.Name</h4>
             <ul class="stats">
-                <li class="stat">Vitalita: @Model.PlayerStats.HealthPoints <span class="stat-desc">Tvé životy</span></li>
-                <li class="stat">MP: @Model.PlayerStats.ManaPoints <span class="stat-desc">Tvá mana</span></li>
-                <li class="stat">Poškození: @Model.PlayerStats.Attack <span class="stat-desc">Tvůj útok</span></li>
-                <li class="stat">Brnění: @Model.PlayerStats.Defense <span class="stat-desc">Tvoje obrana proti poškození</span></li>
+                <li class="stat">Vitalita: @Model.Player.PlayerStats.HealthPoints <span class="stat-desc">Tvé životy</span></li>
+                <li class="stat">MP: @Model.Player.PlayerStats.ManaPoints <span class="stat-desc">Tvá mana</span></li>
+                <li class="stat">Poškození: @Model.Player.PlayerStats.Attack <span class="stat-desc">Tvůj útok</span></li>
+                <li class="stat">Brnění: @Model.Player.PlayerStats.Defense <span class="stat-desc">Tvoje obrana proti poškození</span></li>
             </ul>
         </div>
         <!--Zde jsou všechny možné volby boje-->
@@ -27,37 +27,37 @@
             {
                 <h2>@Model.Result</h2>
             }
-            <div><a asp-page-handler="Attack" class="btn btn-primary">Zaútočit</a></div>
-            <div><a asp-page-handler="Defense" class="btn btn-primary">Bránit se</a></div>
+            <div><a asp-page-handler="Fight" asp-route-choice="@Rpg.Model.BattleChoice.Attack" class="btn btn-primary">Zaútočit</a></div>
+            <div><a asp-page-handler="Fight" asp-route-choice="@Rpg.Model.BattleChoice.Defend" class="btn btn-primary">Bránit se</a></div>
             <button class="btn btn-primary" id="Inventory">Inventář (not implemented)</button>
         </div>
         <!--Zde jsou statistiky počítače-->
         <div class="npc">
-            <h4>@Model.NpcStats.Name</h4>
+            <h4>@Model.Npc.Name</h4>
             <ul class="stats">
-                <li class="stat">Vitalita: @Model.NpcStats.HealthPoints <span class="stat-desc">Životy nepřítele</span></li>
-                <li class="stat">MP: @Model.NpcStats.ManaPoints <span class="stat-desc">Mana nepřítele</span></li>
-                <li class="stat">Poškození: @Model.NpcStats.Attack <span class="stat-desc">Útok nepřítele</span></li>
-                <li class="stat">Brnění: @Model.NpcStats.Defense <span class="stat-desc">Obrana nepřítele proti tvému poškození</span></li>
+                <li class="stat">Vitalita: @Model.Npc.NpcStats.HealthPoints <span class="stat-desc">Životy nepřítele</span></li>
+                <li class="stat">MP:  @Model.Npc.NpcStats.ManaPoints <span class="stat-desc">Mana nepřítele</span></li>
+                <li class="stat">Poškození:  @Model.Npc.NpcStats.Attack <span class="stat-desc">Útok nepřítele</span></li>
+                <li class="stat">Brnění:  @Model.Npc.NpcStats.Defense <span class="stat-desc">Obrana nepřítele proti tvému poškození</span></li>
             </ul>
         </div>
     </div>
     <!--Zde resime vitezstvi-->
-    @if (Model.NpcStats.HealthPoints < 1)
+    @if (Model.Npc.NpcStats.HealthPoints < 1)
     {
         <div class="lightbox">
             <div class="text-center win">
-                <h2>Dobrá práce, porazil jsi <strong>@($"{Model.NpcStats.Name}a")</strong>, nyní můžeš pokračovat dál</h2>
+                <h2>Dobrá práce, porazil jsi <strong>@($"{Model.Npc.Name}a")</strong>, nyní můžeš pokračovat dál</h2>
                 <a asp-page="/Room" asp-route-to="@Model.BattleRoom.NextRoomID" class="btn btn-primary">Pokračovat</a>
             </div>
         </div>
     }
     <!--Zde resime smrt-->
-    @if (Model.PlayerStats.HealthPoints < 1)
+    @if (Model.Player.PlayerStats.HealthPoints < 1)
     {
         <div class="lightbox">
             <div class="text-center lose">
-                <h2>Právě jsi byl zdecimován <strong>@($"{Model.NpcStats.Name}em")</strong></h2>
+                <h2>Právě jsi byl zdecimován <strong>@($"{Model.Npc.Name}em")</strong></h2>
                 <a asp-page="/Room" asp-route-to="666" class="btn btn-primary">Pokračovat</a>
             </div>
         </div>
@@ -65,11 +65,11 @@
     <!--inventar (WORK IN PROGRESS)-->
     <div class="inventory lightbox">
         <div class="inventory-content">
-            @foreach (var item in Model.PlayerStats.Inventory)
+            @foreach (var item in Model.Player.Inventory)
             {
             <div class="item">
-                <img src="./resources/@($"{item.Key}.png")"/>
-                <span class="stat-desc">@item.Value.Name</span>
+                <img src="./resources/@($"{item.Name}.png")"/>
+                <span class="stat-desc">@item.Description</span>
             </div>
             }
         </div>

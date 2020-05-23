@@ -138,7 +138,8 @@ body {
 }
 
 .win {
-    background-color: #0e8b06
+    background-color: #0e8b06;
+    color: white;
 }
 
 .lose {
@@ -190,6 +191,7 @@ body {
 }
 
 .inventory-content {
+    display: flex;
     position: relative;
     margin: auto;
     padding: 3% 0;

@@ -17,20 +17,20 @@ namespace Rpg.Pages
         {
             this.sessionStorage = sessionStorage;
 
-            Name = sessionStorage.PlayerStats?.Name ?? "Nobody";
-            Items = sessionStorage.PlayerStats?.Inventory ?? new Dictionary<string, Item>();
+            Name = sessionStorage.Player?.Name ?? "Nobody";
+            Items = sessionStorage.Player?.Inventory ?? new List<Item>();
 
-            if (sessionStorage.PlayerStats == default)
+            if (sessionStorage.Player == default)
             {
-                sessionStorage.PlayerStats = new Model.Player();
-                sessionStorage.PlayerStats.Inventory = new Dictionary<string, Item>();
-                sessionStorage.PlayerStats.Name = "sessioner killer";
+                sessionStorage.Player = new Model.Player();
+                sessionStorage.Player.Inventory = new List<Item>();
+                sessionStorage.Player.Name = "sessioner killer";
                 sessionStorage.SavePlayerStats();
             }
         }
 
         public string Name { get; set; }
-        public Dictionary<string, Item> Items { get; set; }
+        public List<Item> Items { get; set; }
 
         public void OnGet()
         {
@@ -40,7 +40,7 @@ namespace Rpg.Pages
         public void OnGetSet(string item)
         {
 
-            sessionStorage.PlayerStats.Inventory.TryAdd(item, new Model.Item() { Count = 1, Name = item, Description = "The Miracle", Cost = 10 });
+            sessionStorage.Player.Inventory.Add(new Model.Item() { Count = 1, Name = item, Description = "The Miracle", Cost = 10 });
             sessionStorage.SavePlayerStats();
         }
     }

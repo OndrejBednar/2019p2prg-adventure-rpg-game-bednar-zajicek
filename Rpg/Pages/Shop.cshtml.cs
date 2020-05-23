@@ -20,23 +20,23 @@ namespace Rpg.Pages
 
         public string Result { get; set; }
         public Shop Room { get; set; }
-        public Player PlayerStats { get; set; }
+        public Player Player { get; set; }
 
         public void OnGet(int to)
         {
-            PlayerStats = _rgl.PlayerStats;
+            Player = _rgl.Player;
             Room = _rgl.EnterShop(to);
         }
         public void OnGetBuy(string item)
         {
             Room = _rgl.ShopRoom;
-            PlayerStats = _rgl.PlayerStats;
+            Player = _rgl.Player;
             Result = _rgl.Buy(item);
         }
         public void OnGetSell(string item)
         {
             Room = _rgl.ShopRoom;
-            PlayerStats = _rgl.PlayerStats;
+            Player = _rgl.Player;
             Result = _rgl.Sell(item);
         }
     }

@@ -32,7 +32,7 @@ namespace Rpg.Pages
         public void OnPost()
         {
             PlayerStats.Name = Name;
-            PlayerStats.Inventory.Add("ressurection", new Item() { Name = "Mysterious potion", Count = 1, Description = "Nemáš ani tušení co tento lektvar dělá", Sellable = false });
+            PlayerStats.Inventory.Add(new Item() { Name = "Mysterious Scroll", Count = 1, Description = "Nemáš ani tušení co tento svitek dělá", Sellable = false, Type = ItemType.Consumable });
             _ss.SavePlayerStats(PlayerStats);
         }
     }

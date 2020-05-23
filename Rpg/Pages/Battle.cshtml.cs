@@ -19,51 +19,43 @@ namespace Rpg.Pages
         }
 
         public Battle BattleRoom { get; set; }
-        public Player PlayerStats { get; set; }
-        public Npc NpcStats { get; set; }
+        public Player Player { get; set; }
+        public Npc Npc { get; set; }
         public string Result { get; set; }
-        private int Dmg { get; set; }
 
         public void OnGet(int to)
         {
-            _rgl.Battle(to);
-            BattleRoom = _rgl.BattleRoom;
-            NpcStats = _rgl.NpcStats;
-            PlayerStats = _rgl.PlayerStats;
+            BattleRoom = _rgl.Battle(to);
+            Npc = _rgl.Npc;
+            Player = _rgl.Player;
         }
-        public void OnGetAttack()
+        public void OnGetFight(BattleChoice choice)
         {
             BattleRoom = _rgl.BattleRoom;
-            Dmg = _rgl.Battle(BattleChoice.Attack);
-            NpcStats = _rgl.NpcStats;
-            PlayerStats = _rgl.PlayerStats;
-            if (_rgl.IsCritical)
-            {
-                if (Dmg < 1) { Result = $"Dal jsi do toho útoku všechno ... ale bohužel si {NpcStats.Name} minul"; }
-                else { Result = $"Dal jsi do toho útoku všechno ... daří se ti zasadit {NpcStats.Name}ovi kritický zásah za {Dmg} bodů poškození"; }
-            }
-            else
-            {
-                if (Dmg < 1) { Result = $"Útočíš na {NpcStats.Name}a ... {NpcStats.Name} vykryl tvůj útok"; }
-                else { Result = $"Útočíš na {NpcStats.Name}a ... Působíš {NpcStats.Name}ovi {Dmg} bodů poškození"; }
-            }
+            Npc = _rgl.Npc;
+            Player = _rgl.Player;
+            Result = _rgl.Battle(choice);
         }
         public void OnGetDefense()
         {
             BattleRoom = _rgl.BattleRoom;
-            Dmg = _rgl.Battle(BattleChoice.Defend);
-            NpcStats = _rgl.NpcStats;
-            PlayerStats = _rgl.PlayerStats;
-            if (_rgl.IsCritical)
-            {
-                if (Dmg < 1) { Result = $"{NpcStats.Name} se ti pokusil zasadit kritický zásah ... Tobě se ho však podařilo plně vykrít"; }
-                else { Result = $"{NpcStats.Name}ovi se podařilo zasadit ti kritický zásah ... způsobuje {Dmg} bodů poškození"; }
-            }
-            else
-            {
-                if (Dmg < 1) { Result = $"Snažíš se ubránit {NpcStats.Name}ovi ... {NpcStats.Name} neprorazil tvou obranu"; }
-                else { Result = $"Snažíš se ubránit {NpcStats.Name}ovi ... {NpcStats.Name} způsobuje {Dmg} bodů poškození"; }
-            }
+            Npc = _rgl.Npc;
+            Player = _rgl.Player;
+            Result = _rgl.Battle(BattleChoice.Defend);
+        }
+        public void OnGetEquip(string item)
+        {
+            Player = _rgl.Player;
+            Npc = _rgl.Npc;
+            _rgl.Equip(item);
+            BattleRoom = _rgl.BattleRoom;
+        }
+        public void OnGetUse(string item)
+        {
+            Player = _rgl.Player;
+            Npc = _rgl.Npc;
+            _rgl.Use(item);
+            BattleRoom = _rgl.BattleRoom;
         }
     }
 }

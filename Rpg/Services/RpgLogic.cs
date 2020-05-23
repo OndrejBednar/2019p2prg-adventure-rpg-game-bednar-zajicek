@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Rpg.Model;
 using System;
 using System.Collections.Generic;
@@ -17,10 +18,12 @@ namespace Rpg.Services
         public Room Rooms { get; set; }
         public Battle BattleRoom { get; set; }
         public Shop ShopRoom { get; set; }
-        public Npc NpcStats { get; set; }
-        public Player PlayerStats { get; set; }
-        public int Dmg { get; set; }
-        public bool IsCritical { get; set; }
+        public Npc Npc { get; set; }
+        public Player Player { get; set; }
+        public int PlayerDmg { get; set; }
+        public int NpcDmg { get; set; }
+        public bool PlayerIsCritical { get; set; }
+        public bool NpcIsCritical { get; set; }
 
         public RpgLogic(SessionStorage ss, GameStory gs, Random rand)
         {
@@ -29,30 +32,56 @@ namespace Rpg.Services
             _gs = gs;
             BattleRoom = _session.BattleRoom;
             ShopRoom = _session.ShopRoom;
-            PlayerStats = new Player() { Attack = _session.PlayerStats.Attack, CritChance = _session.PlayerStats.CritChance, Defense = _session.PlayerStats.Defense, HealthPoints = _session.PlayerStats.HealthPoints, ManaPoints = _session.PlayerStats.ManaPoints, Name = _session.PlayerStats.Name, Knowledge = _session.PlayerStats.Knowledge, Inventory = _session.PlayerStats.Inventory, Gold = _session.PlayerStats.Gold };
-            NpcStats = _session.NpcStats;
+            Player = new Player()
+            {
+                PlayerStats = new Stats()
+                {
+                    Attack = _session.Player.Power + _session.Player.Weapon.BonusStats.Attack + _session.Player.Amulet.BonusStats.Attack,
+                    CritChance = 5 + _session.Player.Weapon.BonusStats.CritChance + _session.Player.Amulet.BonusStats.CritChance,
+                    Defense = 2 + _session.Player.Armor.BonusStats.Defense,
+                    MaxHealthPoints = 100 + _session.Player.Armor.BonusStats.MaxHealthPoints + _session.Player.Amulet.BonusStats.MaxHealthPoints,
+                    HealthPoints = _session.Player.PlayerStats.HealthPoints,
+                    MaxManaPoints = 50 + _session.Player.Armor.BonusStats.MaxManaPoints + _session.Player.Amulet.BonusStats.MaxManaPoints,
+                    ManaPoints = _session.Player.PlayerStats.ManaPoints,
+                    Spellpower = _session.Player.Knowledge + _session.Player.Amulet.BonusStats.Spellpower + _session.Player.Armor.BonusStats.Spellpower
+                },
+                Inventory = _session.Player.Inventory,
+                Gold = _session.Player.Gold,
+                Name = _session.Player.Name,
+                Weapon = _session.Player.Weapon,
+                Armor = _session.Player.Armor,
+                Amulet = _session.Player.Amulet,
+                Power = _session.Player.Power,
+                Knowledge = _session.Player.Knowledge
+            };
+            Npc = _session.Npc;
         }
 
         public Room Play(int id)
         {
-            _session.SetRoomId(id);
             Rooms = _gs.Rooms[id];
-            if (Rooms.Reward.GoldReward != 0) { PlayerStats.Gold += Rooms.Reward.GoldReward; Rooms.Reward.GoldReward = 0; }
-            if (Rooms.Reward != null) { PlayerStats.Inventory.TryAdd(Rooms.Reward.ItemReward.Name, Rooms.Reward.ItemReward); Rooms.Reward.ItemReward = null; }
-            _session.SavePlayerStats(PlayerStats);
+            _session.SetRoomId(id);
+            if (Rooms.Reward != null)
+            {
+                if (Rooms.Reward.GoldReward != 0) { Player.Gold += Rooms.Reward.GoldReward; Rooms.Reward.GoldReward = 0; }
+                if (Rooms.Reward.ItemReward != null) { Player.Inventory.Add(Rooms.Reward.ItemReward); Rooms.Reward.ItemReward = null; }
+            }
+            _session.SavePlayerStats(Player);
             return Rooms;
         }
-        public void Battle(int to)
+        public Battle Battle(int id)
         {
-            BattleRoom = _gs.Battles[to];
-            NpcStats = BattleRoom.BossStats;
-            _session.SavePlayerStats(PlayerStats);
-            _session.SaveNpcStats(NpcStats);
-            _session.SetRoomId(to);
+            BattleRoom = _gs.Battles[id];
+            Npc = BattleRoom.Boss;
+            _session.SavePlayerStats(Player);
+            _session.SaveNpcStats(Npc);
+            _session.SetRoomId(id);
             _session.SaveBattle(BattleRoom);
+            return BattleRoom;
         }
-        public int Battle(BattleChoice choice)
+        public string Battle(BattleChoice choice)
         {
+            string result = "";
             int rand;
             switch (choice)
             {
@@ -60,78 +89,161 @@ namespace Rpg.Services
                     break;
                 case BattleChoice.Attack:
                     rand = _rand.Next(100);
-                    IsCritical = PlayerStats.CritChance >= rand ? true : false;
-                    Dmg = PlayerStats.CritChance >= rand ? (PlayerStats.Attack * 2) - NpcStats.Defense: PlayerStats.Attack - NpcStats.Defense;
-                    if (Dmg < 1)
+                    PlayerIsCritical = Player.PlayerStats.CritChance >= rand ? true : false;
+                    PlayerDmg = Player.PlayerStats.CritChance >= rand ? (Player.PlayerStats.Attack * 2) - Npc.NpcStats.Defense : Player.PlayerStats.Attack - Npc.NpcStats.Defense;
+                    if (PlayerDmg > 1) { Npc.NpcStats.HealthPoints = Npc.NpcStats.HealthPoints - PlayerDmg; }
+
+                    if (Npc.NpcStats.HealthPoints > 0)
                     {
-                        _session.SavePlayerStats(PlayerStats);
-                        _session.SaveNpcStats(NpcStats);
+                        rand = _rand.Next(100);
+                        NpcIsCritical = Npc.NpcStats.CritChance >= rand ? true : false;
+                        NpcDmg = Npc.NpcStats.CritChance >= rand ? (Npc.NpcStats.Attack * 2) - Player.PlayerStats.Defense : Npc.NpcStats.Attack - Player.PlayerStats.Defense;
+                        if (NpcDmg > 1) { Player.PlayerStats.HealthPoints = Player.PlayerStats.HealthPoints - NpcDmg; }
+                    }
+
+
+                    if (PlayerIsCritical)
+                    {
+                        if (PlayerDmg < 1) { result = $"Dal jsi do toho útoku všechno ... ale bohužel si {Npc.Name}a minul X"; }
+                        else { result = $"Dal jsi do toho útoku všechno ... daří se ti zasadit {Npc.Name}ovi kritický zásah za {PlayerDmg} bodů poškození X"; }
                     }
                     else
                     {
-                        NpcStats.HealthPoints = NpcStats.HealthPoints - Dmg;
-                        _session.SavePlayerStats(PlayerStats);
-                        _session.SaveNpcStats(NpcStats);
+                        if (PlayerDmg < 1) { result = $"Útočíš na {Npc.Name}a ... ale bohužel si {Npc.Name}a minul X"; }
+                        else { result = $"Útočíš na {Npc.Name}a ... Působíš {Npc.Name}ovi {PlayerDmg} bodů poškození X"; }
                     }
+                    if (NpcIsCritical)
+                    {
+                        if (NpcDmg < 1) { result += $" {Npc.Name} se ti pokusil zasadit kritický zásah ... ale neprošel přes tvou obranu"; }
+                        else { result += $" {Npc.Name}ovi se podarilo ti zasadit kritický zásah za {NpcDmg} bodů poškození "; }
+                    }
+                    else
+                    {
+                        if (NpcDmg < 1) { result += $" {Npc.Name} na tebe útočí ... ale neprošel přes tvou obranu"; }
+                        else { result += $" {Npc.Name} na tebe útočí ... a způsobuje {NpcDmg} bodů poškození"; }
+                    }
+                    _session.SavePlayerStats(Player);
+                    _session.SaveNpcStats(Npc);
                     break;
                 case BattleChoice.Defend:
                     rand = _rand.Next(100);
-                    IsCritical = NpcStats.CritChance >= rand ? true : false;
-                    Dmg = NpcStats.CritChance >= rand ? (NpcStats.Attack * 2) - PlayerStats.Defense: NpcStats.Attack - PlayerStats.Defense;
-                    if (Dmg < 1)
+                    Player.PlayerStats.Defense += (Player.PlayerStats.Defense / 2);
+                    NpcIsCritical = Npc.NpcStats.CritChance >= rand ? true : false;
+                    NpcDmg = Npc.NpcStats.CritChance >= rand ? (Npc.NpcStats.Attack * 2) - Player.PlayerStats.Defense : Npc.NpcStats.Attack - Player.PlayerStats.Defense;
+                    if (NpcDmg > 1) { Player.PlayerStats.HealthPoints = Player.PlayerStats.HealthPoints - NpcDmg; }
+
+                    if (NpcIsCritical)
                     {
-                        _session.SavePlayerStats(PlayerStats);
-                        _session.SaveNpcStats(NpcStats);
+                        if (NpcDmg < 1) { result = $"{Npc.Name} se ti pokusil zasadit kritický zásah ... Tobě se ho však podařilo plně vykrít"; }
+                        else { result = $"{Npc.Name}ovi se podařilo zasadit ti kritický zásah který způsobuje {NpcDmg} bodů poškození"; }
                     }
                     else
                     {
-                        PlayerStats.HealthPoints = PlayerStats.HealthPoints - Dmg;
-                        _session.SavePlayerStats(PlayerStats);
-                        _session.SaveNpcStats(NpcStats);
+                        if (NpcDmg < 1) { result = $"Úspěšně jsi vykril {Npc.Name}ův útok "; }
+                        else { result = $"Snažíš se ubránit {Npc.Name}ovi ale {Npc.Name} způsobuje {NpcDmg} bodů poškození"; }
                     }
+                    _session.SavePlayerStats(Player);
+                    _session.SaveNpcStats(Npc);
                     break;
                 default:
                     break;
             }
-            return Dmg;
+            return result;
         }
         public Shop EnterShop(int id)
         {
             ShopRoom = _gs.Shops[id];
             _session.SetRoomId(id);
-            if (ShopRoom.Reward.GoldReward != 0) { PlayerStats.Gold += ShopRoom.Reward.GoldReward; ShopRoom.Reward.GoldReward = 0; }
-            if (ShopRoom.Reward.ItemReward != null) { PlayerStats.Inventory.TryAdd(ShopRoom.Reward.ItemReward.Name, ShopRoom.Reward.ItemReward); ShopRoom.Reward.ItemReward = null; }
-            _session.SavePlayerStats(PlayerStats);
+            if (ShopRoom.Reward != null)
+            {
+                if (ShopRoom.Reward.GoldReward != 0) { Player.Gold += ShopRoom.Reward.GoldReward; ShopRoom.Reward.GoldReward = 0; }
+                if (ShopRoom.Reward.ItemReward != null) { Player.Inventory.Add(ShopRoom.Reward.ItemReward); ShopRoom.Reward.ItemReward = null; }
+
+            }
+            _session.SavePlayerStats(Player);
             _session.SaveShop(ShopRoom);
             return ShopRoom;
         }
         public string Buy(string item)
         {
             Item value = ShopRoom.Inventory.GetValueOrDefault(item);
-            if (PlayerStats.Gold >= value.Cost)
+            if (Player.Gold >= value.Cost)
             {
-                PlayerStats.Gold -= value.Cost;
-                PlayerStats.Inventory.TryAdd(value.Name, value);
+                if (Player.Inventory.Find(x => x.Name == value.Name) == null)
+                {
+                    Player.Inventory.Add(value);
+                }
+                else
+                {
+                    if (value.Name == Player.Inventory.Find(x => x.Name == value.Name).Name)
+                    {
+                        if (value.Type == ItemType.Weapon || value.Type == ItemType.Armor || value.Type == ItemType.Amulet) { return $"Nemůžeš vlastnit 2 zbraně/brnění/amulety stejného typu zárověň"; }
+                        Player.Inventory.Find(x => x.Name == value.Name).Count++;
+                    }
+                    else { Player.Inventory.Add(value); }
+                }
+                Player.Gold -= value.Cost;
                 ShopRoom.Inventory.Remove(item);
-                _session.SavePlayerStats(PlayerStats);
+                _session.SavePlayerStats(Player);
                 _session.SaveShop(ShopRoom);
                 return $"Úspešně sis zakoupil {value.Name} za {value.Cost} zlaťáků";
             }
             else
             {
-                _session.SavePlayerStats(PlayerStats);
+                _session.SavePlayerStats(Player);
                 return "Nemůžeš si koupit něco na co nemáš zlaťáky ...";
             }
         }
-        public string Sell(string item)
+        public string Sell(string ItemName)
         {
-            Item value = PlayerStats.Inventory.GetValueOrDefault(item);
-            PlayerStats.Gold += value.Cost;
-            value.Count--;
-            if (value.Count < 1) { PlayerStats.Inventory.Remove(value.Name); }
-            _session.SavePlayerStats(PlayerStats);
+            Item EquipItem = Player.Inventory.Find(x => x.Name == ItemName);
+            Player.Gold += EquipItem.Cost;
+            EquipItem.Count--;
+            if (EquipItem.Count < 1) { Player.Inventory.Remove(EquipItem); }
+            _session.SavePlayerStats(Player);
             _session.SaveShop(ShopRoom);
-            return $"Uspěšně si prodal {value.Name} za {value.Cost} zlaťáků";
+            return $"Uspěšně si prodal {EquipItem.Name} za {EquipItem.Cost} zlaťáků";
+        }
+        public void Equip(string name)
+        {
+            Item item = Player.Inventory.Find(x => x.Name == name);
+            switch (item.Type)
+            {
+                case ItemType.Weapon:
+                    if (Player.Weapon.Name != "pěsti") { Player.Inventory.Find(x => x.Name == Player.Weapon.Name).IsEquipped = false; }
+                    Player.Weapon = item;
+                    Player.PlayerStats.Attack = Player.Power + Player.Weapon.BonusStats.Attack + Player.Amulet.BonusStats.Attack;
+                    break;
+                case ItemType.Armor:
+                    if (Player.Armor.Name != "košile") { Player.Inventory.Find(x => x.Name == Player.Armor.Name).IsEquipped = false; }
+                    Player.Armor = item;
+                    Player.PlayerStats.Defense = 2 + Player.Armor.BonusStats.Defense;
+                    Player.PlayerStats.MaxHealthPoints = 100 + Player.Armor.BonusStats.MaxHealthPoints + Player.Amulet.BonusStats.MaxHealthPoints;
+                    Player.PlayerStats.MaxManaPoints = 50 + Player.Armor.BonusStats.MaxManaPoints + Player.Amulet.BonusStats.MaxManaPoints;
+                    break;
+                case ItemType.Amulet:
+                    if (Player.Amulet.Name != "") { Player.Inventory.Find(x => x.Name == Player.Amulet.Name).IsEquipped = false; }
+                    Player.Amulet = item;
+                    Player.PlayerStats.Attack = Player.Power + Player.Weapon.BonusStats.Attack + Player.Amulet.BonusStats.Attack;
+                    Player.PlayerStats.MaxHealthPoints = 100 + Player.Armor.BonusStats.MaxHealthPoints + Player.Amulet.BonusStats.MaxHealthPoints;
+                    Player.PlayerStats.MaxManaPoints = 50 + Player.Armor.BonusStats.MaxManaPoints + Player.Amulet.BonusStats.MaxManaPoints;
+                    break;
+                default:
+                    break;
+            }
+            item.IsEquipped = true;
+            _session.SavePlayerStats(Player);
+            Rooms = _gs.Rooms[_session.GetRoomId().Value];
+        }
+        public void Use(string name)
+        {
+            Item item = Player.Inventory.Find(x => x.Name == name);
+            Player.PlayerStats.HealthPoints += item.BonusStats.HealthPoints;
+            Player.PlayerStats.ManaPoints += item.BonusStats.ManaPoints;
+            item.Count--;
+            if (item.Count < 1) { Player.Inventory.Remove(item); }
+            _session.SavePlayerStats(Player);
+            Rooms = _gs.Rooms[_session.GetRoomId().Value];
         }
     }
 }
