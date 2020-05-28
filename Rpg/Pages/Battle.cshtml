@@ -11,8 +11,8 @@
             <div class="player">
                 <h4>@Model.Player.Name</h4>
                 <ul class="stats">
-                    <li class="stat">Vitalita: @Model.Player.PlayerStats.HealthPoints <span class="stat-desc">Tvé životy</span></li>
-                    <li class="stat">MP: @Model.Player.PlayerStats.ManaPoints <span class="stat-desc">Tvá mana</span></li>
+                    <li class="stat">Vitalita: @Model.Player.PlayerStats.HealthPoints <span class="stat-desc">Tvé životy</span>/ @Model.Player.PlayerStats.MaxHealthPoints</li>
+                    <li class="stat">MP: @Model.Player.PlayerStats.ManaPoints <span class="stat-desc">Tvá mana</span>/ @Model.Player.PlayerStats.MaxManaPoints</li>
                     <li class="stat">Poškození: @Model.Player.PlayerStats.Attack <span class="stat-desc">Tvůj útok</span></li>
                     <li class="stat">Brnění: @Model.Player.PlayerStats.Defense <span class="stat-desc">Tvoje obrana proti poškození</span></li>
                 </ul>
@@ -67,16 +67,17 @@
             <div class="inventory-content">
                 @foreach (var item in Model.Player.Inventory)
                 {
-                    <div class="item">
-                        <img src="./resources/@($"{item.Name}.png")" />
-                        <span class="stat-desc">@item.Name</span>
-                        @if (item.Type == Rpg.Model.ItemType.Weapon || item.Type == Rpg.Model.ItemType.Amulet || item.Type == Rpg.Model.ItemType.Armor)
-                        {
-                            <a asp-page-handler="Equip" asp-route-item="@item.Name" class="btn btn-primary">Nasadit</a>
-                        }
-                        else
-                        { <a asp-page="/Room" asp-route-item="@item.Name" asp-page-handler="Use" class="btn btn-primary">Použít</a>}
-                    </div>
+                <div class="item">
+                    <img src="./resources/@($"{item.Name}.png")" />
+                    <span class="stat-desc">@item.Name</span>
+                    <span class="hidden">@item.Description</span>
+                    @if (item.Type == Rpg.Model.ItemType.Weapon || item.Type == Rpg.Model.ItemType.Amulet || item.Type == Rpg.Model.ItemType.Armor)
+                    {
+                        <a asp-page-handler="Equip" asp-route-item="@item.Name" class="btn btn-primary hidden">Nasadit</a>
+                    }
+                    else
+                    { <a asp-page="/Room" asp-route-item="@item.Name" asp-page-handler="Use" class="btn btn-primary hidden">Použít</a>}
+                </div>
                 }
             </div>
             <div class="inventory-use">

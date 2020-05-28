@@ -213,6 +213,10 @@ body {
     max-width: 300px;
 }
 
+.inventory-use img {
+
+}
+
 .item {
     max-width: 68px;
     max-height: 68px;

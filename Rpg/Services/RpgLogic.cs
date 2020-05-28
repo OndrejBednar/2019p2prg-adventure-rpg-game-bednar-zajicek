@@ -38,12 +38,12 @@ namespace Rpg.Services
                 {
                     Attack = _session.Player.Power + _session.Player.Weapon.BonusStats.Attack + _session.Player.Amulet.BonusStats.Attack,
                     CritChance = 5 + _session.Player.Weapon.BonusStats.CritChance + _session.Player.Amulet.BonusStats.CritChance,
-                    Defense = 2 + _session.Player.Armor.BonusStats.Defense,
+                    Defense = 2 + _session.Player.Armor.BonusStats.Defense + _session.Player.Weapon.BonusStats.Defense,
                     MaxHealthPoints = 100 + _session.Player.Armor.BonusStats.MaxHealthPoints + _session.Player.Amulet.BonusStats.MaxHealthPoints,
                     HealthPoints = _session.Player.PlayerStats.HealthPoints,
                     MaxManaPoints = 50 + _session.Player.Armor.BonusStats.MaxManaPoints + _session.Player.Amulet.BonusStats.MaxManaPoints,
                     ManaPoints = _session.Player.PlayerStats.ManaPoints,
-                    Spellpower = _session.Player.Knowledge + _session.Player.Amulet.BonusStats.Spellpower + _session.Player.Armor.BonusStats.Spellpower
+                    Spellpower = _session.Player.Knowledge + _session.Player.Amulet.BonusStats.Spellpower + _session.Player.Armor.BonusStats.Spellpower + _session.Player.Weapon.BonusStats.Spellpower
                 },
                 Inventory = _session.Player.Inventory,
                 Gold = _session.Player.Gold,
@@ -147,6 +147,11 @@ namespace Rpg.Services
                     break;
                 default:
                     break;
+            }
+            if (Npc.NpcStats.HealthPoints < 1 && BattleRoom.Reward != null)
+            {
+                Player.Gold += BattleRoom.Reward.GoldReward;
+                Player.Inventory.Add(BattleRoom.Reward.ItemReward);
             }
             return result;
         }

@@ -10,8 +10,8 @@
             <div class="player">
                 <h4>@Model.Player.Name</h4>
                 <ul class="stats">
-                    <li class="stat">Vitalita: @Model.Player.PlayerStats.HealthPoints <span class="stat-desc">Tvé životy</span></li>
-                    <li class="stat">MP: @Model.Player.PlayerStats.ManaPoints <span class="stat-desc">Tvá mana</span></li>
+                    <li class="stat">Vitalita: @Model.Player.PlayerStats.HealthPoints <span class="stat-desc">Tvé životy</span>/ @Model.Player.PlayerStats.MaxHealthPoints</li>
+                    <li class="stat">MP: @Model.Player.PlayerStats.ManaPoints <span class="stat-desc">Tvá mana</span>/ @Model.Player.PlayerStats.MaxManaPoints</li>
                     <li class="stat">Poškození: @Model.Player.PlayerStats.Attack <span class="stat-desc">Tvůj útok</span></li>
                     <li class="stat">Brnění: @Model.Player.PlayerStats.Defense <span class="stat-desc">Tvoje obrana proti poškození</span></li>
                 </ul>
