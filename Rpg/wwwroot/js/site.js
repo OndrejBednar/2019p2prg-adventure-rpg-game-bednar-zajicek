@@ -22,7 +22,6 @@ function itemClick() {
     invUseButton.classList.add("btn", "btn-primary");
     invUseButton.href = button.href;
     invUseButton.innerHTML = button.innerHTML;
-    invUseButton.style.display = "none";
 
     invUseImg.src = this.src;
     invUseP.style.color = "whitesmoke";
