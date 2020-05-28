@@ -346,7 +346,7 @@ namespace Rpg.Model
                 RoomID = 30,
                 Description = "Šel jsi v pravo ... došel jsi na mýtinu, kde sis všimnul chtátrající chalupy",
                 Crossroads = new List<Crossroad>() {
-                    new Crossroad() { CrossroadID = 300, Description = "Prozkoumat chátrající chalupu (neni)", NextRoomID = 30 },
+                    new Crossroad() { CrossroadID = 300, Description = "Prozkoumat chátrající chalupu (neni)", NextRoomID = 301 },
                     new Crossroad() { CrossroadID = 301, Description = "Vrátit se na rozcestí", NextRoomID = 3 },
                 }
             });
@@ -355,18 +355,21 @@ namespace Rpg.Model
                 RoomID = 31,
                 Description = "Šel jsi v levo ... došel jsi na slepý konec, celý zarostlý",
                 Crossroads = new List<Crossroad>() {
-                    new Crossroad() { CrossroadID = 311, Description = "Vrátit se na rozcestí", NextRoomID = 3 },
+                    new Crossroad() { CrossroadID = 310, Description = "Vrátit se na rozcestí", NextRoomID = 3 },
                 }
             });
-            Rooms.Add(7, new Room()
+            Rooms.Add(301, new Room()
             {
-                RoomID = 7,
-                Description = "Prošel jsi houštím až na mýtinu za lesem. Poohlédneš se po okolí a všimneš si chátrající chaloupky",
+                RoomID = 301,
+                Description = "Vešel jsi dovnitř zkrze polorozpadlé dveře a okamžitě sis všiml staříka sedícího poblíž krbu na dřevěné židli ... něco se ti zde nezdá",
                 Crossroads = new List<Crossroad>() {
-                    new Crossroad() { CrossroadID = 71, Description = "Prozkoumat chátrající chaloupku (neni ve hre)", NextRoomID = 8 },
-                    new Crossroad() { CrossroadID = 70, Description = "Vrátím se do města", NextRoomID = 2 },
+                    new Crossroad() { CrossroadID = 3010, Description = "Oslovit staříka", NextRoomID = 302 },
+                    new Crossroad() { CrossroadID = 3010, Description = "Raději odejít", NextRoomID = 3010 },
                 }
             });
+
+
+
             //--------Jeskyně--------//
             Rooms.Add(4, new Room()
             {
