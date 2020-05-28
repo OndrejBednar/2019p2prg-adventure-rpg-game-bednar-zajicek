@@ -12,10 +12,13 @@ function closeInventory() {
     document.getElementsByClassName("inventory")[0].style.display = "none";
 }
 function itemClick() {
-    let statDesc = this.nextElementSibling;
-    let button = statDesc.nextElementSibling;
+    let statDesc = this.children[1];
+    let Desc = statDesc.nextElementSibling;
+    let button = Desc.nextElementSibling;
     
+    let invUseDiv = document.querySelector(".inventory-use");
     let invUseImg = document.querySelector(".inventory-use img");
+    let invUseH4 = document.querySelector(".inventory-use h4");
     let invUseP = document.querySelector(".inventory-use p");
     let invUseButton = document.querySelector(".inventory-use a");
 
@@ -23,16 +26,22 @@ function itemClick() {
     invUseButton.href = button.href;
     invUseButton.innerHTML = button.innerHTML;
 
-    invUseImg.src = this.src;
+    invUseDiv.style.display = "block";
+
+    invUseImg.src = this.children[0].src;
+
     invUseP.style.color = "whitesmoke";
-    invUseP.innerHTML = statDesc.innerHTML;
+    invUseP.innerHTML = Desc.innerHTML;
+
+    invUseH4.style.color = "whitesmoke";
+    invUseH4.innerHTML = statDesc.innerHTML;
 }
 
 window.addEventListener("DOMContentLoaded", () => {
     document.getElementById("Inventory").addEventListener("click", openInventory)
     document.getElementsByClassName("close")[0].addEventListener("click", closeInventory);  
 
-    items = document.querySelectorAll(".item img");
+    items = document.querySelectorAll(".item");
     for (const i of items) {
         i.addEventListener("click", itemClick)
     }

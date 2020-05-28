@@ -10,10 +10,10 @@
             <div class="player">
                 <h4>@Model.Player.Name</h4>
                 <ul class="stats">
-                    <li class="stat">Vitalita: @Model.Player.PlayerStats.HealthPoints <span class="stat-desc">Tvé životy</span>/ @Model.Player.PlayerStats.MaxHealthPoints</li>
-                    <li class="stat">MP: @Model.Player.PlayerStats.ManaPoints <span class="stat-desc">Tvá mana</span>/ @Model.Player.PlayerStats.MaxManaPoints</li>
-                    <li class="stat">Poškození: @Model.Player.PlayerStats.Attack <span class="stat-desc">Tvůj útok</span></li>
-                    <li class="stat">Brnění: @Model.Player.PlayerStats.Defense <span class="stat-desc">Tvoje obrana proti poškození</span></li>
+                    <li class="stat">Vitalita: @Model.Player.PlayerStats.HealthPoints <span class="stat-desc">Tvé životy / Max životy</span>/ @Model.Player.PlayerStats.MaxHealthPoints</li>
+                    <li class="stat">MP: @Model.Player.PlayerStats.ManaPoints <span class="stat-desc">Tvá mana / Max mana</span>/ @Model.Player.PlayerStats.MaxManaPoints</li>
+                    <li class="stat">Poškození: @Model.Player.PlayerStats.Attack <span class="stat-desc">Tvůj útok (1 bod = 1 dmg)</span></li>
+                    <li class="stat">Brnění: @Model.Player.PlayerStats.Defense <span class="stat-desc">Tvoje obrana proti poškození (1 bod = -1 dmg)</span></li>
                 </ul>
             </div>
             <!--Zde jsou všechny možné volby v rozcestníku-->
@@ -43,7 +43,7 @@
                         }
                         if (Model.Room.Inventory)
                         {
-                            <li><button class="btn btn-primary" id="Inventory">Inventář (not implemented)</button></li>
+                            <li><button class="btn btn-primary" id="Inventory">Inventář</button></li>
                         }
                         else { }
                     }
@@ -58,16 +58,19 @@
                 <div class="item">
                     <img src="./resources/@($"{item.Name}.png")" />
                     <span class="stat-desc">@item.Name</span>
+                    <span class="hidden">@item.Description | <strong>Vlastníš: @(item.Count)x</strong></span>
                     @if (item.Type == Rpg.Model.ItemType.Weapon || item.Type == Rpg.Model.ItemType.Amulet || item.Type == Rpg.Model.ItemType.Armor)
                     {
-                        <a asp-page-handler="Equip" asp-route-item="@item.Name" class="btn btn-primary">Nasadit</a>
+                        <a asp-page-handler="Equip" asp-route-item="@item.Name" class="btn btn-primary hidden">Nasadit</a>
                     }
-                    else { <a asp-page="/Room" asp-route-item="@item.Name" asp-page-handler="Use" class="btn btn-primary">Použít</a> }
+                    else
+                    { <a asp-page="/Room" asp-route-item="@item.Name" asp-page-handler="Use" class="btn btn-primary hidden">Použít</a>}
                 </div>
                 }
             </div>
             <div class="inventory-use">
                 <img src="" />
+                <h4></h4>
                 <p></p>
                 <a href=""></a>
             </div>

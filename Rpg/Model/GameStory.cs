@@ -198,9 +198,9 @@ namespace Rpg.Model
                 Description = "Vlevo máš své itemy, které můžeš prodat kliknutím na ně. Na pravé straně si mužeš koupit předměty od obchodníka. Ctibor ti dal 50 zlaťáků, aby sis koupil svou zbraň.",
                 Reward = new Rewards() { GoldReward = 50},
                 Inventory = new Dictionary<string, Item>() {
-                    { "Basic Sword", new Item() { BonusStats = new Stats() { Attack = 5, Defense = 2}, Name = "Basic Sword", Cost = 25, Type = ItemType.Weapon } },
-                    { "Wood Staff", new Item() { BonusStats = new Stats() { Attack = 5, Spellpower = 2}, Name = "Wood Staff", Cost = 25, Type = ItemType.Weapon } },
-                    { "Wooden Bow", new Item() { BonusStats = new Stats() { Attack = 7}, Name = "Wooden Bow", Cost = 25, Type = ItemType.Weapon } }
+                    { "Basic Sword", new Item() { BonusStats = new Stats() { Attack = 5, Defense = 2}, Name = "Basic Sword", Description = "Základní meč z kamene pro bojovníky", Cost = 25, Type = ItemType.Weapon } },
+                    { "Wood Staff", new Item() { BonusStats = new Stats() { Attack = 5, Spellpower = 2}, Name = "Wood Staff", Description = "Základní luk pro lukostřelce", Cost = 25, Type = ItemType.Weapon } },
+                    { "Wooden Bow", new Item() { BonusStats = new Stats() { Attack = 7}, Name = "Wooden Bow", Description = "Základní hůl pro kouzelníky", Cost = 25, Type = ItemType.Weapon } }
                 }
             });
             Rooms.Add(232, new Room()
@@ -208,8 +208,8 @@ namespace Rpg.Model
                 RoomID = 232,
                 Description = "Nyní pokud máš vše co potřebuješ, můžeme vyrazit ?  Odemknul se ti inventář, nasaď si svou novou zbraň",
                 Crossroads = new List<Crossroad>() {
-                    new Crossroad() { CrossroadID = 2320, Description = "Ano, pojďme na cestu (neni)", NextRoomID = 233 },
-                    new Crossroad() { CrossroadID = 2321, Description = "Ještě nemám vše (z5 k obchodníkovi)", NextRoomID = 1, Type = RoomType.Shop },
+                    new Crossroad() { CrossroadID = 2320, Description = "Ano, pojďme na cestu", NextRoomID = 233 },
+                    new Crossroad() { CrossroadID = 2321, Description = "Ještě nemám vše (zpět k obchodníkovi)", NextRoomID = 1, Type = RoomType.Shop },
                 }
             });
             Rooms.Add(233, new Room()
@@ -250,10 +250,11 @@ namespace Rpg.Model
             Rooms.Add(235, new Room()
             {
                 RoomID = 235,
-                Description = "Vlezli jste do jeskyně a měli jste pravdu, je to vlčí doupě, vlci si vás všimli a zaútočili",
+                Description = "Ctibor ti předtím než jste vlezli do jeskyně dal 5 lečících lektvarů ... Po vstupu do jeskyně jste si potvrdili, že je to vlčí doupě. Vlci si vás všimli a zaútočili",
                 Crossroads = new List<Crossroad>() {
                     new Crossroad() { CrossroadID = 2350, Description = "Připravit se k boji", NextRoomID = 1, Type = RoomType.Battle},
-                }
+                },
+                Reward = new Rewards() { ItemReward = new Item() { Name = "HealthPotion", Cost = 10, Count = 5, Description = "Tento lektvar ti doplní 25 životů",BonusStats = new Stats() { HealthPoints = 25}, Type = ItemType.Consumable } }
             }); //vlčí doupě
             Battles.Add(1, new Battle()
             {
@@ -261,7 +262,7 @@ namespace Rpg.Model
                 NextRoomID = 236,
                 Boss = new Npc() { Name = "Vlk", NpcStats = new Stats() { HealthPoints = 40, Attack = 4, Defense = 2 } },
                 Description = "Připravuješ se k boji proti Vlkovi",
-                Reward = new Rewards() { ItemReward = new Item() { Name = "Maso z vlka", Cost = 10, Count = 2, Description = "Toto maso můžeš sníst pro doplnění 20 životů, nebo prodat u obchodníka", BonusStats = new Stats() { HealthPoints = 20 }, Type = ItemType.Consumable } }
+                Reward = new Rewards() { ItemReward = new Item() { Name = "Meat", Cost = 10, Count = 2, Description = "Toto maso můžeš sníst pro doplnění 20 životů, nebo prodat u obchodníka", BonusStats = new Stats() { HealthPoints = 20 }, Type = ItemType.Consumable } }
             });
             Rooms.Add(236, new Room()
             {
@@ -269,7 +270,7 @@ namespace Rpg.Model
                 Description = "Zabili jste všechny vlky. Ctibor říká: \"měli bychom se podívat hlouběji\"",
                 Crossroads = new List<Crossroad>() {
                     new Crossroad() { CrossroadID = 2360, Description = "Vydat se hlouběji do jeskyně", NextRoomID = 23600},
-                    new Crossroad() { CrossroadID = 2361, Description = "Já tady na vás radši počkám", NextRoomID = 2360},
+                    new Crossroad() { CrossroadID = 2361, Description = "Vyčkat na zbytek skupiny u vchodu", NextRoomID = 2360},
                 }
             });
             Rooms.Add(23600, new Room()
@@ -299,21 +300,62 @@ namespace Rpg.Model
             Rooms.Add(237, new Room()
             {
                 RoomID = 237,
-                Description = "Zabili jste všechny vlky. Ctibor říká: \"měli bychom se podívat hlouběji\"",
+                Description = "Po návratu do vesnice ti Ctibor řekl: \"Ještě dojdeme prodat ty vlky řezníkovi, tak si běž odpočinout, pak ti dám podíl\"",
                 Crossroads = new List<Crossroad>() {
-                    new Crossroad() { CrossroadID = 2360, Description = "Vydat se hlouběji do jeskyně", NextRoomID = 23600},
-                    new Crossroad() { CrossroadID = 2361, Description = "Já tady na vás radši počkám", NextRoomID = 2360},
+                    new Crossroad() { CrossroadID = 2370, Description = "Jít si odpočinout", NextRoomID = 2370},
+                }
+            });
+            Rooms.Add(2370, new Room()
+            {
+                RoomID = 2370,
+                Description = "Když se ráno probudíš tak vedle sebe najdeš 50 zlaťáků",
+                Crossroads = new List<Crossroad>() {
+                    new Crossroad() { CrossroadID = 23700, Description = "Jít se podívat po ostatních", NextRoomID = 2371},
+                    new Crossroad() { CrossroadID = 23701, Description = "Jít na průzkum kolem vesnice", NextRoomID = 2372},
+                },
+                Reward = new Rewards() { GoldReward = 50 }
+            });
+            Rooms.Add(2371, new Room()
+            {
+                RoomID = 2371,
+                Description = "Nenašel jsi nikoho, ale hostinský ti řekl, že je viděl odcházet brzy ráno na lov",
+                Crossroads = new List<Crossroad>() {
+                    new Crossroad() { CrossroadID = 23710, Description = "Jít na průzkum kolem vesnice", NextRoomID = 2372},
+                }
+            });
+            Rooms.Add(2372, new Room()
+            {
+                RoomID = 2372,
+                Description = "Zjistil si, že kousek za vesnicí je les. Odemčena nová lokace: Les",
+                Crossroads = new List<Crossroad>() {
+                    new Crossroad() { CrossroadID = 23720, Description = "Vydat se do lesa", NextRoomID = 3},
                 }
             });
             //--------Les--------//
-            //Reward = new Rewards() { ItemReward = new Item() { Name = "HealthPotion", Cost = 10, Count = 5, Description = "tento lektvar ti doplní životy", Type = ItemType.Consumable} }
             Rooms.Add(3, new Room()
             {
                 RoomID = 3,
-                Description = "Právě se nacházíš v lese",
+                Description = "Šel jsi podél cesty, až si došel na k rozcestníku",
                 Crossroads = new List<Crossroad>() {
-                    new Crossroad() { CrossroadID = 31, Description = "Půjdu dál houštím", NextRoomID = 7 },
-                    new Crossroad() { CrossroadID = 30, Description = "Vrátím se do města", NextRoomID = 2 },
+                    new Crossroad() { CrossroadID = 30, Description = "Vydat se v pravo", NextRoomID = 30 },
+                    new Crossroad() { CrossroadID = 31, Description = "Vydat se v levo", NextRoomID = 31 },
+                }
+            });
+            Rooms.Add(30, new Room()
+            {
+                RoomID = 30,
+                Description = "Šel jsi v pravo ... došel jsi na mýtinu, kde sis všimnul chtátrající chalupy",
+                Crossroads = new List<Crossroad>() {
+                    new Crossroad() { CrossroadID = 300, Description = "Prozkoumat chátrající chalupu (neni)", NextRoomID = 30 },
+                    new Crossroad() { CrossroadID = 301, Description = "Vrátit se na rozcestí", NextRoomID = 3 },
+                }
+            });
+            Rooms.Add(31, new Room()
+            {
+                RoomID = 31,
+                Description = "Šel jsi v levo ... došel jsi na slepý konec, celý zarostlý",
+                Crossroads = new List<Crossroad>() {
+                    new Crossroad() { CrossroadID = 311, Description = "Vrátit se na rozcestí", NextRoomID = 3 },
                 }
             });
             Rooms.Add(7, new Room()
@@ -368,7 +410,7 @@ namespace Rpg.Model
                 Description = "Testovací obchod",
                 Inventory = new Dictionary<string, Item>() {
                     { "Divine Bow", new Item() { BonusStats = new Stats() { Attack = 13}, Name = "Divine Bow", Description = "!!! Cheated item !!!", Cost = 0, Type = ItemType.Weapon } },
-                    { "Divine Sword", new Item() {  BonusStats = new Stats() { Attack = 10}, Name = "Divine Sword", Description = "!!! Cheated item !!!", Cost = 0, Type = ItemType.Weapon } }
+                    { "Divine Sword", new Item() {  BonusStats = new Stats() { Attack = 10, Defense = 5}, Name = "Divine Sword", Description = "!!! Cheated item !!!", Cost = 0, Type = ItemType.Weapon } }
                 }
             });
             //---------SMRT--------//

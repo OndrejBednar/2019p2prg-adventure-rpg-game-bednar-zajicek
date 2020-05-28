@@ -27,8 +27,9 @@
             {
                 <div><a asp-page="/Room" asp-route-to="@item.NextRoomID" class="btn btn-primary">@item.Description</a></div>
             }
-            <p>V inventáří budeš mít použitelné předměty, které najdeš na cestě nebo si je koupíš u obchodníka</p>
-            <button class="btn btn-primary" id="Inventory">Inventář (not implemented)</button>
+            <p>V inventáří budeš mít použitelné předměty, které najdeš na cestě nebo si je koupíš u obchodníka. Také si přes inventář budeš nasazovat nové itemy.</p>
+            <button class="btn btn-primary" id="Inventory">Inventář</button>
+            <p><strong>Toto je jen ukázka, věci zde nelze použít</strong></p>
         </div>
         <!--Zde jsou statistiky počítače-->
         <div class="npc">
@@ -45,7 +46,36 @@
     </div>
     <div class="inventory lightbox">
         <div class="inventory-content">
-
+            <div class="item">
+                <img src="./resources/Wood Staff.png">
+                <span class="stat-desc">Wood Staff</span>
+                <span class="hidden">Základní luk pro lukostřelce | <strong>Vlastníš: 1x</strong></span>
+                <a class="btn btn-primary hidden" href="/Room?item=Wood%20Staff&amp;handler=Equip">Nasadit</a>
+            </div>
+            <div class="item">
+                <img src="./resources/Wooden Bow.png">
+                <span class="stat-desc">Wooden Bow</span>
+                <span class="hidden">Základní hůl pro kouzelníky | <strong>Vlastníš: 1x</strong></span>
+                <a class="btn btn-primary hidden" href="/Room?item=Wooden%20Bow&amp;handler=Equip">Nasadit</a>
+            </div>
+            <div class="item">
+                <img src="./resources/HealthPotion.png">
+                <span class="stat-desc">HealthPotion</span>
+                <span class="hidden">Tento lektvar ti doplní 25 životů | <strong>Vlastníš: 5x</strong></span>
+                <a class="btn btn-primary hidden" href="/Room?item=HealthPotion&amp;handler=Use">Použít</a>
+            </div>
+            <div class="item">
+                <img src="./resources/Meat.png">
+                <span class="stat-desc">Meat</span>
+                <span class="hidden">Toto maso můžeš sníst pro doplnění 20 životů, nebo prodat u obchodníka | <strong>Vlastníš: 2x</strong></span>
+                <a class="btn btn-primary hidden" href="/Room?item=Meat&amp;handler=Use">Použít</a>
+            </div>
+        </div>
+        <div class="inventory-use">
+            <img src="" />
+            <h4></h4>
+            <p></p>
+            <a href="" class="disabled"></a>
         </div>
         <span class="close">&times;</span>
     </div>

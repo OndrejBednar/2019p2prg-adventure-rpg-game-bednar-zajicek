@@ -122,8 +122,6 @@ namespace Rpg.Services
                         if (NpcDmg < 1) { result += $" {Npc.Name} na tebe útočí ... ale neprošel přes tvou obranu"; }
                         else { result += $" {Npc.Name} na tebe útočí ... a způsobuje {NpcDmg} bodů poškození"; }
                     }
-                    _session.SavePlayerStats(Player);
-                    _session.SaveNpcStats(Npc);
                     break;
                 case BattleChoice.Defend:
                     rand = _rand.Next(100);
@@ -142,8 +140,7 @@ namespace Rpg.Services
                         if (NpcDmg < 1) { result = $"Úspěšně jsi vykril {Npc.Name}ův útok "; }
                         else { result = $"Snažíš se ubránit {Npc.Name}ovi ale {Npc.Name} způsobuje {NpcDmg} bodů poškození"; }
                     }
-                    _session.SavePlayerStats(Player);
-                    _session.SaveNpcStats(Npc);
+
                     break;
                 default:
                     break;
@@ -153,6 +150,8 @@ namespace Rpg.Services
                 Player.Gold += BattleRoom.Reward.GoldReward;
                 Player.Inventory.Add(BattleRoom.Reward.ItemReward);
             }
+            _session.SavePlayerStats(Player);
+            _session.SaveNpcStats(Npc);
             return result;
         }
         public Shop EnterShop(int id)
@@ -244,7 +243,9 @@ namespace Rpg.Services
         {
             Item item = Player.Inventory.Find(x => x.Name == name);
             Player.PlayerStats.HealthPoints += item.BonusStats.HealthPoints;
+            if (Player.PlayerStats.HealthPoints > Player.PlayerStats.MaxHealthPoints) { Player.PlayerStats.HealthPoints = Player.PlayerStats.MaxHealthPoints; }
             Player.PlayerStats.ManaPoints += item.BonusStats.ManaPoints;
+            if (Player.PlayerStats.ManaPoints > Player.PlayerStats.MaxManaPoints) { Player.PlayerStats.ManaPoints = Player.PlayerStats.MaxManaPoints; }
             item.Count--;
             if (item.Count < 1) { Player.Inventory.Remove(item); }
             _session.SavePlayerStats(Player);
