@@ -22,7 +22,7 @@ namespace Rpg.Model
             Spellpower = 0
         };
         public int Gold { get; set; } = 0;
-        public Item Weapon { get; set; } = new Item() { Name = "pěsti", BonusStats = new Stats() { Attack = 5 }, Sellable = false, IsEquipped = true, Type = ItemType.Weapon};
+        public Item Weapon { get; set; } = new Item() { Name = "pěsti", BonusStats = new Stats() { Attack = 3 }, Sellable = false, IsEquipped = true, Type = ItemType.Weapon};
         public Item Amulet { get; set; } = new Item() { Name = "", BonusStats = new Stats(), Sellable = false, IsEquipped = true, Type = ItemType.Amulet};
         public Item Armor { get; set; } = new Item() { Name = "košile", BonusStats = new Stats(), Sellable = false, IsEquipped = true, Type = ItemType.Armor };
         public List<Item> Inventory { get; set; } = new List<Item>();
