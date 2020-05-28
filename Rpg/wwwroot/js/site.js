@@ -4,7 +4,7 @@
 // Write your Javascript code.
 function openInventory()
 {
-    document.getElementsByClassName("inventory")[0].style.display = "block";
+    document.getElementsByClassName("inventory")[0].style.display = "flex";
     console.log("ss");
 }
 

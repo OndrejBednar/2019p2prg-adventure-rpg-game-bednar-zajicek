@@ -106,7 +106,7 @@ namespace Rpg.Model
                 Description = "Sedl sis ke stolu, objednal sis jedno a po chvilce si tě všimla skupinka bojovníků a jejich velitel na tebe promluví \"Hej ty, vypadáš zmateně ... Odkud jsi ?\"",
                 Inventory = false,
                 Crossroads = new List<Crossroad>() {
-                    new Crossroad() { CrossroadID = 21221, Description = "Já nevím ...", NextRoomID = 21221},
+                    new Crossroad() { CrossroadID = 21201, Description = "Já nevím ...", NextRoomID = 21201},
                 }
             });
             Rooms.Add(21201, new Room()
@@ -196,9 +196,11 @@ namespace Rpg.Model
                 ShopID = 1,
                 NextRoomID = 232,
                 Description = "Vlevo máš své itemy, které můžeš prodat kliknutím na ně. Na pravé straně si mužeš koupit předměty od obchodníka. Ctibor ti dal 50 zlaťáků, aby sis koupil svou zbraň.",
-                Reward = new Rewards() { GoldReward = 50, ItemReward = new Item() { Name = "test", Cost = 25, Count = 1, Sellable = true, Description = "test item"} },
+                Reward = new Rewards() { GoldReward = 50},
                 Inventory = new Dictionary<string, Item>() {
-                    { "meč", new Item() { Name = "meč", Cost = 2 } }
+                    { "Basic Sword", new Item() { Name = "Basic Sword", Cost = 25 } },
+                    { "Wood Staff", new Item() { Name = "Wood Staff", Cost = 25 } },
+                    { "Wooden Bow", new Item() { Name = "Wooden Bow", Cost = 25 } }
                 }
             });
             Rooms.Add(232, new Room()
@@ -266,7 +268,7 @@ namespace Rpg.Model
                 RoomID = 236,
                 Description = "Zabili jste všechny vlky. Ctibor říká: \"měli bychom se podívat hlouběji\"",
                 Crossroads = new List<Crossroad>() {
-                    new Crossroad() { CrossroadID = 2360, Description = "Vydat se hlouběji do jeskyně", NextRoomID = 237},
+                    new Crossroad() { CrossroadID = 2360, Description = "Vydat se hlouběji do jeskyně", NextRoomID = 23600},
                     new Crossroad() { CrossroadID = 2361, Description = "Já tady na vás radši počkám", NextRoomID = 2360},
                 }
             });

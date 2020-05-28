@@ -91,14 +91,14 @@ namespace Rpg.Services
                     rand = _rand.Next(100);
                     PlayerIsCritical = Player.PlayerStats.CritChance >= rand ? true : false;
                     PlayerDmg = Player.PlayerStats.CritChance >= rand ? (Player.PlayerStats.Attack * 2) - Npc.NpcStats.Defense : Player.PlayerStats.Attack - Npc.NpcStats.Defense;
-                    if (PlayerDmg > 1) { Npc.NpcStats.HealthPoints = Npc.NpcStats.HealthPoints - PlayerDmg; }
+                    if (PlayerDmg > 0) { Npc.NpcStats.HealthPoints = Npc.NpcStats.HealthPoints - PlayerDmg; }
 
                     if (Npc.NpcStats.HealthPoints > 0)
                     {
                         rand = _rand.Next(100);
                         NpcIsCritical = Npc.NpcStats.CritChance >= rand ? true : false;
                         NpcDmg = Npc.NpcStats.CritChance >= rand ? (Npc.NpcStats.Attack * 2) - Player.PlayerStats.Defense : Npc.NpcStats.Attack - Player.PlayerStats.Defense;
-                        if (NpcDmg > 1) { Player.PlayerStats.HealthPoints = Player.PlayerStats.HealthPoints - NpcDmg; }
+                        if (NpcDmg > 0) { Player.PlayerStats.HealthPoints = Player.PlayerStats.HealthPoints - NpcDmg; }
                     }
 
 
@@ -130,7 +130,7 @@ namespace Rpg.Services
                     Player.PlayerStats.Defense += (Player.PlayerStats.Defense / 2);
                     NpcIsCritical = Npc.NpcStats.CritChance >= rand ? true : false;
                     NpcDmg = Npc.NpcStats.CritChance >= rand ? (Npc.NpcStats.Attack * 2) - Player.PlayerStats.Defense : Npc.NpcStats.Attack - Player.PlayerStats.Defense;
-                    if (NpcDmg > 1) { Player.PlayerStats.HealthPoints = Player.PlayerStats.HealthPoints - NpcDmg; }
+                    if (NpcDmg > 0) { Player.PlayerStats.HealthPoints = Player.PlayerStats.HealthPoints - NpcDmg; }
 
                     if (NpcIsCritical)
                     {

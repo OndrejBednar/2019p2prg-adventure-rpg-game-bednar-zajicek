@@ -5,75 +5,85 @@
 }
 
 
-<div class="container">
-    <div class="PlayingArea">
-        <!--Zde jsou statistiky hráče-->
-        <div class="player">
-            <h4>@Model.Player.Name</h4>
-            <ul class="stats">
-                <li class="stat">Vitalita: @Model.Player.PlayerStats.HealthPoints <span class="stat-desc">Tvé životy</span></li>
-                <li class="stat">MP: @Model.Player.PlayerStats.ManaPoints <span class="stat-desc">Tvá mana</span></li>
-                <li class="stat">Poškození: @Model.Player.PlayerStats.Attack <span class="stat-desc">Tvůj útok</span></li>
-                <li class="stat">Brnění: @Model.Player.PlayerStats.Defense <span class="stat-desc">Tvoje obrana proti poškození</span></li>
-            </ul>
+    <div class="container">
+        <div class="PlayingArea">
+            <!--Zde jsou statistiky hráče-->
+            <div class="player">
+                <h4>@Model.Player.Name</h4>
+                <ul class="stats">
+                    <li class="stat">Vitalita: @Model.Player.PlayerStats.HealthPoints <span class="stat-desc">Tvé životy</span></li>
+                    <li class="stat">MP: @Model.Player.PlayerStats.ManaPoints <span class="stat-desc">Tvá mana</span></li>
+                    <li class="stat">Poškození: @Model.Player.PlayerStats.Attack <span class="stat-desc">Tvůj útok</span></li>
+                    <li class="stat">Brnění: @Model.Player.PlayerStats.Defense <span class="stat-desc">Tvoje obrana proti poškození</span></li>
+                </ul>
+            </div>
+            <!--Zde jsou všechny možné volby boje-->
+            <div class="text-center choices">
+                @if (Model.Result == null)
+                {
+                    <h2>@Model.BattleRoom.Description</h2>
+                }
+                else
+                {
+                    <h2>@Model.Result</h2>
+                }
+                <div><a asp-page-handler="Fight" asp-route-choice="@Rpg.Model.BattleChoice.Attack" class="btn btn-primary">Zaútočit</a></div>
+                <div><a asp-page-handler="Fight" asp-route-choice="@Rpg.Model.BattleChoice.Defend" class="btn btn-primary">Bránit se</a></div>
+                <button class="btn btn-primary" id="Inventory">Inventář (not implemented)</button>
+            </div>
+            <!--Zde jsou statistiky počítače-->
+            <div class="npc">
+                <h4>@Model.Npc.Name</h4>
+                <ul class="stats">
+                    <li class="stat">Vitalita: @Model.Npc.NpcStats.HealthPoints <span class="stat-desc">Životy nepřítele</span></li>
+                    <li class="stat">MP:  @Model.Npc.NpcStats.ManaPoints <span class="stat-desc">Mana nepřítele</span></li>
+                    <li class="stat">Poškození:  @Model.Npc.NpcStats.Attack <span class="stat-desc">Útok nepřítele</span></li>
+                    <li class="stat">Brnění:  @Model.Npc.NpcStats.Defense <span class="stat-desc">Obrana nepřítele proti tvému poškození</span></li>
+                </ul>
+            </div>
         </div>
-        <!--Zde jsou všechny možné volby boje-->
-        <div class="text-center choices">
-            @if (Model.Result == null)
-            {
-                <h2>@Model.BattleRoom.Description</h2>
-            }
-            else
-            {
-                <h2>@Model.Result</h2>
-            }
-            <div><a asp-page-handler="Fight" asp-route-choice="@Rpg.Model.BattleChoice.Attack" class="btn btn-primary">Zaútočit</a></div>
-            <div><a asp-page-handler="Fight" asp-route-choice="@Rpg.Model.BattleChoice.Defend" class="btn btn-primary">Bránit se</a></div>
-            <button class="btn btn-primary" id="Inventory">Inventář (not implemented)</button>
-        </div>
-        <!--Zde jsou statistiky počítače-->
-        <div class="npc">
-            <h4>@Model.Npc.Name</h4>
-            <ul class="stats">
-                <li class="stat">Vitalita: @Model.Npc.NpcStats.HealthPoints <span class="stat-desc">Životy nepřítele</span></li>
-                <li class="stat">MP:  @Model.Npc.NpcStats.ManaPoints <span class="stat-desc">Mana nepřítele</span></li>
-                <li class="stat">Poškození:  @Model.Npc.NpcStats.Attack <span class="stat-desc">Útok nepřítele</span></li>
-                <li class="stat">Brnění:  @Model.Npc.NpcStats.Defense <span class="stat-desc">Obrana nepřítele proti tvému poškození</span></li>
-            </ul>
+        <!--Zde resime vitezstvi-->
+        @if (Model.Npc.NpcStats.HealthPoints < 1)
+        {
+            <div class="lightbox">
+                <div class="text-center win">
+                    <h2>Dobrá práce, porazil jsi <strong>@($"{Model.Npc.Name}a")</strong>, nyní můžeš pokračovat dál</h2>
+                    <a asp-page="/Room" asp-route-to="@Model.BattleRoom.NextRoomID" class="btn btn-primary">Pokračovat</a>
+                </div>
+            </div>
+        }
+        <!--Zde resime smrt-->
+        @if (Model.Player.PlayerStats.HealthPoints < 1)
+        {
+            <div class="lightbox">
+                <div class="text-center lose">
+                    <h2>Právě jsi byl zdecimován <strong>@($"{Model.Npc.Name}em")</strong></h2>
+                    <a asp-page="/Room" asp-route-to="666" class="btn btn-primary">Pokračovat</a>
+                </div>
+            </div>
+        }
+        <!--inventar (WORK IN PROGRESS)-->
+        <div class="inventory lightbox">
+            <div class="inventory-content">
+                @foreach (var item in Model.Player.Inventory)
+                {
+                    <div class="item">
+                        <img src="./resources/@($"{item.Name}.png")" />
+                        <span class="stat-desc">@item.Name</span>
+                        @if (item.Type == Rpg.Model.ItemType.Weapon || item.Type == Rpg.Model.ItemType.Amulet || item.Type == Rpg.Model.ItemType.Armor)
+                        {
+                            <a asp-page-handler="Equip" asp-route-item="@item.Name" class="btn btn-primary">Nasadit</a>
+                        }
+                        else
+                        { <a asp-page="/Room" asp-route-item="@item.Name" asp-page-handler="Use" class="btn btn-primary">Použít</a>}
+                    </div>
+                }
+            </div>
+            <div class="inventory-use">
+                <img src="" />
+                <p></p>
+            </div>
+            <span class="close">&times;</span>
         </div>
     </div>
-    <!--Zde resime vitezstvi-->
-    @if (Model.Npc.NpcStats.HealthPoints < 1)
-    {
-        <div class="lightbox">
-            <div class="text-center win">
-                <h2>Dobrá práce, porazil jsi <strong>@($"{Model.Npc.Name}a")</strong>, nyní můžeš pokračovat dál</h2>
-                <a asp-page="/Room" asp-route-to="@Model.BattleRoom.NextRoomID" class="btn btn-primary">Pokračovat</a>
-            </div>
-        </div>
-    }
-    <!--Zde resime smrt-->
-    @if (Model.Player.PlayerStats.HealthPoints < 1)
-    {
-        <div class="lightbox">
-            <div class="text-center lose">
-                <h2>Právě jsi byl zdecimován <strong>@($"{Model.Npc.Name}em")</strong></h2>
-                <a asp-page="/Room" asp-route-to="666" class="btn btn-primary">Pokračovat</a>
-            </div>
-        </div>
-    }
-    <!--inventar (WORK IN PROGRESS)-->
-    <div class="inventory lightbox">
-        <div class="inventory-content">
-            @foreach (var item in Model.Player.Inventory)
-            {
-            <div class="item">
-                <img src="./resources/@($"{item.Name}.png")"/>
-                <span class="stat-desc">@item.Description</span>
-            </div>
-            }
-        </div>
-        <span class="close">&times;</span>
-    </div>
-</div>
 

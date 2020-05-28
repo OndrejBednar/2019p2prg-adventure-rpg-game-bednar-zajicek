@@ -188,24 +188,37 @@ body {
 
 .inventory {
     display: none;
+    padding: 10% 0;
 }
 
 .inventory-content {
     display: flex;
     position: relative;
     margin: auto;
+    margin-right: 0px;
     padding: 3% 0;
     width: 90%;
-    max-width: 1200px;
-    background-color: dimgray;
+    height: 400px;
+    max-width: 800px;
+    background-color: black;
+}
+
+.inventory-use {
+    position: relative;
+    margin: auto;
+    padding: 3% 0;
+    width: 90%;
+    height: 500px;
+    background-color: black;
+    max-width: 300px;
 }
 
 .item {
-    max-width:68px;
-    max-height:68px;
-    background-color:black;
+    max-width: 68px;
+    max-height: 68px;
+    background-color: white;
     border: 2px solid yellow;
-    margin-left:32px;
+    margin-left: 32px;
 }
 
 .item .stat-desc {
