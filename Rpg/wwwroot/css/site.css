@@ -153,11 +153,11 @@ body {
 
 /* Stat tooltips
 ---------------------------------------*/
-.stat, .item {
+.stat, .item, .spell {
     position: relative;
 }
 
-.stat .stat-desc, .item .stat-desc {
+.stat .stat-desc, .item .stat-desc, .spell .stat-desc {
     visibility: hidden;
     width: 120px;
     background-color: dimgray;
@@ -172,11 +172,11 @@ body {
     margin-left: -60px;
 }
 
-.stat:hover .stat-desc, .item:hover .stat-desc {
+.stat:hover .stat-desc, .item:hover .stat-desc, .spell:hover .stat-desc {
     visibility: visible;
 }
 
-.stat .stat-desc::after, .item .stat-desc::after {
+.stat .stat-desc::after, .item .stat-desc::after, .spell .stat-desc::after {
     content: " ";
     position: absolute;
     top: 100%;
@@ -190,12 +190,12 @@ body {
 /* Inventory
 ----------------------------------------*/
 
-.inventory {
+.inventory, .spellbook {
     display: none;
     padding: 10% 0;
 }
 
-.inventory-content {
+.inventory-content, .spellbook-content{
     display: flex;
     position: relative;
     margin: auto;
@@ -226,7 +226,7 @@ body {
     background-color: whitesmoke;
 }
 
-.item {
+.item, .spell {
     max-width: 88px;
     max-height: 88px;
     background-color: whitesmoke;
@@ -235,7 +235,7 @@ body {
     padding: 10px;
 }
 
-.item .stat-desc {
+.item .stat-desc, .spell .stat-desc {
     background-color: black;
     margin-bottom: 7px;
 }

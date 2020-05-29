@@ -52,7 +52,8 @@ namespace Rpg.Services
                 Armor = _session.Player.Armor,
                 Amulet = _session.Player.Amulet,
                 Power = _session.Player.Power,
-                Knowledge = _session.Player.Knowledge
+                Knowledge = _session.Player.Knowledge,
+                Spellbook = _session.Player.Spellbook
             };
             Npc = _session.Npc;
         }
@@ -250,6 +251,47 @@ namespace Rpg.Services
             if (item.Count < 1) { Player.Inventory.Remove(item); }
             _session.SavePlayerStats(Player);
             Rooms = _gs.Rooms[_session.GetRoomId().Value];
+        }
+        public void Cast(string name)
+        {
+            Spells spell = Player.Spellbook.Find(x => x.Name == name);
+            PlayerDmg = (spell.SpellPower + Player.PlayerStats.Spellpower);
+            switch (spell.Type)
+            {
+                case SpellType.Damage:
+                    if(Player.PlayerStats.ManaPoints > spell.SpellCost)
+                    {
+                        if(Npc.NpcStats.HealthPoints > 0)
+                        {
+                            Npc.NpcStats.HealthPoints -= PlayerDmg;
+                            Player.PlayerStats.ManaPoints -= spell.SpellCost;
+                        }
+                    }
+                    break;
+                case SpellType.HealthGain:
+                    if (Player.PlayerStats.ManaPoints > spell.SpellCost)
+                    {
+                        if (Player.PlayerStats.HealthPoints > 0)
+                        {
+                            Player.PlayerStats.HealthPoints += PlayerDmg;
+                            if (Player.PlayerStats.HealthPoints > Player.PlayerStats.MaxHealthPoints) { Player.PlayerStats.HealthPoints = Player.PlayerStats.MaxHealthPoints; }
+                            Player.PlayerStats.ManaPoints -= spell.SpellCost;
+                        }
+                    }
+                    break;
+                case SpellType.ManaGain:
+                    if (Player.PlayerStats.ManaPoints > spell.SpellCost)
+                    {
+                        if (Player.PlayerStats.HealthPoints > 0)
+                        {
+                            Player.PlayerStats.ManaPoints += PlayerDmg;
+                            if (Player.PlayerStats.ManaPoints > Player.PlayerStats.MaxManaPoints) { Player.PlayerStats.ManaPoints = Player.PlayerStats.MaxManaPoints; }
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

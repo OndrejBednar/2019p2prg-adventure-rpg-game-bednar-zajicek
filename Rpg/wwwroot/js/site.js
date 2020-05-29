@@ -11,6 +11,14 @@ function openInventory()
 function closeInventory() {
     document.getElementsByClassName("inventory")[0].style.display = "none";
 }
+function openSpells() {
+    document.getElementsByClassName("spellbook")[0].style.display = "flex";
+
+}
+
+function closeSpells() {
+    document.getElementsByClassName("spellbook")[0].style.display = "none";
+}
 function itemClick() {
     let statDesc = this.children[1];
     let Desc = statDesc.nextElementSibling;
@@ -38,8 +46,10 @@ function itemClick() {
 }
 
 window.addEventListener("DOMContentLoaded", () => {
-    document.getElementById("Inventory").addEventListener("click", openInventory)
-    document.getElementsByClassName("close")[0].addEventListener("click", closeInventory);  
+    document.getElementById("Inventory").addEventListener("click", openInventory);
+    document.getElementsByClassName("close")[0].addEventListener("click", closeInventory);
+    document.getElementById("Spells").addEventListener("click", openSpells);
+    document.getElementsByClassName("close")[1].addEventListener("click", closeSpells);  
 
     items = document.querySelectorAll(".item");
     for (const i of items) {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Rpg.Model
@@ -17,7 +18,7 @@ namespace Rpg.Model
                 RoomID = 0,
                 Description = "Právě se nacházíš v tutoriálové místnosti",
                 Crossroads = new List<Crossroad>() {
-                    new Crossroad() { CrossroadID = 0, Description = "Pokračovat", NextRoomID = 1 },
+                    new Crossroad() { CrossroadID = 0, Description = "Pokračovat", NextRoomID = 1 }
                 }
             });
             Rooms.Add(1, new Room()

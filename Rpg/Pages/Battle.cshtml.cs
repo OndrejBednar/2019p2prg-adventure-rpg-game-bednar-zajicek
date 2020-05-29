@@ -57,5 +57,12 @@ namespace Rpg.Pages
             _rgl.Use(item);
             BattleRoom = _rgl.BattleRoom;
         }
+        public void OnGetCast(string spell)
+        {
+            Player = _rgl.Player;
+            Npc = _rgl.Npc;
+            _rgl.Cast(spell);
+            BattleRoom = _rgl.BattleRoom;
+        }
     }
 }

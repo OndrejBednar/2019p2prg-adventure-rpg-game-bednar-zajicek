@@ -30,6 +30,7 @@
                 <div><a asp-page-handler="Fight" asp-route-choice="@Rpg.Model.BattleChoice.Attack" class="btn btn-primary">Zaútočit</a></div>
                 <div><a asp-page-handler="Fight" asp-route-choice="@Rpg.Model.BattleChoice.Defend" class="btn btn-primary">Bránit se</a></div>
                 <button class="btn btn-primary" id="Inventory">Inventář</button>
+                <button class="btn btn-primary" id="Spells">Spells</button>
             </div>
             <!--Zde jsou statistiky počítače-->
             <div class="npc">
@@ -85,6 +86,20 @@
                 <h4></h4>
                 <p></p>
                 <a href=""></a>
+            </div>
+            <span class="close">&times;</span>         
+        </div>
+
+        <div class="spellbook lightbox">
+            <div class="spellbook-content">
+                @foreach (var spell in Model.Player.Spellbook)
+                {
+                    <div class="spell">
+                        <p>@spell.Name</p>
+                        <span class="hidden">@spell.Description</span>
+                        <a asp-page="/Battle" asp-route-spell="@spell.Name" asp-page-handler="Cast" class="btn btn-primary">Cast</a>
+                    </div>
+                }
             </div>
             <span class="close">&times;</span>
         </div>

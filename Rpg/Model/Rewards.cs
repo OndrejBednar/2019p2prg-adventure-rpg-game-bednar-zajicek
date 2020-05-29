@@ -9,5 +9,6 @@ namespace Rpg.Model
     {
         public int GoldReward { get; set; } = 0;
         public Item ItemReward { get; set; }
+        public Spells SpellReward { get; set; }
     }
 }

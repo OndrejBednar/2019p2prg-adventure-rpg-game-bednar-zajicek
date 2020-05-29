@@ -19,12 +19,13 @@ namespace Rpg.Model
             Attack = 2, 
             CritChance = 5, 
             Defense = 2, 
-            Spellpower = 0
+            Spellpower = 1
         };
         public int Gold { get; set; } = 0;
         public Item Weapon { get; set; } = new Item() { Name = "pěsti", BonusStats = new Stats() { Attack = 3 }, Sellable = false, IsEquipped = true, Type = ItemType.Weapon};
         public Item Amulet { get; set; } = new Item() { Name = "", BonusStats = new Stats(), Sellable = false, IsEquipped = true, Type = ItemType.Amulet};
         public Item Armor { get; set; } = new Item() { Name = "košile", BonusStats = new Stats(), Sellable = false, IsEquipped = true, Type = ItemType.Armor };
         public List<Item> Inventory { get; set; } = new List<Item>();
+        public List<Spells> Spellbook { get; set; } = new List<Spells>();
     }
 }
