@@ -19,18 +19,14 @@
             </div>
             <!--Zde jsou všechny možné volby boje-->
             <div class="text-center choices">
-                @if (Model.Result == null)
-                {
-                    <h2>@Model.BattleRoom.Description</h2>
-                }
-                else
-                {
-                    <h2>@Model.Result</h2>
-                }
-                <div><a asp-page-handler="Fight" asp-route-choice="@Rpg.Model.BattleChoice.Attack" class="btn btn-primary">Zaútočit</a></div>
-                <div><a asp-page-handler="Fight" asp-route-choice="@Rpg.Model.BattleChoice.Defend" class="btn btn-primary">Bránit se</a></div>
-                <button class="btn btn-primary" id="Inventory">Inventář</button>
-                <button class="btn btn-primary" id="Spells">Spells</button>
+                @if (Model.Result == null) {<h2>@Model.BattleRoom.Description</h2> }
+                else {<h2>@Model.Result</h2>}
+            <ul>
+                <li><a asp-page-handler="Fight" asp-route-choice="@Rpg.Model.BattleChoice.Attack" class="btn btn-primary">Zaútočit</a></li>
+                <li><a asp-page-handler="Fight" asp-route-choice="@Rpg.Model.BattleChoice.Defend" class="btn btn-primary">Bránit se</a></li>
+                <li><button class="btn btn-primary" id="Inventory">Inventář</button></li>
+                <li><button class="btn btn-primary" id="Spells">Spells</button></li>                                 
+            </ul>
             </div>
             <!--Zde jsou statistiky počítače-->
             <div class="npc">
@@ -40,7 +36,7 @@
                     <li class="stat">MP:  @Model.Npc.NpcStats.ManaPoints <span class="stat-desc">Mana nepřítele</span></li>
                     <li class="stat">Poškození:  @Model.Npc.NpcStats.Attack <span class="stat-desc">Útok nepřítele</span></li>
                     <li class="stat">Brnění:  @Model.Npc.NpcStats.Defense <span class="stat-desc">Obrana nepřítele proti tvému poškození</span></li>
-                </ul>
+                </ul>   
             </div>
         </div>
         <!--Zde resime vitezstvi-->
@@ -97,7 +93,7 @@
                     <div class="spell">
                         <p>@spell.Name</p>
                         <span class="hidden">@spell.Description</span>
-                        <a asp-page="/Battle" asp-route-spell="@spell.Name" asp-page-handler="Cast" class="btn btn-primary">Cast</a>
+                        <a asp-route-spell="@spell.Name" asp-page-handler="Cast" class="btn btn-primary">Cast</a>
                     </div>
                 }
             </div>

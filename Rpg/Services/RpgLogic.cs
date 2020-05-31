@@ -1,11 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Rpg.Model;
+﻿using Rpg.Model;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Rpg.Services
 {
@@ -32,29 +27,10 @@ namespace Rpg.Services
             _gs = gs;
             BattleRoom = _session.BattleRoom;
             ShopRoom = _session.ShopRoom;
-            Player = new Player()
-            {
-                PlayerStats = new Stats()
-                {
-                    Attack = _session.Player.Power + _session.Player.Weapon.BonusStats.Attack + _session.Player.Amulet.BonusStats.Attack,
-                    CritChance = 5 + _session.Player.Weapon.BonusStats.CritChance + _session.Player.Amulet.BonusStats.CritChance,
-                    Defense = 2 + _session.Player.Armor.BonusStats.Defense + _session.Player.Weapon.BonusStats.Defense,
-                    MaxHealthPoints = 100 + _session.Player.Armor.BonusStats.MaxHealthPoints + _session.Player.Amulet.BonusStats.MaxHealthPoints,
-                    HealthPoints = _session.Player.PlayerStats.HealthPoints,
-                    MaxManaPoints = 50 + _session.Player.Armor.BonusStats.MaxManaPoints + _session.Player.Amulet.BonusStats.MaxManaPoints,
-                    ManaPoints = _session.Player.PlayerStats.ManaPoints,
-                    Spellpower = _session.Player.Knowledge + _session.Player.Amulet.BonusStats.Spellpower + _session.Player.Armor.BonusStats.Spellpower + _session.Player.Weapon.BonusStats.Spellpower
-                },
-                Inventory = _session.Player.Inventory,
-                Gold = _session.Player.Gold,
-                Name = _session.Player.Name,
-                Weapon = _session.Player.Weapon,
-                Armor = _session.Player.Armor,
-                Amulet = _session.Player.Amulet,
-                Power = _session.Player.Power,
-                Knowledge = _session.Player.Knowledge,
-                Spellbook = _session.Player.Spellbook
-            };
+
+            Player = _session.Player;
+            if (Player == default) { Player = new Player(); }
+
             Npc = _session.Npc;
         }
 
@@ -255,42 +231,48 @@ namespace Rpg.Services
         public void Cast(string name)
         {
             Spells spell = Player.Spellbook.Find(x => x.Name == name);
-            PlayerDmg = (spell.SpellPower + Player.PlayerStats.Spellpower);
-            switch (spell.Type)
+            if (Player.PlayerStats.ManaPoints >= spell.SpellCost)
             {
-                case SpellType.Damage:
-                    if(Player.PlayerStats.ManaPoints > spell.SpellCost)
-                    {
-                        if(Npc.NpcStats.HealthPoints > 0)
+                PlayerDmg = (spell.SpellPower + Player.PlayerStats.Spellpower);
+                switch (spell.Type)
+                {
+                    case SpellType.Damage:
+                        if (Npc.NpcStats.HealthPoints > 0)
                         {
                             Npc.NpcStats.HealthPoints -= PlayerDmg;
                             Player.PlayerStats.ManaPoints -= spell.SpellCost;
                         }
-                    }
-                    break;
-                case SpellType.HealthGain:
-                    if (Player.PlayerStats.ManaPoints > spell.SpellCost)
-                    {
-                        if (Player.PlayerStats.HealthPoints > 0)
+                        _session.SavePlayerStats();
+                        _session.SaveNpcStats(Npc);
+                        break;
+                    case SpellType.HealthGain:
+                        if (Player.PlayerStats.ManaPoints >= spell.SpellCost)
                         {
-                            Player.PlayerStats.HealthPoints += PlayerDmg;
-                            if (Player.PlayerStats.HealthPoints > Player.PlayerStats.MaxHealthPoints) { Player.PlayerStats.HealthPoints = Player.PlayerStats.MaxHealthPoints; }
-                            Player.PlayerStats.ManaPoints -= spell.SpellCost;
+                            if (Player.PlayerStats.HealthPoints > 0)
+                            {
+                                Player.PlayerStats.HealthPoints += PlayerDmg;
+                                if (Player.PlayerStats.HealthPoints > Player.PlayerStats.MaxHealthPoints) { Player.PlayerStats.HealthPoints = Player.PlayerStats.MaxHealthPoints; }
+                                Player.PlayerStats.ManaPoints -= spell.SpellCost;
+                            }
                         }
-                    }
-                    break;
-                case SpellType.ManaGain:
-                    if (Player.PlayerStats.ManaPoints > spell.SpellCost)
-                    {
-                        if (Player.PlayerStats.HealthPoints > 0)
+                        _session.SavePlayerStats();
+                        _session.SaveNpcStats(Npc);
+                        break;
+                    case SpellType.ManaGain:
+                        if (Player.PlayerStats.ManaPoints >= spell.SpellCost)
                         {
-                            Player.PlayerStats.ManaPoints += PlayerDmg;
-                            if (Player.PlayerStats.ManaPoints > Player.PlayerStats.MaxManaPoints) { Player.PlayerStats.ManaPoints = Player.PlayerStats.MaxManaPoints; }
+                            if (Player.PlayerStats.HealthPoints > 0)
+                            {
+                                Player.PlayerStats.ManaPoints += PlayerDmg;
+                                if (Player.PlayerStats.ManaPoints > Player.PlayerStats.MaxManaPoints) { Player.PlayerStats.ManaPoints = Player.PlayerStats.MaxManaPoints; }
+                            }
                         }
-                    }
-                    break;
-                default:
-                    break;
+                        _session.SavePlayerStats();
+                        _session.SaveNpcStats(Npc);
+                        break;
+                    default:
+                        break;
+                }
             }
         }
     }
