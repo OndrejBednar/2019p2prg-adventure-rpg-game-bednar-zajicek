@@ -2,11 +2,13 @@
 
 ## Obsah
 Statistiky(hráče/nepřátel) - Životy | Mana | Poškození(zbraní, kouzel) | Kritické zásahy(% šance) | Obrana
-Hráč -  Inventář
-		Kouzla
-		Vybavení (zbraň, amulet, brnění)
+
+Hráč -  Inventář, Kouzla, Vybavení (zbraň, amulet, brnění)
+		
 Obchody
+
 Bitvy
+
 Odměny za vstup do místnosti/bitvy/obchodu
 
 ## Použití
