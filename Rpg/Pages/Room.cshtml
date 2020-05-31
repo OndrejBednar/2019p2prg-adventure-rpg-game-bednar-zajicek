@@ -44,6 +44,7 @@
                         if (Model.Room.Inventory)
                         {
                             <li><button class="btn btn-primary" id="Inventory">Inventář</button></li>
+                            <li><button class="btn btn-primary" id="Spells">Spells</button></li>
                         }
                         else { }
                     }
@@ -55,17 +56,17 @@
             <div class="inventory-content">
                 @foreach (var item in Model.Player.Inventory)
                 {
-                <div class="item">
-                    <img src="./resources/@($"{item.Name}.png")" />
-                    <span class="stat-desc">@item.Name</span>
-                    <span class="hidden">@item.Description | <strong>Vlastníš: @(item.Count)x</strong></span>
-                    @if (item.Type == Rpg.Model.ItemType.Weapon || item.Type == Rpg.Model.ItemType.Amulet || item.Type == Rpg.Model.ItemType.Armor)
-                    {
-                        <a asp-page-handler="Equip" asp-route-item="@item.Name" class="btn btn-primary hidden">Nasadit</a>
-                    }
-                    else
-                    { <a asp-page="/Room" asp-route-item="@item.Name" asp-page-handler="Use" class="btn btn-primary hidden">Použít</a>}
-                </div>
+                    <div class="item">
+                        <img src="./resources/@($"{item.Name}.png")" />
+                        <span class="stat-desc">@item.Name</span>
+                        <span class="hidden">@item.Description | <strong>Vlastníš: @(item.Count)x</strong></span>
+                        @if (item.Type == Rpg.Model.ItemType.Weapon || item.Type == Rpg.Model.ItemType.Amulet || item.Type == Rpg.Model.ItemType.Armor)
+                        {
+                            <a asp-page-handler="Equip" asp-route-item="@item.Name" class="btn btn-primary hidden">Nasadit</a>
+                        }
+                        else
+                        { <a asp-page="/Room" asp-route-item="@item.Name" asp-page-handler="Use" class="btn btn-primary hidden">Použít</a>}
+                    </div>
                 }
             </div>
             <div class="inventory-use">
@@ -73,6 +74,22 @@
                 <h4></h4>
                 <p></p>
                 <a href=""></a>
+            </div>
+            <span class="close">&times;</span>
+        </div>
+        <!---Spellbook-->
+        <div class="spellbook lightbox">
+            <div class="spellbook-content">
+                @foreach (var spell in Model.Player.Spellbook)
+                {
+                <div class="spell">
+                    <p>@spell.Name</p>
+                    <span class="hidden">@spell.Description</span>
+                    @if (spell.Type == Rpg.Model.SpellType.Damage) { }
+                    else
+                    {<a asp-route-spell="@spell.Name" asp-page-handler="Cast" class="btn btn-primary">Cast</a>}
+                </div>
+                }
             </div>
             <span class="close">&times;</span>
         </div>
