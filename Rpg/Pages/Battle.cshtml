@@ -93,6 +93,7 @@
                     <div class="spell">
                         <p>@spell.Name</p>
                         <span class="hidden">@spell.Description</span>
+                        <p class="cooldown">Cooldown @spell.CurrentCooldown</p>
                         <a asp-route-spell="@spell.Name" asp-page-handler="Cast" class="btn btn-primary">Cast</a>
                     </div>
                 }

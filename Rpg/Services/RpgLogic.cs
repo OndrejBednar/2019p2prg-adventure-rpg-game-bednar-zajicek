@@ -43,6 +43,7 @@ namespace Rpg.Services
                 if (Rooms.Reward.GoldReward != 0) { Player.Gold += Rooms.Reward.GoldReward; Rooms.Reward.GoldReward = 0; }
                 if (Rooms.Reward.ItemReward != null) { Player.Inventory.Add(Rooms.Reward.ItemReward); Rooms.Reward.ItemReward = null; }
             }
+            UpdateCooldowns();
             _session.SavePlayerStats(Player);
             return Rooms;
         }
@@ -127,6 +128,7 @@ namespace Rpg.Services
                 Player.Gold += BattleRoom.Reward.GoldReward;
                 Player.Inventory.Add(BattleRoom.Reward.ItemReward);
             }
+            UpdateCooldowns();
             _session.SavePlayerStats(Player);
             _session.SaveNpcStats(Npc);
             return result;
@@ -231,7 +233,7 @@ namespace Rpg.Services
         public void Cast(string name)
         {
             Spells spell = Player.Spellbook.Find(x => x.Name == name);
-            if (Player.PlayerStats.ManaPoints >= spell.SpellCost)
+            if (Player.PlayerStats.ManaPoints >= spell.SpellCost && spell.CurrentCooldown == 0)
             {
                 PlayerDmg = (spell.SpellPower + Player.PlayerStats.Spellpower);
                 switch (spell.Type)
@@ -242,37 +244,41 @@ namespace Rpg.Services
                             Npc.NpcStats.HealthPoints -= PlayerDmg;
                             Player.PlayerStats.ManaPoints -= spell.SpellCost;
                         }
-                    }
-                    _session.SavePlayerStats(Player);
-                    _session.SaveNpcStats(Npc);
-                    break;
-                case SpellType.HealthGain:
-                    if (Player.PlayerStats.ManaPoints > spell.SpellCost)
-                    {
+                        break;
+                    case SpellType.HealthGain:
                         if (Player.PlayerStats.HealthPoints > 0)
                         {
                             Player.PlayerStats.HealthPoints += PlayerDmg;
                             if (Player.PlayerStats.HealthPoints > Player.PlayerStats.MaxHealthPoints) { Player.PlayerStats.HealthPoints = Player.PlayerStats.MaxHealthPoints; }
                             Player.PlayerStats.ManaPoints -= spell.SpellCost;
                         }
-                    }
-                    _session.SavePlayerStats(Player);
-                    _session.SaveNpcStats(Npc);
-                    break;
-                case SpellType.ManaGain:
-                    if (Player.PlayerStats.ManaPoints > spell.SpellCost)
-                    {
+                        break;
+                    case SpellType.ManaGain:
                         if (Player.PlayerStats.HealthPoints > 0)
                         {
                             Player.PlayerStats.ManaPoints += PlayerDmg;
                             if (Player.PlayerStats.ManaPoints > Player.PlayerStats.MaxManaPoints) { Player.PlayerStats.ManaPoints = Player.PlayerStats.MaxManaPoints; }
                         }
-                    }
-                    _session.SavePlayerStats(Player);
-                    _session.SaveNpcStats(Npc);
-                    break;
-                default:
-                    break;
+                        break;
+                    default:
+                        break;
+
+                }
+                spell.CurrentCooldown = spell.SpellCooldown;
+                UpdateCooldowns(spell.Name);
+            }
+            _session.SavePlayerStats(Player);
+            _session.SaveNpcStats(Npc);
+        }
+        public void UpdateCooldowns(string name = "")
+        {
+            foreach (var spell in Player.Spellbook)
+            {
+                if (spell.Name != name)
+                {
+                    spell.CurrentCooldown -= 1;
+                    if (spell.CurrentCooldown < 0) { spell.CurrentCooldown = 0; }
+                }
             }
         }
     }
