@@ -267,6 +267,8 @@ namespace Rpg.Services
                             Player.PlayerStats.ManaPoints -= spell.SpellCost;
                         }
                     }
+                    _session.SavePlayerStats(Player);
+                    _session.SaveNpcStats(Npc);
                     break;
                 case SpellType.HealthGain:
                     if (Player.PlayerStats.ManaPoints > spell.SpellCost)
@@ -278,6 +280,8 @@ namespace Rpg.Services
                             Player.PlayerStats.ManaPoints -= spell.SpellCost;
                         }
                     }
+                    _session.SavePlayerStats(Player);
+                    _session.SaveNpcStats(Npc);
                     break;
                 case SpellType.ManaGain:
                     if (Player.PlayerStats.ManaPoints > spell.SpellCost)
@@ -288,6 +292,8 @@ namespace Rpg.Services
                             if (Player.PlayerStats.ManaPoints > Player.PlayerStats.MaxManaPoints) { Player.PlayerStats.ManaPoints = Player.PlayerStats.MaxManaPoints; }
                         }
                     }
+                    _session.SavePlayerStats(Player);
+                    _session.SaveNpcStats(Npc);
                     break;
                 default:
                     break;
