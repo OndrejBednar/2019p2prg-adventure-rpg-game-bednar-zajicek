@@ -12,7 +12,7 @@ Odměny za vstup do místnosti/bitvy/obchodu
 ## Použití
 Vytvoření místnosti/lokace
 ```csharp
-            Rooms.Add(1 //ID místnosti (1), new Room()
+            Rooms.Add(1 /*ID místnosti (1) */, new Room()
             {
                 RoomID = 1, //ID místnosti (1)
                 Description = "Popis místnosti",
@@ -29,7 +29,7 @@ Vytvoření místnosti/lokace
 ```
 Vytvoření bitvy
 ```csharp
-Battles.Add(1 //ID boje (1), new Battle()
+Battles.Add(1 /*ID boje (1) */, new Battle()
             {
                 BattleID = 1, //ID boje (1)
                 NextRoomID = 5, //ID místnosti kam se půjde po boji (5)
@@ -42,7 +42,7 @@ Battles.Add(1 //ID boje (1), new Battle()
 ```
 Vytvoření obchodu
 ```csharp
-Shops.Add(1 //ID obchodu (1), new Shop()
+Shops.Add(1 /*ID obchodu (1) */, new Shop()
             {
                 ShopID = 1, //ID obchodu (1)
                 NextRoomID = 5, //ID místnosti kam se půjde z obchodu (5)
