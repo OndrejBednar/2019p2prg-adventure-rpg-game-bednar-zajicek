@@ -39,5 +39,11 @@ namespace Rpg.Pages
             _rgl.Use(item);
             Room = _rgl.Rooms;
         }
+        public void OnGetCast(string spell)
+        {
+            Player = _rgl.Player;
+            _rgl.Cast(spell);
+            Room = _rgl.Rooms;
+        }
     }
 }

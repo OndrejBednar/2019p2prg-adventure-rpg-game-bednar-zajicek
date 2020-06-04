@@ -9,6 +9,12 @@
 
 .player-inventory ul, .npc-inventory ul {
     margin: 8px 0px;
+    position: relative;
+}
+
+.player-inventory ul li, .npc-inventory ul li{
+    position: relative;
+    width: auto;
 }
 
 .player-inventory {
@@ -27,3 +33,34 @@
     grid-template-areas: "PInventory NInventory";
     margin: 8px 0px;
 }
+
+.player-inventory ul li div, .npc-inventory ul li div {
+    visibility: hidden;
+    width: 120px;
+    background-color: dimgray;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -60px;
+}
+
+.player-inventory ul li:hover div, .npc-inventory ul li:hover div {
+    visibility: visible;
+}
+
+.player-inventory ul li div::after, .npc-inventory ul li:hover div::after {
+    content: " ";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: black transparent transparent transparent;
+}
+

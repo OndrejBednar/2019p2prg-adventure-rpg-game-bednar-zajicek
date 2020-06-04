@@ -35,7 +35,7 @@ namespace Rpg.Pages
             _ss.Story = new GameStory();
             PlayerStats.Spellbook.Add(new Spells() { Name = "Bolt", Description = "A lightning bolt", SpellPower = 10, SpellCost = 5, Type = SpellType.Damage });
             PlayerStats.Spellbook.Add(new Spells() { Name = "Heal", Description = "Heal", SpellPower = 10, SpellCost = 5, Type = SpellType.HealthGain });
-            PlayerStats.Spellbook.Add(new Spells() { Name = "Mana", Description = "Mana", SpellPower = 10, SpellCost = 5, Type = SpellType.ManaGain });
+            PlayerStats.Spellbook.Add(new Spells() { Name = "Mana", Description = "Mana", SpellPower = 10, SpellCost = 0, Type = SpellType.ManaGain });
             _ss.SavePlayerStats(PlayerStats);
         }
     }

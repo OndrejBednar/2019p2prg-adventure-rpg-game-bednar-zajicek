@@ -19,7 +19,37 @@
             {
                 if (item.Sellable)
                 {
-                    <li><a asp-page-handler="Sell" asp-route-item="@item.Name">@item.Name</a></li>
+                    <li>
+                        <a asp-page-handler="Sell" asp-route-item="@item.Name">@item.Name - @(item.Cost)G</a>
+                        @if (item.Type == Rpg.Model.ItemType.Weapon)
+                        {
+                            <div>
+                                Útok: @item.BonusStats.Attack <br />
+                                Obrana: @item.BonusStats.Defense <br />
+                                Crit Chance: @item.BonusStats.CritChance <br />
+                                Síla Kouzel: @item.BonusStats.Spellpower <br />
+                            </div>
+                        }
+                        @if (item.Type == Rpg.Model.ItemType.Armor)
+                        {
+                            <div>
+                                Obrana: @item.BonusStats.Defense <br />
+                                Bonus Vitalita: @item.BonusStats.MaxHealthPoints <br />
+                                Bonus Mana: @item.BonusStats.MaxManaPoints <br />
+                                Síla Kouzel: @item.BonusStats.Spellpower <br />
+                            </div>
+                        }
+                        @if (item.Type == Rpg.Model.ItemType.Amulet)
+                        {
+                            <div>
+                                Útok: @item.BonusStats.Attack <br />
+                                Bonus Vitalita: @item.BonusStats.MaxHealthPoints <br />
+                                Bonus Mana: @item.BonusStats.MaxManaPoints <br />
+                                Síla Kouzel: @item.BonusStats.Spellpower <br />
+                                Crit Chance: @item.BonusStats.CritChance <br />
+                            </div>
+                        }
+                    </li>
                 }
                 else
                 {
@@ -33,7 +63,37 @@
         <ul>
             @foreach (var item in Model.Room.Inventory)
             {
-                <li><a asp-page-handler="Buy" asp-route-item="@item.Value.Name">@item.Value.Name</a></li>
+                <li>
+                    <a asp-page-handler="Buy" asp-route-item="@item.Value.Name">@item.Value.Name - @(item.Value.Cost)G</a>
+                    @if (item.Value.Type == Rpg.Model.ItemType.Weapon)
+                    {
+                        <div>
+                            Útok: @item.Value.BonusStats.Attack <br />
+                            Obrana: @item.Value.BonusStats.Defense <br />
+                            Crit Chance: @item.Value.BonusStats.CritChance <br />
+                            Síla Kouzel: @item.Value.BonusStats.Spellpower <br />
+                        </div>
+                    }
+                    @if (item.Value.Type == Rpg.Model.ItemType.Armor)
+                    {
+                        <div>
+                            Obrana: @item.Value.BonusStats.Defense <br />
+                            Bonus Vitalita: @item.Value.BonusStats.MaxHealthPoints <br />
+                            Bonus Mana: @item.Value.BonusStats.MaxManaPoints <br />
+                            Síla Kouzel: @item.Value.BonusStats.Spellpower <br />
+                        </div>
+                    }
+                    @if (item.Value.Type == Rpg.Model.ItemType.Amulet)
+                    {
+                        <div>
+                            Útok: @item.Value.BonusStats.Attack <br />
+                            Bonus Vitalita: @item.Value.BonusStats.MaxHealthPoints <br />
+                            Bonus Mana: @item.Value.BonusStats.MaxManaPoints <br />
+                            Síla Kouzel: @item.Value.BonusStats.Spellpower <br />
+                            Crit Chance: @item.Value.BonusStats.CritChance <br />
+                        </div>
+                    }
+                </li>
             }
         </ul>
     </div>

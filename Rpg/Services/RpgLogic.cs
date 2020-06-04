@@ -45,6 +45,7 @@ namespace Rpg.Services
                 if (Rooms.Reward.GoldReward == 0 && Rooms.Reward.ItemReward == null) { Rooms.Reward = null; }
             }
             _session.Story.Rooms[id] = Rooms;
+            BattleRoom = null;
             UpdateCooldowns();
             _session.SavePlayerStats(Player);
             return Rooms;
@@ -277,6 +278,7 @@ namespace Rpg.Services
             }
             _session.SavePlayerStats(Player);
             _session.SaveNpcStats(Npc);
+            if (BattleRoom == null) { Rooms = Story.Rooms[_session.GetRoomId().Value]; }
         }
         public void UpdateCooldowns(string name = "")
         {
