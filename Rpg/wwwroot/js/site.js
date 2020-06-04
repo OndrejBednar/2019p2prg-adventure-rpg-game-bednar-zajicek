@@ -47,12 +47,13 @@ function itemClick() {
 
 window.addEventListener("DOMContentLoaded", () => {
     document.getElementById("Inventory").addEventListener("click", openInventory);
-    document.getElementById("Spells").addEventListener("click", openSpells);
     document.getElementsByClassName("close")[0].addEventListener("click", closeInventory);
-    document.getElementsByClassName("close")[1].addEventListener("click", closeSpells);  
-
     items = document.querySelectorAll(".item");
     for (const i of items) {
         i.addEventListener("click", itemClick)
     }
+
+    document.getElementById("Spells").addEventListener("click", openSpells);
+    document.getElementsByClassName("close")[1].addEventListener("click", closeSpells);  
+
 })

@@ -16,7 +16,9 @@ namespace Rpg.Services
         const string NPC = "NPC";
         const string BATTLE = "BATTLE";
         const string SHOP = "SHOP";
+        const string STORY = "STORY";
 
+        public GameStory Story { get; set; }
         public Battle BattleRoom { get; set; }
         public Shop ShopRoom { get; set; }
         public Player Player { get; set; }
@@ -29,6 +31,7 @@ namespace Rpg.Services
             Npc = _session.Get<Npc>(NPC);
             BattleRoom = _session.Get<Battle>(BATTLE);
             ShopRoom = _session.Get<Shop>(SHOP);
+            Story = _session.Get<GameStory>(STORY);
         }
 
         public void SetRoomId(int number)
@@ -42,10 +45,12 @@ namespace Rpg.Services
         public void SavePlayerStats()
         {
             _session.Set(PLAYER, this.Player);
+            _session.Set(STORY, this.Story);
         }
         public void SavePlayerStats(Player stats)
         {
             _session.Set(PLAYER, stats);
+            _session.Set(STORY, this.Story);
         }
         public void SaveNpcStats(Npc stats)
         {

@@ -8,9 +8,9 @@ namespace Rpg.Model
 {
     public class GameStory
     {
-        public Dictionary<int, Room> Rooms { get; } = new Dictionary<int, Room>();
-        public Dictionary<int, Battle> Battles { get; } = new Dictionary<int, Battle>();
-        public Dictionary<int, Shop> Shops { get; } = new Dictionary<int, Shop>();
+        public Dictionary<int, Room> Rooms { get; set; } = new Dictionary<int, Room>();
+        public Dictionary<int, Battle> Battles { get; set; } = new Dictionary<int, Battle>();
+        public Dictionary<int, Shop> Shops { get; set; } = new Dictionary<int, Shop>();
         public GameStory()
         {
             //--------Tutorial--------//
@@ -200,8 +200,8 @@ namespace Rpg.Model
                 Reward = new Rewards() { GoldReward = 50},
                 Inventory = new Dictionary<string, Item>() {
                     { "Basic Sword", new Item() { BonusStats = new Stats() { Attack = 5, Defense = 2}, Name = "Basic Sword", Description = "Základní meč z kamene pro bojovníky", Cost = 25, Type = ItemType.Weapon } },
-                    { "Wood Staff", new Item() { BonusStats = new Stats() { Attack = 5, Spellpower = 2}, Name = "Wood Staff", Description = "Základní luk pro lukostřelce", Cost = 25, Type = ItemType.Weapon } },
-                    { "Wooden Bow", new Item() { BonusStats = new Stats() { Attack = 7}, Name = "Wooden Bow", Description = "Základní hůl pro kouzelníky", Cost = 25, Type = ItemType.Weapon } }
+                    { "Wood Staff", new Item() { BonusStats = new Stats() { Attack = 5, Spellpower = 2}, Name = "Wood Staff", Description = "Základní hůl pro kouzelníky", Cost = 25, Type = ItemType.Weapon } },
+                    { "Wooden Bow", new Item() { BonusStats = new Stats() { Attack = 7}, Name = "Wooden Bow", Description = "Základní luk pro lukostřelce", Cost = 25, Type = ItemType.Weapon } }
                 }
             });
             Rooms.Add(232, new Room()

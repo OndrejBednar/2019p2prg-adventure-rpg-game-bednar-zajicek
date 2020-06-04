@@ -8,8 +8,8 @@ namespace Rpg.Services
     {
         readonly Random _rand;
         readonly SessionStorage _session;
-        readonly GameStory _gs;
 
+        public GameStory Story { get; set; }
         public Room Rooms { get; set; }
         public Battle BattleRoom { get; set; }
         public Shop ShopRoom { get; set; }
@@ -20,13 +20,13 @@ namespace Rpg.Services
         public bool PlayerIsCritical { get; set; }
         public bool NpcIsCritical { get; set; }
 
-        public RpgLogic(SessionStorage ss, GameStory gs, Random rand)
+        public RpgLogic(SessionStorage ss, Random rand)
         {
             _rand = rand;
             _session = ss;
-            _gs = gs;
             BattleRoom = _session.BattleRoom;
             ShopRoom = _session.ShopRoom;
+            Story = _session.Story;
 
             Player = _session.Player;
             if (Player == default) { Player = new Player(); }
@@ -36,20 +36,22 @@ namespace Rpg.Services
 
         public Room Play(int id)
         {
-            Rooms = _gs.Rooms[id];
+            Rooms = Story.Rooms[id];
             _session.SetRoomId(id);
             if (Rooms.Reward != null)
             {
                 if (Rooms.Reward.GoldReward != 0) { Player.Gold += Rooms.Reward.GoldReward; Rooms.Reward.GoldReward = 0; }
                 if (Rooms.Reward.ItemReward != null) { Player.Inventory.Add(Rooms.Reward.ItemReward); Rooms.Reward.ItemReward = null; }
+                if (Rooms.Reward.GoldReward == 0 && Rooms.Reward.ItemReward == null) { Rooms.Reward = null; }
             }
+            _session.Story.Rooms[id] = Rooms;
             UpdateCooldowns();
             _session.SavePlayerStats(Player);
             return Rooms;
         }
         public Battle Battle(int id)
         {
-            BattleRoom = _gs.Battles[id];
+            BattleRoom = Story.Battles[id];
             Npc = BattleRoom.Boss;
             _session.SavePlayerStats(Player);
             _session.SaveNpcStats(Npc);
@@ -103,9 +105,8 @@ namespace Rpg.Services
                     break;
                 case BattleChoice.Defend:
                     rand = _rand.Next(100);
-                    Player.PlayerStats.Defense += (Player.PlayerStats.Defense / 2);
                     NpcIsCritical = Npc.NpcStats.CritChance >= rand ? true : false;
-                    NpcDmg = Npc.NpcStats.CritChance >= rand ? (Npc.NpcStats.Attack * 2) - Player.PlayerStats.Defense : Npc.NpcStats.Attack - Player.PlayerStats.Defense;
+                    NpcDmg = Npc.NpcStats.CritChance >= rand ? (Npc.NpcStats.Attack * 2) - (Player.PlayerStats.Defense + Player.PlayerStats.Defense / 2) : Npc.NpcStats.Attack - (Player.PlayerStats.Defense + Player.PlayerStats.Defense / 2);
                     if (NpcDmg > 0) { Player.PlayerStats.HealthPoints = Player.PlayerStats.HealthPoints - NpcDmg; }
 
                     if (NpcIsCritical)
@@ -135,14 +136,15 @@ namespace Rpg.Services
         }
         public Shop EnterShop(int id)
         {
-            ShopRoom = _gs.Shops[id];
+            ShopRoom = Story.Shops[id];
             _session.SetRoomId(id);
             if (ShopRoom.Reward != null)
             {
                 if (ShopRoom.Reward.GoldReward != 0) { Player.Gold += ShopRoom.Reward.GoldReward; ShopRoom.Reward.GoldReward = 0; }
                 if (ShopRoom.Reward.ItemReward != null) { Player.Inventory.Add(ShopRoom.Reward.ItemReward); ShopRoom.Reward.ItemReward = null; }
-
+                if (ShopRoom.Reward.GoldReward == 0 && ShopRoom.Reward.ItemReward == null) { ShopRoom.Reward = null; }
             }
+            _session.Story.Shops[id] = ShopRoom;
             _session.SavePlayerStats(Player);
             _session.SaveShop(ShopRoom);
             return ShopRoom;
@@ -196,13 +198,17 @@ namespace Rpg.Services
                     if (Player.Weapon.Name != "pěsti") { Player.Inventory.Find(x => x.Name == Player.Weapon.Name).IsEquipped = false; }
                     Player.Weapon = item;
                     Player.PlayerStats.Attack = Player.Power + Player.Weapon.BonusStats.Attack + Player.Amulet.BonusStats.Attack;
+                    Player.PlayerStats.Defense = 2 + Player.Weapon.BonusStats.Defense;
+                    Player.PlayerStats.CritChance = 5 + Player.Weapon.BonusStats.CritChance + Player.Amulet.BonusStats.CritChance;
+                    Player.PlayerStats.Spellpower = Player.Knowledge + Player.Weapon.BonusStats.Spellpower;
                     break;
                 case ItemType.Armor:
                     if (Player.Armor.Name != "košile") { Player.Inventory.Find(x => x.Name == Player.Armor.Name).IsEquipped = false; }
                     Player.Armor = item;
-                    Player.PlayerStats.Defense = 2 + Player.Armor.BonusStats.Defense;
+                    Player.PlayerStats.Defense = 2 + Player.Armor.BonusStats.Defense + Player.Weapon.BonusStats.Defense;
                     Player.PlayerStats.MaxHealthPoints = 100 + Player.Armor.BonusStats.MaxHealthPoints + Player.Amulet.BonusStats.MaxHealthPoints;
                     Player.PlayerStats.MaxManaPoints = 50 + Player.Armor.BonusStats.MaxManaPoints + Player.Amulet.BonusStats.MaxManaPoints;
+                    Player.PlayerStats.Spellpower = Player.Knowledge + Player.Armor.BonusStats.Spellpower + Player.Amulet.BonusStats.Spellpower;
                     break;
                 case ItemType.Amulet:
                     if (Player.Amulet.Name != "") { Player.Inventory.Find(x => x.Name == Player.Amulet.Name).IsEquipped = false; }
@@ -210,13 +216,15 @@ namespace Rpg.Services
                     Player.PlayerStats.Attack = Player.Power + Player.Weapon.BonusStats.Attack + Player.Amulet.BonusStats.Attack;
                     Player.PlayerStats.MaxHealthPoints = 100 + Player.Armor.BonusStats.MaxHealthPoints + Player.Amulet.BonusStats.MaxHealthPoints;
                     Player.PlayerStats.MaxManaPoints = 50 + Player.Armor.BonusStats.MaxManaPoints + Player.Amulet.BonusStats.MaxManaPoints;
+                    Player.PlayerStats.Spellpower = Player.Knowledge + Player.Armor.BonusStats.Spellpower + Player.Amulet.BonusStats.Spellpower;
+                    Player.PlayerStats.CritChance = 5 + Player.Weapon.BonusStats.CritChance + Player.Amulet.BonusStats.CritChance;
                     break;
                 default:
                     break;
             }
             item.IsEquipped = true;
             _session.SavePlayerStats(Player);
-            Rooms = _gs.Rooms[_session.GetRoomId().Value];
+            Rooms = Story.Rooms[_session.GetRoomId().Value];
         }
         public void Use(string name)
         {
@@ -228,7 +236,7 @@ namespace Rpg.Services
             item.Count--;
             if (item.Count < 1) { Player.Inventory.Remove(item); }
             _session.SavePlayerStats(Player);
-            Rooms = _gs.Rooms[_session.GetRoomId().Value];
+            Rooms = Story.Rooms[_session.GetRoomId().Value];
         }
         public void Cast(string name)
         {
