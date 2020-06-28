@@ -332,6 +332,211 @@ namespace Rpg.Model
                     new Crossroad() { CrossroadID = 23720, Description = "Vydat se do lesa", NextRoomID = 3},
                 }
             });
+
+            //---4. varianta města
+            Rooms.Add(24, new Room()
+            {
+                RoomID = 24,
+                Description = "Když přicházíš na náměsti již se smráká",
+                Crossroads = new List<Crossroad>() {
+                    new Crossroad() { CrossroadID = 240, Description = "Jít do hospody", NextRoomID = 240},
+                    new Crossroad() { CrossroadID = 241, Description = "Jít k obchodníkovi", NextRoomID = 241},
+                }
+            });
+            Rooms.Add(2401, new Room()
+            {
+                RoomID = 2401,
+                Description = "Vrátil ses na náměstí ...",
+                Crossroads = new List<Crossroad>() {
+                    new Crossroad() { CrossroadID = 240, Description = "Jít do hospody", NextRoomID = 240},
+                    new Crossroad() { CrossroadID = 241, Description = "Jít k obchodníkovi", NextRoomID = 241},
+                }
+            });
+            //----hospoda
+            Rooms.Add(240, new Room()
+            {
+                RoomID = 240,
+                Description = "Vešel jsi do hospody, porozhlédl se a uviděl jsi Ctibora s jeho partou",
+                Crossroads = new List<Crossroad>() {
+                    new Crossroad() { CrossroadID = 2400, Description = "Jít za nimi", NextRoomID = 2400},
+                    new Crossroad() { CrossroadID = 2401, Description = "Pokračovat na pokoj", NextRoomID = 242},
+                    new Crossroad() { CrossroadID = 2402, Description = "Vrátit se na náměstí", NextRoomID = 2401},
+                },
+                Inventory = false
+            });
+            Rooms.Add(2400, new Room()
+            {
+                RoomID = 2400,
+                Description = "Přisedl sis k nim a zeptal se jak úspěšný byl lov ... Jeden z nich zabrumlal a Ctibor ti odvětil \"Bohužel jsme ho nechytili\"",
+                Crossroads = new List<Crossroad>() {
+                    new Crossroad() { CrossroadID = 24000, Description = "Ho ?", NextRoomID = 24000},
+                },
+                Inventory = false
+            });
+            Rooms.Add(24000, new Room()
+            {
+                RoomID = 24000,
+                Description = "\"Ano ... pátráme po lidech, kteří něco špatného provedli, ale to je teď jedno ... co si dělal celý den ty ?\"",
+                Crossroads = new List<Crossroad>() {
+                    new Crossroad() { CrossroadID = 24000, Description = "Říct jim o staříkovi", NextRoomID = 24001},
+                    new Crossroad() { CrossroadID = 24001, Description = "Zalhat", NextRoomID = 240000},
+                },
+                Inventory = false
+            });
+            //---rict jim o starikovi
+            Rooms.Add(24001, new Room()
+            {
+                RoomID = 24001,
+                Description = "\"Aha to jsi měl teda velice náročný den\"",
+                Crossroads = new List<Crossroad>() {
+                    new Crossroad() { CrossroadID = 240010, Description = "Říct jim o dopisu", NextRoomID = 24002, Locked = true},
+                    new Crossroad() { CrossroadID = 240011, Description = "Zeptat se jestli nevědí kdo je Eret", NextRoomID = 24003},
+                    new Crossroad() { CrossroadID = 240012, Description = "Přikývnout a rozloučit se", NextRoomID = 242},
+                },
+                Inventory = false
+            });
+            Rooms.Add(24002, new Room()
+            {
+                RoomID = 24002,
+                Description = "\"Nejspíš by jsi měl nalézt tu slečnu o které se v dopisu píše\"",
+                Crossroads = new List<Crossroad>() {
+                    new Crossroad() { CrossroadID = 240011, Description = "Zeptat se jestli nevědí kdo je Eret", NextRoomID = 24003},
+                    new Crossroad() { CrossroadID = 240012, Description = "Rozloučit se a jít spát", NextRoomID = 242},
+                },
+                Inventory = false,
+            });
+            Rooms.Add(24003, new Room()
+            {
+                RoomID = 24003,
+                Description = "\"Jak jsi se o něm dozvěděl ??\"",
+                Crossroads = new List<Crossroad>() {
+                    new Crossroad() { CrossroadID = 240012, Description = "Stařík o něm mluvil", NextRoomID = 24005},
+                    new Crossroad() { CrossroadID = 240012, Description = "Slyšel jsem jak se o něm baví vesničané (zalhat)", NextRoomID = 24006},
+                },
+                Inventory = false,
+            });
+            Rooms.Add(24005, new Room()
+            {
+                RoomID = 24005,
+                Description = "\"Kolují zvěsti, že je to muž, kterému patří celý vzdálený východ za řekou a také může za vše špatné co se děje ve městě\"",
+                Crossroads = new List<Crossroad>() {
+                    new Crossroad() { CrossroadID = 240050, Description = "Rozloučit se a jít spát", NextRoomID = 242},
+                },
+                Inventory = false,
+            });
+            Rooms.Add(24006, new Room()
+            {
+                RoomID = 24006,
+                Description = "\"Kolují zvěsti, že může za vše špatné co se děje ve městě\"",
+                Crossroads = new List<Crossroad>() {
+                    new Crossroad() { CrossroadID = 240060, Description = "Rozloučit se a jít spát", NextRoomID = 242},
+                },
+                Inventory = false,
+            });
+            //---zalhat o starikovi
+            Rooms.Add(240000, new Room()
+            {
+                RoomID = 240000,
+                Description = "Říkáš jim \"Byl jsem na louce za vesnicí a znovu hledal cizince\" ... Ctibor se zeptá \"A co si našel ?\"",
+                Crossroads = new List<Crossroad>() {
+                    new Crossroad() { CrossroadID = 2400000, Description = "Nic, až na stopy, které zmizely ve křoví", NextRoomID = 240001},
+                },
+                Inventory = false
+            });
+            Rooms.Add(240001, new Room()
+            {
+                RoomID = 240001,
+                Description = "\"Teď jdeme spát ... Derek už vypil 10 piv. Zítra se po něm můžeme znovu podívat .. jestli chceš\"",
+                Crossroads = new List<Crossroad>() {
+                    new Crossroad() { CrossroadID = 2400010, Description = "Jít také spát", NextRoomID = 242},
+                },
+                Inventory = false
+            });
+
+            Rooms.Add(242, new Room()
+            {
+                RoomID = 242,
+                Description = "Jdeš po schodech do pokoje a všiml sis znaku na zdi který vypadal stejně jako na staříkově hrudi. Jen sis ho prohlédl a pokračoval na pokoj, kde jsi po náročném dni ihned usnul",
+                Crossroads = new List<Crossroad>() {
+                    new Crossroad() { CrossroadID = 2420, Description = "...", NextRoomID = 243},
+                },
+                Inventory = false
+            });
+            Rooms.Add(243, new Room()
+            {
+                RoomID = 243,
+                Description = "Ze spánku tě v hluboké noci probudil hluk z venčí, a tak si se podíval z okna, kde jsi uviděl černě zahalené postavy s kápí na hlavě, jak okrádají obchodníka",
+                Crossroads = new List<Crossroad>() {
+                    new Crossroad() { CrossroadID = 2430, Description = "...", NextRoomID = 244},
+                },
+                Inventory = false
+            });
+            Rooms.Add(244, new Room()
+            {
+                RoomID = 244,
+                Description = "",
+                Crossroads = new List<Crossroad>() {
+                    new Crossroad() { CrossroadID = 2440, Description = "...", NextRoomID = 245},
+                },
+                Inventory = false
+            });
+
+            //----obchodník
+            Rooms.Add(241, new Room()
+            {
+                RoomID = 241,
+                Description = "Dobrý podvěčír, nevíte něco o staříkovi, který bydlí v chatrči v lese ? Obchodník odpoví \"Proč se ptáte ?\"",
+                Crossroads = new List<Crossroad>() {
+                    new Crossroad() { CrossroadID = 2410, Description = "Říci pravdu", NextRoomID = 2410},
+                    new Crossroad() { CrossroadID = 2411, Description = "Dnes jsem ho potkal (zalhat)", NextRoomID = 2411},
+                },
+                Inventory = false
+            });
+            Rooms.Add(2410, new Room()
+            {
+                RoomID = 2410,
+                Description = "\"Aha, měli bychom tam poslat vesnickou stráž. Byl to příslušník řádu Aurelion.\" Pomyslíš si \"To by mohlo vysvětlit ten znak na hrudi\"",
+                Crossroads = new List<Crossroad>() {
+                    new Crossroad() { CrossroadID = 24100, Description = "Dozvědět se víc o řádu Aurelion", NextRoomID = 2411},
+                    new Crossroad() { CrossroadID = 24101, Description = "Poděkovat a odejít do hospody", NextRoomID = 240},
+                    new Crossroad() { CrossroadID = 24102, Description = "Podívat se co nabízíš", NextRoomID = 2, Type = RoomType.Shop},
+                },
+                Inventory = false
+            });
+            Rooms.Add(2411, new Room()
+            {
+                RoomID = 2411,
+                Description = "\"Je to velmi prastarý řád mágů, kteří mají velmi drahocenné vědění o totemech magie, které jim dávají velikou moc, kterou si obyčejný člověk nedokáže představit, ale je jich v dnešním světě mnohem méně, protože Eret chce znát jejich vědění a proto je chytá a vraždí\"",
+                Crossroads = new List<Crossroad>() {
+                    new Crossroad() { CrossroadID = 24110, Description = "Dozvědět se více o Eretovi", NextRoomID = 2412},
+                    new Crossroad() { CrossroadID = 24111, Description = "Poděkovat a odejít do hospody", NextRoomID = 240},
+                    new Crossroad() { CrossroadID = 24112, Description = "Podívat se co nabízíš", NextRoomID = 2, Type = RoomType.Shop},
+                },
+                Inventory = false
+            });
+            Rooms.Add(2412, new Room()
+            {
+                RoomID = 2412,
+                Description = "\"Moc o něm nevím jen to, že může za vše špatného, co se děje ve vesnici\"",
+                Crossroads = new List<Crossroad>() {
+                    new Crossroad() { CrossroadID = 24121, Description = "Poděkovat a odejít do hospody", NextRoomID = 240},
+                    new Crossroad() { CrossroadID = 24122, Description = "Podívat se co nabízíš", NextRoomID = 2, Type = RoomType.Shop},
+                },
+                Inventory = false
+            });
+            Shops.Add(2, new Shop()
+            {
+                ShopID = 2,
+                NextRoomID = 240,
+                Description = "Moje štědrá nabídka předmětů",
+                Inventory = new Dictionary<string, Item>() {
+                    { "Basic Sword", new Item() { BonusStats = new Stats() { Attack = 5, Defense = 2}, Name = "Basic Sword", Description = "Základní meč z kamene pro bojovníky", Cost = 25, Type = ItemType.Weapon } },
+                    { "Wood Staff", new Item() { BonusStats = new Stats() { Attack = 5, Spellpower = 2}, Name = "Wood Staff", Description = "Základní hůl pro kouzelníky", Cost = 25, Type = ItemType.Weapon } },
+                    { "Wooden Bow", new Item() { BonusStats = new Stats() { Attack = 7}, Name = "Wooden Bow", Description = "Základní luk pro lukostřelce", Cost = 25, Type = ItemType.Weapon } },
+                    { "HealthPotion", new Item() { Name = "HealthPotion", Cost = 10, Count = 5, Description = "Tento lektvar ti doplní 25 životů", BonusStats = new Stats() { HealthPoints = 25}, Type = ItemType.Consumable } },
+                }
+            });
+
             //--------Les--------//
             Rooms.Add(3, new Room()
             {
@@ -345,7 +550,7 @@ namespace Rpg.Model
             Rooms.Add(30, new Room()
             {
                 RoomID = 30,
-                Description = "Šel jsi v pravo ... došel jsi na mýtinu, kde sis všimnul chtátrající chalupy",
+                Description = "Šel jsi v pravo ... došel jsi na mýtinu, kde sis všimnul chtátrající chatrče",
                 Crossroads = new List<Crossroad>() {
                     new Crossroad() { CrossroadID = 300, Description = "Prozkoumat chátrající chalupu (neni)", NextRoomID = 301 },
                     new Crossroad() { CrossroadID = 301, Description = "Vrátit se na rozcestí", NextRoomID = 3 },
@@ -362,16 +567,56 @@ namespace Rpg.Model
             Rooms.Add(301, new Room()
             {
                 RoomID = 301,
-                Description = "Vešel jsi dovnitř zkrze polorozpadlé dveře a okamžitě sis všiml staříka sedícího poblíž krbu na dřevěné židli ... něco se ti zde nezdá",
+                Description = "Vešel jsi dovnitř zkrze polorozpadlé dveře a všiml sis zakrváceného staříka ležícího uprostřed místnosti s vážným zraněním na břiše a nožem v ruce",
                 Crossroads = new List<Crossroad>() {
-                    new Crossroad() { CrossroadID = 3010, Description = "Oslovit staříka", NextRoomID = 302 },
-                    new Crossroad() { CrossroadID = 3010, Description = "Raději odejít", NextRoomID = 3010 },
+                    new Crossroad() { CrossroadID = 3010, Description = "Zkusit pomoci staříkovi", NextRoomID = 302 },
+                    new Crossroad() { CrossroadID = 3011, Description = "Raději odejít", NextRoomID = 3010 },
+                }
+            });
+            //----1.varianta
+            Rooms.Add(302, new Room()
+            {
+                RoomID = 302,
+                Description = "Rozeběhl ses ke stařikovi a přitiskl jsi ruku na jeho ránu na břiše. Stařík ti s těžkostí říká \"To mi udělal Erot \". Poté stařík vydechl naposledy",
+                Crossroads = new List<Crossroad>() {
+                    new Crossroad() { CrossroadID = 3020, Description = "Porozhlédnou se po chatrči", NextRoomID = 303 },
+                    new Crossroad() { CrossroadID = 3021, Description = "Prohledat staříka", NextRoomID = 304 },
+                    new Crossroad() { CrossroadID = 3022, Description = "Raději odejít a vrátit se do města", NextRoomID = 24 },
+                }
+            });
+            Rooms.Add(303, new Room()
+            {
+                RoomID = 303,
+                Description = "Porozhlédl ses po chatrči a bylo ti hned jasné, že tam někdo něco hledal a staříka tam dotyčný neočekával",
+                Crossroads = new List<Crossroad>() {
+                    new Crossroad() { CrossroadID = 3030, Description = "Prohledat staříka", NextRoomID = 304 },
+                    new Crossroad() { CrossroadID = 3031, Description = "Odejít z chatrče", NextRoomID = 24 },
+                }
+            });
+            Rooms.Add(304, new Room()
+            {
+                RoomID = 304,
+                Description = "Ještě předtím než jsi ho prohleda tak sis všiml, že má pod roztrhaným tričkem na hrudníku nějaký znak ... poté si u něj našel zapečetěný dopis",
+                Crossroads = new List<Crossroad>() {
+                    new Crossroad() { CrossroadID = 3041, Description = "Odejít z chatrče a vyrazit do města", NextRoomID = 24 },
+                },
+                Reward = new Rewards() { ItemReward = new Item() { Name = "Zapečetěný dopis", Description = "Dopis který jsi nalezl u staříka", Sellable = false} }
+            });
+            //----2.varianta
+            Rooms.Add(3010, new Room()
+            {
+                RoomID = 3010,
+                Description = "Rychlým krokem odcházíš pryč se strachem v očích a z chatrče slyšíš staříka naříkat \"To byl Erot\"",
+                Crossroads = new List<Crossroad>() {
+                    new Crossroad() { CrossroadID = 30100, Description = "Vrátit se do města", NextRoomID = 24 },
+                    new Crossroad() { CrossroadID = 30101, Description = "Jít zpět do chatrče", NextRoomID = 303 },
                 }
             });
 
 
 
-            //--------Jeskyně--------//
+
+            //--------Jeskyně--------//s
             Rooms.Add(4, new Room()
             {
                 RoomID = 4,
